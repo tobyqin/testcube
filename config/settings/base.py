@@ -108,11 +108,18 @@ MANAGERS = ADMINS
 # DATABASE CONFIGURATION
 # ------------------------------------------------------------------------------
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#databases
+
+# DATABASES = {
+#     'default': env.db('DATABASE_URL', default='postgres:///testcube'),
+# }
+
 DATABASES = {
-    'default': env.db('DATABASE_URL', default='postgres:///testcube'),
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': str(ROOT_DIR + 'db.sqlite3'),
+    }
 }
 DATABASES['default']['ATOMIC_REQUESTS'] = True
-
 
 # GENERAL CONFIGURATION
 # ------------------------------------------------------------------------------
@@ -264,7 +271,6 @@ LOGIN_URL = 'account_login'
 
 # SLUGLIFIER
 AUTOSLUG_SLUGIFY_FUNCTION = 'slugify.slugify'
-
 
 # Location of root django.contrib.admin URL, use {% url 'admin:index' %}
 ADMIN_URL = r'^admin/'
