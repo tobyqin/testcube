@@ -1,17 +1,17 @@
 .. image:: https://img.shields.io/travis/tobyqin/testcube.svg
-:target: https://travis-ci.org/tobyqin/testcube
+    :target: https://travis-ci.org/tobyqin/testcube
     :alt: Build Status
 
 .. image:: https://img.shields.io/codeclimate/github/tobyqin/xmind2testlink.svg
-:target: https://codeclimate.com/github/tobyqin/xmind2testlink
+    :target: https://codeclimate.com/github/tobyqin/xmind2testlink
     :alt: Code Climate
 
 .. image:: https://img.shields.io/github/tag/tobyqin/testcube.svg
-:target: https://github.com/tobyqin/testcube/releases
+    :target: https://github.com/tobyqin/testcube/releases
     :alt: Release version
 
 .. image:: https://img.shields.io/badge/python-3.5-green.svg
-:target: https://www.python.org
+    :target: https://www.python.org
     :alt: Supported Python version
 
 TestCube
