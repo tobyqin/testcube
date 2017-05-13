@@ -16,6 +16,7 @@ Testcube is a platform to manage and monitor automation test results, it is a we
     :alt: Release version
 
 .. image:: https://img.shields.io/badge/python-3.5-green.svg
+    :target: https://www.python.org
     :alt: Supported Python version
 
 :License: MIT
