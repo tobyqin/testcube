@@ -1,5 +1,5 @@
-Test Cube
-=========
+TestCube
+========
 
 Testcube is a platform to manage and monitor automation test results, it is a web portal provides variables clients + API to let you talk to it.
 
