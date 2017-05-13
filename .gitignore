@@ -77,3 +77,4 @@ staticfiles/
 .cache/
 *.sqlite3
 *.db
+_build/
