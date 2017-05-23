@@ -4,22 +4,18 @@
     <facet type="django" name="Django">
       <configuration>
         <option name="rootFolder" value="$MODULE_DIR$" />
-        <option name="settingsModule" value="config/settings/local.py" />
-        <option name="manageScript" value="manage.py" />
+        <option name="settingsModule" value="testcube/settings.py" />
+        <option name="manageScript" value="$MODULE_DIR$/manage.py" />
         <option name="environment" value="&lt;map/&gt;" />
-        <option name="commandsToSkip" value="" />
       </configuration>
     </facet>
   </component>
   <component name="NewModuleRootManager">
-    <content url="file://$MODULE_DIR$">
-      <excludeFolder url="file://$MODULE_DIR$/node_modules" />
-    </content>
-    <orderEntry type="jdk" jdkName="Python 3.5.3 virtualenv at ~/testcube" jdkType="Python SDK" />
+    <content url="file://$MODULE_DIR$" />
+    <orderEntry type="jdk" jdkName="Python 3.5.3 virtualenv at C:\Users\toby.qin\testcube" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-  </component>
-  <component name="PackageRequirementsSettings">
-    <option name="requirementsPath" value="$MODULE_DIR$/requirements/local.txt" />
+    <orderEntry type="library" name="semantic-ui-DefinitelyTyped" level="application" />
+    <orderEntry type="library" name="jQuery-2.0.0" level="application" />
   </component>
   <component name="TemplatesService">
     <option name="TEMPLATE_CONFIGURATION" value="Django" />
