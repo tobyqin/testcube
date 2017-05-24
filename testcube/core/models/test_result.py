@@ -1,0 +1,15 @@
+from django.db import models
+from .test_run import TestRun
+from .test_case import TestCase
+from .result_analysis import ResultAnalysis
+
+
+class TestResult(models.Model):
+    test_run = models.ForeignKey(TestRun, on_delete=models.CASCADE)
+    testcase = models.ForeignKey(TestCase, on_delete=models.PROTECT)
+    outcome = models.IntegerField()
+    output = models.TextField()
+    start_time = models.DateTimeField()
+    end_time = models.DateTimeField()
+    is_rerun = models.BooleanField(default=False)
+    analysis = models.ForeignKey(ResultAnalysis, on_delete=models.SET_NULL)
