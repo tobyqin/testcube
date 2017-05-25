@@ -1,6 +1,5 @@
 from django.db import models
 from .project import Project
-from .run_status import RunStatus
 from django.utils import timezone
 
 
@@ -11,4 +10,5 @@ class TestRun(models.Model):
     start_time = models.DateTimeField(default=timezone.now)
     end_time = models.DateTimeField()
     start_by = models.CharField(50)
-    status = models.ForeignKey(RunStatus, on_delete=models.PROTECT)
+    state = models.CharField(max_length=20)
+    status = models.CharField(max_length=20)

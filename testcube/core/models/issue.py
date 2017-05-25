@@ -8,3 +8,5 @@ class Issue(models.Model):
     assigned_to = models.CharField(max_length=50)
     created_on = models.DateTimeField()
     status = models.CharField(max_length=50)
+    link = models.CharField(max_length=300)
+    is_synced = models.BooleanField(default=False)
