@@ -14,5 +14,5 @@ class TestResult(models.Model):
     end_time = models.DateTimeField()
     assigned_to = models.CharField(max_length=50)
     is_rerun = models.BooleanField(default=False)
-    test_client = models.ForeignKey(TestClient,on_delete=models.PROTECT)
+    test_client = models.ForeignKey(TestClient, on_delete=models.PROTECT)
     analysis = models.ForeignKey(ResultAnalysis, on_delete=models.SET_NULL)
