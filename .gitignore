@@ -79,3 +79,4 @@ staticfiles/
 *.sqlite3
 *.db
 _build/
+dist/
