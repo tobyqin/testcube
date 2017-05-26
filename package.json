@@ -1,6 +1,9 @@
 {
   "dependencies": {
-    "jquery": "^3.2.1"
+    "jquery": "^3.2.1",
+    "lodash": "^4.17.4",
+    "yarn": "^0.24.5"
   },
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "name": "testcube"
 }
