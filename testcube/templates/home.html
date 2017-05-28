@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}{{ 'Welcome to Test Cube!' }}{% endblock %}
+
+{% block body %}
+    <h1>Hello Test Cube!</h1>
+    <div class="ui segment" style="display: none">
+        <div class="ui active inverted dimmer">
+            <div class="ui large text loader">Loading</div>
+        </div>
+        <img style="width: 100%" class="ui wireframe image" src="/static/images/short-paragraph.png">
+        <img style="width: 100%;margin-top: 2em" class="ui wireframe image" src="/static/images/short-paragraph.png">
+    </div>
+    <div id="main-content" class="ui hidden transition">
+    </div>
+{% endblock %}

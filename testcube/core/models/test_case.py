@@ -8,6 +8,6 @@ class TestCase(models.Model):
     keyword = models.CharField(max_length=100)
     priority = models.IntegerField(default=2, choices=PRIORITY_CHOICES)
     description = models.TextField()
-    owner = models.CharField(50)
-    created_by = models.CharField(50)
+    owner = models.CharField(max_length=50)
+    created_by = models.CharField(max_length=50)
     created_on = models.DateTimeField(auto_now_add=True)

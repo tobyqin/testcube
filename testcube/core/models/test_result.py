@@ -1,8 +1,9 @@
 from django.db import models
-from .test_run import TestRun
+
+from .result_analysis import ResultAnalysis
 from .test_case import TestCase
 from .test_client import TestClient
-from .result_analysis import ResultAnalysis
+from .test_run import TestRun
 
 
 class TestResult(models.Model):
@@ -15,4 +16,4 @@ class TestResult(models.Model):
     assigned_to = models.CharField(max_length=50)
     is_rerun = models.BooleanField(default=False)
     test_client = models.ForeignKey(TestClient, on_delete=models.PROTECT)
-    analysis = models.ForeignKey(ResultAnalysis, on_delete=models.SET_NULL)
+    analysis = models.ForeignKey(ResultAnalysis, on_delete=models.SET_NULL, null=True)
