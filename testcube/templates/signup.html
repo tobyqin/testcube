@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block title %}
+    Sign up
+{% endblock %}
+
+{% block body %}
+    <div class="ui two column divided middle aligned very relaxed stackable grid">
+        <div class="column">
+            <form class="ui form basic segment padded">
+                <p>Let's go ahead and get you signed up.</p>
+               <div class="two fields">
+                    <div class="field">
+                        <label>First Name</label>
+                        <input placeholder="First Name" name="first-name" type="text">
+                    </div>
+                    <div class="field">
+                        <label>Last Name</label>
+                        <input placeholder="Last Name" name="last-name" type="text">
+                    </div>
+                    </div>
+                    <div class="field">
+                        <label>Username</label>
+                        <input placeholder="Username" name="username" type="text">
+                    </div>
+                    <div class="field">
+                        <label>Email</label>
+                        <input placeholder="Email" name="email" type="text">
+                    </div>
+
+                    <div class="field">
+                        <label>Password</label>
+                        <input type="password" name="password">
+                    </div>
+                    <div class="field">
+                        <label>Confirm Password</label>
+                        <input type="password" name="password2">
+                    </div>
+
+                <div class="inline field">
+                    <div class="ui checkbox">
+                        <input type="checkbox" name="terms">
+                        <label>I agree to the Terms and Conditions.</label>
+                    </div>
+                </div>
+                <div class="ui primary submit button">Submit</div>
+                <div class="ui error message"></div>
+            </form>
+        </div>
+        <div class="center aligned column">
+            <p>Already have an account? <a href="/signin/">Sign in.</a></p>
+        </div>
+    </div>
+{% endblock %}

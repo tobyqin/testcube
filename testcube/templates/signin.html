@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block title %}
+    Sign in
+{% endblock %}
+
+{% block body %}
+    <div class="ui two column divided middle aligned very relaxed stackable grid">
+        <div class="column">
+            <div class="ui form basic segment padded">
+                <p>Let's go ahead and get you signed in.</p>
+                <div class="field">
+                    <label>Username</label>
+                    <div class="ui left icon input">
+                        <input type="text" placeholder="Username / Email">
+                        <i class="user icon"></i>
+                    </div>
+                </div>
+                <div class="field">
+                    <label>Password</label>
+                    <div class="ui left icon input">
+                        <input type="password">
+                        <i class="lock icon"></i>
+                    </div>
+                </div>
+                <div class="ui blue submit button">Submit</div>
+            </div>
+        </div>
+        <div class="center aligned column">
+            <p>Doesn't have an account? <a href="/signup/">Sign up.</a></p>
+        </div>
+    </div>
+{% endblock %}
