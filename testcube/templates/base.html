@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <title>{% block title %}{% endblock %}</title>
     <link href="https://cdn.bootcss.com/semantic-ui/2.2.10/semantic.min.css" rel="stylesheet">
+    <link href="{% static 'style.css' %}" rel="stylesheet">
     <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdn.bootcss.com/semantic-ui/2.2.10/semantic.min.js"></script>
     <script src="https://cdn.bootcss.com/moment.js/2.18.1/moment.min.js"></script>
@@ -14,53 +15,13 @@
     <script src="https://cdn.bootcss.com/lodash.js/4.17.4/lodash.js"></script>
     <script src="{% static 'script.js' %}"></script>
     <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon"/>
-    <style>
-        .last.container {
-            margin-bottom: 300px !important;
-        }
-
-        h1.ui.center.header {
-            margin-top: 2em;
-        }
-
-        h2.ui.center.header {
-            margin-top: 3em;
-            margin-right: 0em;
-            margin-left: 0em;
-        }
-
-        h3.ui.center.header {
-            margin: 1em 0em;
-            padding: 1em 0em;
-        }
-
-        .fixed.launch.button {
-            display: none;
-            position: fixed;
-            top: 45%;
-            right: 0px;
-            width: 45px;
-            height: auto;
-            white-space: nowrap;
-            overflow: hidden;
-            -webkit-transition: 0.3s width ease,
-            0.5s transform ease;
-            -moz-transition: 0.3s width ease,
-            0.5s transform ease;
-            -o-transition: 0.3s width ease,
-            0.5s transform ease;
-            -ms-transition: 0.3s width ease,
-            0.5s transform ease;
-            transition: 0.3s width ease,
-            0.5s transform ease;
-        }
-    </style>
 </head>
 <body>
+
 <div class="ui fixed top large inverted menu">
     <div class="ui container">
         <a href="/" class="header item">
-            <i class="cube icon"></i>
+            <i class="home icon"></i>
             Home
         </a>
         <a href="/testrun/" class="item">Test Runs</a>
@@ -73,20 +34,23 @@
     </div>
 </div>
 
-<div class="ui container" style="margin-top: 5em">
+<div class="ui main container">
     {% block body %} {% endblock %}
-    <div class="ui  inverted section divider" style="margin-bottom: 0px"></div>
+    <div class="ui  inverted section divider" style="margin-bottom: 0"></div>
     <div class="ui horizontal small divided link list" style="margin-bottom: 2em">
         <a class="item" href="https://github.com/tobyqin/testcube/issues">Report Issue</a>
         <a class="item" href="/api/">API</a>
-        <div class="item">Powered by <a href="https://github.com/tobyqin/testcube">TestCube</a></div>
+        <div class="item">Powered by <a class="ui link active" href="https://github.com/tobyqin/testcube">
+            TestCube <i class="icon cube"></i></a></div>
     </div>
 </div>
+
 <script type="text/javascript">
     $(document).ready(function () {
         doSetup();
     });
 </script>
+
 <div id="detail-dialog" class="ui small modal">
     <div class="header"><i class="info icon"></i>Information</div>
     <div class="content" style="background-color: #eee; padding: 3px 25px; margin: -15px 0;">
@@ -97,5 +61,6 @@
         <div class="ui ok blue button">OK</div>
     </div>
 </div>
+
 </body>
 </html>
