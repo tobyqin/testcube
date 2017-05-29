@@ -6,5 +6,5 @@ class TestClient(models.Model):
     ip = models.CharField(max_length=50)
     platform = models.CharField(max_length=100)
     owner = models.CharField(max_length=50)
-    status = models.CharField(max_length=50)
-    detail = models.TextField()
+    status = models.CharField(max_length=50, default='Ready')
+    detail = models.TextField(blank=True)
