@@ -23,16 +23,9 @@ from .users import views as user_views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url('^signin/', CreateView.as_view(
-        template_name='signin.html',
-        form_class=UserCreationForm,
-        success_url='/'
-    )),
-    url('^signup/', CreateView.as_view(
-        template_name='signup.html',
-        form_class=UserCreationForm,
-        success_url='/'
-    )),
+    url('^signin/', user_views.signin),
+    url('^signup/', user_views.signup),
+    url('^signout/', user_views.signout),
     url('^accounts/', include('django.contrib.auth.urls')),
     url(r'^$', views.home)
 ]
