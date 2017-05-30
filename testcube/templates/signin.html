@@ -6,7 +6,7 @@
 {% block body %}
     <div class="ui two column divided middle aligned very relaxed stackable grid">
         <div class="column">
-            <form class="ui form basic segment padded" method="post">
+            <form class="ui form basic segment padded {% if form.errors %}error{% endif %}" method="post">
                 <p>Let's go ahead and get you signed in.</p>
                 {% csrf_token %}
                 <div class="field">
@@ -22,6 +22,18 @@
                         <input name="password" type="password" required>
                         <i class="lock icon"></i>
                     </div>
+                </div>
+                <div class="ui error message">
+                    {% if form.errors %}
+                        {% for field in form %}
+                            {% for error in field.errors %}
+                                <p>{{ error|escape }}</p>
+                            {% endfor %}
+                        {% endfor %}
+                        {% for error in form.non_field_errors %}
+                            <p>{{ error|escape }}</p>
+                        {% endfor %}
+                    {% endif %}
                 </div>
                 <button class="ui blue button" type="submit">Submit</button>
             </form>

@@ -6,45 +6,57 @@
 {% block body %}
     <div class="ui two column divided middle aligned very relaxed stackable grid">
         <div class="column">
-            <form class="ui form basic segment padded" method="post">
+            <form class="ui form basic segment padded {% if form.errors %}error{% endif %}" method="post">
                 <p>Let's go ahead and get you signed up.</p>
                 {% csrf_token %}
                 <div class="two fields">
                     <div class="field">
                         <label>First Name</label>
-                        <input placeholder="First Name" name="first_name" type="text">
+                        <input placeholder="First Name" name="first_name" type="text" required>
                     </div>
                     <div class="field">
                         <label>Last Name</label>
-                        <input placeholder="Last Name" name="last_name" type="text">
+                        <input placeholder="Last Name" name="last_name" type="text" required>
                     </div>
                 </div>
                 <div class="field">
                     <label>Username</label>
-                    <input placeholder="Username" name="username" type="text">
+                    <input placeholder="Username" name="username" type="text" required>
                 </div>
                 <div class="field">
                     <label>Email</label>
-                    <input placeholder="Email" name="email" type="text">
+                    <input placeholder="Email" name="email" type="text" required>
                 </div>
 
                 <div class="field">
                     <label>Password</label>
-                    <input type="password" name="password1">
+                    <input type="password" name="password1" required>
                 </div>
                 <div class="field">
                     <label>Confirm Password</label>
-                    <input type="password" name="password2">
+                    <input type="password" name="password2" required>
                 </div>
 
                 <div class="inline field">
                     <div class="ui checkbox">
-                        <input type="checkbox" name="terms">
+                        <input type="checkbox" name="terms" required>
                         <label>I agree to the Terms and Conditions.</label>
                     </div>
                 </div>
+                <div class="ui error message">
+                    {% if form.errors %}
+                        {% for field in form %}
+                            {% for error in field.errors %}
+                                <p>{{ error|escape }}</p>
+                            {% endfor %}
+                        {% endfor %}
+                        {% for error in form.non_field_errors %}
+                            <p>{{ error|escape }}</p>
+                        {% endfor %}
+                    {% endif %}
+                </div>
                 <button class="ui blue button" type="submit">Submit</button>
-                <div class="ui error message"></div>
+
             </form>
         </div>
         <div class="center aligned column">

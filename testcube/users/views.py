@@ -29,6 +29,8 @@ def signin(request):
             if user:
                 login(request, user)
                 return redirect('/')
+            else:
+                form.add_error('username','Invalid username or password!')
     else:
         form = SignInForm()
     return render(request, 'signin.html', {'form': form})
