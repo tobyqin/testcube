@@ -19,7 +19,8 @@ from django.contrib import admin
 from .core import views
 from .users import views as user_views
 
-admin.site.site_header = "TestCube Administration"
+admin.site.site_header = 'TestCube Administration'
+admin.site.site_title = admin.site.site_header
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
