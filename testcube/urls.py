@@ -19,6 +19,7 @@ from django.views.generic.edit import CreateView
 from django.contrib.auth.forms import UserCreationForm
 
 from .core import views
+from .users import views as user_views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),

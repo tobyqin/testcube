@@ -6,35 +6,36 @@
 {% block body %}
     <div class="ui two column divided middle aligned very relaxed stackable grid">
         <div class="column">
-            <form class="ui form basic segment padded">
+            <form class="ui form basic segment padded" method="post">
                 <p>Let's go ahead and get you signed up.</p>
-               <div class="two fields">
+                {% csrf_token %}
+                <div class="two fields">
                     <div class="field">
                         <label>First Name</label>
-                        <input placeholder="First Name" name="first-name" type="text">
+                        <input placeholder="First Name" name="first_name" type="text">
                     </div>
                     <div class="field">
                         <label>Last Name</label>
-                        <input placeholder="Last Name" name="last-name" type="text">
+                        <input placeholder="Last Name" name="last_name" type="text">
                     </div>
-                    </div>
-                    <div class="field">
-                        <label>Username</label>
-                        <input placeholder="Username" name="username" type="text">
-                    </div>
-                    <div class="field">
-                        <label>Email</label>
-                        <input placeholder="Email" name="email" type="text">
-                    </div>
+                </div>
+                <div class="field">
+                    <label>Username</label>
+                    <input placeholder="Username" name="username" type="text">
+                </div>
+                <div class="field">
+                    <label>Email</label>
+                    <input placeholder="Email" name="email" type="text">
+                </div>
 
-                    <div class="field">
-                        <label>Password</label>
-                        <input type="password" name="password">
-                    </div>
-                    <div class="field">
-                        <label>Confirm Password</label>
-                        <input type="password" name="password2">
-                    </div>
+                <div class="field">
+                    <label>Password</label>
+                    <input type="password" name="password1">
+                </div>
+                <div class="field">
+                    <label>Confirm Password</label>
+                    <input type="password" name="password2">
+                </div>
 
                 <div class="inline field">
                     <div class="ui checkbox">
