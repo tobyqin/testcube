@@ -15,11 +15,11 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
-from django.views.generic.edit import CreateView
-from django.contrib.auth.forms import UserCreationForm
 
 from .core import views
 from .users import views as user_views
+
+admin.site.site_header = "TestCube Administration"
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
