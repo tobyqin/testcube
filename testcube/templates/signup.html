@@ -12,20 +12,44 @@
                 <div class="two fields">
                     <div class="field">
                         <label>First Name</label>
-                        <input placeholder="First Name" name="first_name" type="text" required>
+                        <input placeholder="First Name"
+                                {% if form.data.first_name %}
+                               value="{{ form.data.first_name }}"
+                                {% endif %}
+                               name="first_name"
+                               type="text"
+                               required>
                     </div>
                     <div class="field">
                         <label>Last Name</label>
-                        <input placeholder="Last Name" name="last_name" type="text" required>
+                        <input placeholder="Last Name"
+                                {% if form.data.last_name %}
+                               value="{{ form.data.last_name }}"
+                                {% endif %}
+                               name="last_name"
+                               type="text"
+                               required>
                     </div>
                 </div>
                 <div class="field">
                     <label>Username</label>
-                    <input placeholder="Username" name="username" type="text" required>
+                    <input placeholder="Username"
+                            {% if form.data.username %}
+                           value="{{ form.data.username }}"
+                            {% endif %}
+                           name="username"
+                           type="text"
+                           required>
                 </div>
                 <div class="field">
                     <label>Email</label>
-                    <input placeholder="Email" name="email" type="text" required>
+                    <input placeholder="Email"
+                            {% if form.data.email %}
+                           value="{{ form.data.email }}"
+                            {% endif %}
+                           name="email"
+                           type="text"
+                           required>
                 </div>
 
                 <div class="field">
