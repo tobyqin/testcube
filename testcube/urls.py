@@ -24,10 +24,12 @@ admin.site.site_title = admin.site.site_header
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url('^signin/', user_views.signin),
-    url('^signup/', user_views.signup),
-    url('^signout/', user_views.signout),
     url('^accounts/', include('django.contrib.auth.urls')),
-    url(r'^$', views.home),
-    url(r'^doc/(.*)$', views.document)
+
+    url('^signin', user_views.signin, name='signin'),
+    url('^signup', user_views.signup, name='signup'),
+    url('^signout', user_views.signout, name='signout'),
+
+    url(r'^$', views.home, name='home'),
+    url(r'^doc/(?P<name>.+)$', views.document, name='doc')
 ]
