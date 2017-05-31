@@ -2,6 +2,7 @@ from django.contrib.auth import login, authenticate, logout
 from django.shortcuts import render, redirect
 
 from .forms import SignUpForm, SignInForm
+from ..utils import get_domain
 
 
 def signup(request):
@@ -16,7 +17,7 @@ def signup(request):
             return redirect('/')
     else:
         form = SignUpForm()
-    return render(request, 'signup.html', {'form': form})
+    return render(request, 'signup.html', {'form': form, 'domain': get_domain()})
 
 
 def signin(request):
@@ -30,7 +31,7 @@ def signin(request):
                 login(request, user)
                 return redirect('/')
             else:
-                form.add_error('username','Invalid username or password!')
+                form.add_error('username', 'Invalid username or password!')
     else:
         form = SignInForm()
     return render(request, 'signin.html', {'form': form})

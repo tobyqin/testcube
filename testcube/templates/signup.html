@@ -49,6 +49,7 @@
                             {% endif %}
                            name="email"
                            type="text"
+                           data-text="{{ domain }}"
                            required>
                 </div>
 
@@ -87,4 +88,6 @@
             <p>Already have an account? <a href="/signin/">Sign in.</a></p>
         </div>
     </div>
+    {% load static %}
+    <script src="{% static 'signup.js' %}"></script>
 {% endblock %}
