@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% block title %}
+    Sign up
+{% endblock %}
+
+{% block body %}
+    <div class="ui two column divided middle aligned very relaxed stackable grid">
+        <div class="column">
+            <form class="ui form basic segment padded {% if form.errors %}error{% endif %}" method="post">
+                <p>Let's go ahead and get you signed up.</p>
+                {% csrf_token %}
+                <div class="two fields">
+                    <div class="field">
+                        <label>First Name</label>
+                        <input placeholder="First Name"
+                                {% if form.data.first_name %}
+                               value="{{ form.data.first_name }}"
+                                {% endif %}
+                               name="first_name"
+                               type="text"
+                               required>
+                    </div>
+                    <div class="field">
+                        <label>Last Name</label>
+                        <input placeholder="Last Name"
+                                {% if form.data.last_name %}
+                               value="{{ form.data.last_name }}"
+                                {% endif %}
+                               name="last_name"
+                               type="text"
+                               required>
+                    </div>
+                </div>
+                <div class="field">
+                    <label>Username</label>
+                    <input placeholder="Username"
+                            {% if form.data.username %}
+                           value="{{ form.data.username }}"
+                            {% endif %}
+                           name="username"
+                           type="text"
+                           required>
+                </div>
+                <div class="field">
+                    <label>Email</label>
+                    <input placeholder="Email"
+                            {% if form.data.email %}
+                           value="{{ form.data.email }}"
+                            {% endif %}
+                           name="email"
+                           type="text"
+                           required>
+                </div>
+
+                <div class="field">
+                    <label>Password</label>
+                    <input type="password" name="password1" required>
+                </div>
+                <div class="field">
+                    <label>Confirm Password</label>
+                    <input type="password" name="password2" required>
+                </div>
+
+                <div class="inline field">
+                    <div class="ui checkbox">
+                        <input type="checkbox" name="terms" required>
+                        <label>I agree to the Terms and Conditions.</label>
+                    </div>
+                </div>
+                <div class="ui error message">
+                    {% if form.errors %}
+                        {% for field in form %}
+                            {% for error in field.errors %}
+                                <p>{{ error|escape }}</p>
+                            {% endfor %}
+                        {% endfor %}
+                        {% for error in form.non_field_errors %}
+                            <p>{{ error|escape }}</p>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                <button class="ui blue button" type="submit">Submit</button>
+
+            </form>
+        </div>
+        <div class="center aligned column">
+            <p>Already have an account? <a href="/signin/">Sign in.</a></p>
+        </div>
+    </div>
+{% endblock %}
