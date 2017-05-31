@@ -1,2 +1,5 @@
+from .core.models import Configuration
+
+
 def get_domain():
-    return 'my-company.com'
+    return Configuration.get('domain')
