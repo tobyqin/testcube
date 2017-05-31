@@ -28,5 +28,6 @@ urlpatterns = [
     url('^signup/', user_views.signup),
     url('^signout/', user_views.signout),
     url('^accounts/', include('django.contrib.auth.urls')),
-    url(r'^$', views.home)
+    url(r'^$', views.home),
+    url(r'^doc/(.*)$', views.document)
 ]
