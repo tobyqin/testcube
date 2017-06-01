@@ -11,21 +11,22 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
+from os import environ
+from os.path import join, dirname, abspath
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SETTINGS_DIR = os.path.dirname(os.path.abspath(__file__))
+SETTINGS_DIR = dirname(abspath(__file__))
+BASE_DIR = dirname(SETTINGS_DIR)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '_mi=ciktj)9!-@0*q@acm!af&zen!0$5@6)u1v+q#@dqooy096'
+SECRET_KEY = environ.get('TESTCUBE_KEY', 'hard to guess key')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = bool(environ.get('TESTCUBE_DEBUG', True))
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = environ.get('TESTCUBE_HOST').split(',') if environ.get('TESTCUBE_HOSTS') else []
 
 # Application definition
 
@@ -55,7 +56,7 @@ ROOT_URLCONF = 'testcube.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(SETTINGS_DIR, 'templates')],
+        'DIRS': [join(SETTINGS_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -73,10 +74,13 @@ WSGI_APPLICATION = 'testcube.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
+DB_ENGINE = environ.get('TESTCUBE_DB_ENGINE', 'django.db.backends.sqlite3')
+DB_NAME = environ.get('TESTCUBE_DB_NAME', 'db.sqlite3')
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': DB_ENGINE,
+        'NAME': DB_NAME,
     }
 }
 
@@ -114,10 +118,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = environ.get('TESTCUBE_STATIC_URL', '/static/')
+STATIC_ROOT = environ.get('TESTCUBE_STATIC_ROOT', join(BASE_DIR, 'dist'))
 
 STATICFILES_DIRS = [
-    os.path.join(SETTINGS_DIR, 'static')
+    join(SETTINGS_DIR, 'static')
 ]
-
-STATIC_ROOT = os.path.join(BASE_DIR, 'dist')
