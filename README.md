@@ -5,56 +5,94 @@
 
 ## TestCube
 
-Testcube is a platform to manage and monitor automation test results, it provides a friendly web portal which is build with python + django.
+TestCube is a platform to manage and monitor automation test results, it provides a friendly web portal which is build with Python + Django.
 
 You also need to learn about its API and client before using it.
 
 ## Get Started
 
-I assume you have basic knowledage with python and django, or it will be hard to help you on the way.
+I assume you have basic knowledge with python and Django, or it will be hard to help you on the way.
 
 ### 1. Fetch the code
-Clone or download the repo into your local workspace.
+Clone or download this repo into your local workspace.
 ```
 git clone https://github.com/tobyqin/testcube.git
 ```
 
 ### 2. Review and update settings
-Before getting started, you should review and update `/testcube/settings.py` to meet your needs. You might want to update: `SECRET_KEY`,`ALLOWED_HOSTS`,`DATABASES`,`STATIC_ROOT` and more.
+Before getting started, you should review and update `/testcube/settings.py` to meet your needs. You might want to update: `SECRET_KEY`, `ALLOWED_HOSTS`, `DATABASES`, `STATIC_ROOT` and more.
 
 ### 3. Basic setup commands
 
-To start a django website, you at least have to do  things like:
+To start a Django website, you have to do  things like below:
+- Install requirements
+- Create database scheme
+- Load default data (optional)
+- Create super user (to administrate the website)
+- Collect static files (only required for deployment, skip it during development)
+- Start the web server
 
 
-* To create a **normal user account**, just go to Sign Up and fill out the form. Once you submit it, you'll see a "Verify Your E-mail Address" page. Go to your console to see a simulated email verification message. Copy the link into your browser. Now the user's email should be verified and ready to go.
+To accomplish above steps, open a command window and follow me:
 
-* To create an **superuser account**, use this command::
-```
-$ python manage.py createsuperuser
-```
-For convenience, you can keep your normal user logged in on Chrome and your superuser logged in on Firefox (or similar), so that you can see how the site behaves for both kinds of users.
+```shell
+# supposed you have python3 installed and added in PATH
 
-Test coverage
+cd /path/to/testcube
 
-To run the tests, check your test coverage, and generate an HTML coverage report::
+# step 0. Create virtual environment for this app
+# https://virtualenv.pypa.io/en/stable/userguide/
+
+# step 1. Install requirements
+pip install -r requriements.txt
+
+# step 2. Create database
+python manage.py makemigrations
+python manage.py migrate
+
+# step 3. Load default data (optional)
+python manage.py loadata configuration
+
+# step 4. create super user
+python mange.py createsuperuser
+
+# step 5. collect static files (optional, for deployment)
+python manage.py collectstatic
+
+# step 6. start the web server (for site preview and development)
+python manage.py runserver
 ```
-$ coverage run manage.py test
-$ coverage html
-$ open htmlcov/index.html
+
+Once the server started, you should be able to visit TestCube at http://127.0.0.1:8000/. 
+
+## Deployment
+
+Basically, you can follow steps in `/scripts/` folders to deploy TestCube, for more detail, please refer to [Django official deployment documents](https://docs.djangoproject.com/en/1.11/howto/deployment/).
+
+## Join Development
+
+This project is still under development, welcome to fork and send pull request.
+
+### Unit tests
+
+Before send pull requests, please add relevent unit tests and make them passed.
+
 ```
-Running tests with py.test
+python manage.py test
 ```
-$ py.test
+
+### Test coverage
+
+To check your test coverage, and generate an HTML coverage report, please run:
+```
+coverage run manage.py test
+coverage html
+open htmlcov/index.html
 ```
 
 ## FAQ
 
 More questions about TestCube will be answered at  [FAQ](/testcube/static/docs/faq.md).
-
-## Deployment
-
-Basically, you can follow steps in `/scripts/` folders to deploy TestCube, for more detail, please refer to [Django offical deployment document](https://docs.djangoproject.com/en/1.11/howto/deployment/).
 
 ## License
 MIT
