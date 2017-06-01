@@ -9,13 +9,23 @@ Testcube is a platform to manage and monitor automation test results, it provide
 
 You also need to learn about its API and client before using it.
 
-## Settings
-
-Before getting started, you should review and update `/testcube/settings.py` for your need.
-
 ## Get Started
 
-Setting Up Your Users
+I assume you have basic knowledage with python and django, or it will be hard to help you on the way.
+
+### 1. Fetch the code
+Clone or download the repo into your local workspace.
+```
+git clone https://github.com/tobyqin/testcube.git
+```
+
+### 2. Review and update settings
+Before getting started, you should review and update `/testcube/settings.py` to meet your needs. You might want to update: `SECRET_KEY`,`ALLOWED_HOSTS`,`DATABASES`,`STATIC_ROOT` and more.
+
+### 3. Basic setup commands
+
+To start a django website, you at least have to do  things like:
+
 
 * To create a **normal user account**, just go to Sign Up and fill out the form. Once you submit it, you'll see a "Verify Your E-mail Address" page. Go to your console to see a simulated email verification message. Copy the link into your browser. Now the user's email should be verified and ready to go.
 
@@ -38,6 +48,9 @@ Running tests with py.test
 $ py.test
 ```
 
+## FAQ
+
+More questions about TestCube will be answered at  [FAQ](/testcube/static/docs/faq.md).
 
 ## Deployment
 
