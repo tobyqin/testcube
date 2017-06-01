@@ -1,5 +1,6 @@
 from django.test import TestCase as TC
-from .models import *
+
+from testcube.core.models import *
 
 
 class ModelsTestCase(TC):
