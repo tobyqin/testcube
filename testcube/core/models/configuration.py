@@ -10,5 +10,5 @@ class Configuration(models.Model):
     def get(key, default=None):
         try:
             return Configuration.objects.get(key=key).value
-        except models.ObjectDoesNotExist:
+        except Configuration.DoesNotExist:
             return default
