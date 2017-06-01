@@ -21,12 +21,12 @@ BASE_DIR = dirname(SETTINGS_DIR)
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = environ.get('TESTCUBE_KEY', 'hard to guess key')
+SECRET_KEY = environ.get('TESTCUBG_SECRET_KEY', 'hard to guess key')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = bool(environ.get('TESTCUBE_DEBUG', True))
 
-ALLOWED_HOSTS = environ.get('TESTCUBE_HOST').split(',') if environ.get('TESTCUBE_HOSTS') else []
+ALLOWED_HOSTS = environ.get('TESTCUBE_ALLOWED_HOSTS').split(',') if environ.get('TESTCUBE_HOSTS') else []
 
 # Application definition
 
