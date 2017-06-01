@@ -2,18 +2,21 @@
 {% block title %}{{ name | upper }}{% endblock %}
 
 {% block body %}
-    <h2 class="ui center aligned header dash_header">
+    <h2 class="ui center aligned header dash_header loading">
         <i class="book icon"></i>
         {{ name | upper }}
     </h2>
     <div id="content" class="ui segment">
-        {{ content }}
+        <div>{{ content }}</div>
+        <div class="ui active inverted dimmer">
+            <div class="ui text loader">Loading</div>
+        </div>
     </div>
     <script src="https://cdn.bootcss.com/marked/0.3.6/marked.min.js"></script>
     <script>
         $(function () {
             let contentDiv = $('#content');
-            let raw = contentDiv.text().trim();
+            let raw = contentDiv.children().first().text().trim();
             let converted = marked(raw);
             contentDiv.attr('data-text', raw);
             contentDiv.empty().append(converted);
