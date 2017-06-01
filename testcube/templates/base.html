@@ -30,8 +30,8 @@
         <a href="{% url 'doc' 'faq' %}" class="item">FAQ</a>
         <div class="right menu">
             {% if user.is_authenticated %}
-                <a href="/user/{{ user.username }}" class="item">
-                    {% if user.first_name %}{{ user.first_name }}
+                <a href="/users/{{ user.username }}" class="item">
+                    {% if user.first_name %}{{ user.first_name | upper }}
                     {% else %}{{ user.username }}{% endif %}</a>
                 <a href="{% url 'signout' %}" class="item">Sign out</a>
             {% else %}
