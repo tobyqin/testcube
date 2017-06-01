@@ -5,15 +5,15 @@
 
 ## TestCube
 
-Testcube is a platform to manage and monitor automation test results, it is a web portal provides variables clients + API to let you talk to it.
+Testcube is a platform to manage and monitor automation test results, it provides a friendly web portal which is build with python + django.
 
-License: **MIT**
+You also need to learn about its API and client before using it.
 
 ## Settings
 
-Todo
+Before getting started, you should review and update `/testcube/settings.py` for your need.
 
-## Basic Commands
+## Get Started
 
 Setting Up Your Users
 
@@ -40,4 +40,8 @@ $ py.test
 
 
 ## Deployment
-The following details how to deploy this application.
+
+Basically, you can follow steps in `/scripts/` folders to deploy TestCube, for more detail, please refer to [Django offical deployment document](https://docs.djangoproject.com/en/1.11/howto/deployment/).
+
+## License
+MIT
