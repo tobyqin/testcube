@@ -47,7 +47,6 @@ cd /path/to/testcube
 pip install -r requriements.txt
 
 # step 2. Create database
-python manage.py makemigrations
 python manage.py migrate
 
 # step 3. Load default data (optional)
