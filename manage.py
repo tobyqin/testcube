@@ -4,6 +4,8 @@ import sys
 
 if __name__ == "__main__":
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "testcube.settings")
+    os.environ.setdefault("TESTCUBE_DEBUG", "True")
+
     try:
         from django.core.management import execute_from_command_line
     except ImportError:
@@ -19,4 +21,5 @@ if __name__ == "__main__":
                 "forget to activate a virtual environment?"
             )
         raise
+
     execute_from_command_line(sys.argv)
