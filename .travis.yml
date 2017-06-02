@@ -18,7 +18,9 @@ branches:
 
 install:
 - pip install -r requirements.txt
+- pip install codecov
 
 script:
 - python manage.py migrate
-- python manage.py test
+- coverage run manage.py test
+- codecov
