@@ -25,7 +25,7 @@ SECRET_KEY = environ.get('TESTCUBG_SECRET_KEY', 'hard to guess key')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG_VALUE = environ.get('TESTCUBE_DEBUG', '').lower()
-DEBUG = DEBUG_VALUE in ('true', 'yes', 'y', 'enabled')
+DEBUG = DEBUG_VALUE in ('true', 'yes', 'y', 'enabled', '1')
 
 if environ.get('TESTCUBE_ALLOWED_HOSTS'):
     ALLOWED_HOSTS = environ['TESTCUBE_ALLOWED_HOSTS'].split(',')
