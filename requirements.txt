@@ -1,1 +1,9 @@
+# basic
 django
+
+# for development
+django-debug-toolbar
+
+# for unit testing
+coverage
+django-coverage-plugin
