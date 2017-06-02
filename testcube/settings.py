@@ -24,13 +24,15 @@ BASE_DIR = dirname(SETTINGS_DIR)
 SECRET_KEY = environ.get('TESTCUBG_SECRET_KEY', 'hard to guess key')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = environ.get('TESTCUBE_DEBUG', 'False').lower() == 'true'
+DEBUG = environ.get('TESTCUBE_DEBUG') or False
 
-ALLOWED_HOSTS = environ['TESTCUBE_ALLOWED_HOSTS'].split(',') if environ.get('TESTCUBE_ALLOWED_HOSTS') else []
-DB_ENGINE = environ.get('TESTCUBE_DB_ENGINE', 'django.db.backends.sqlite3')
-DB_NAME = environ.get('TESTCUBE_DB_NAME', 'db.sqlite3')
-STATIC_URL = environ.get('TESTCUBE_STATIC_URL', '/static/')
-STATIC_ROOT = environ.get('TESTCUBE_STATIC_ROOT', join(BASE_DIR, 'dist'))
+if environ.get('TESTCUBE_ALLOWED_HOSTS'):
+    ALLOWED_HOSTS = environ.get('TESTCUBE_ALLOWED_HOSTS').split(',')
+
+DB_ENGINE = environ.get('TESTCUBE_DB_ENGINE') or 'django.db.backends.sqlite3'
+DB_NAME = environ.get('TESTCUBE_DB_NAME') or 'db.sqlite3'
+STATIC_URL = environ.get('TESTCUBE_STATIC_URL') or '/static/'
+STATIC_ROOT = environ.get('TESTCUBE_STATIC_ROOT') or join(BASE_DIR, 'dist')
 
 # Application definition
 
