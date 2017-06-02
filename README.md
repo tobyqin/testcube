@@ -5,9 +5,18 @@
 
 ## TestCube
 
-TestCube is a platform to manage and monitor automation test results, it provides a friendly web portal which is build with Python + Django.
+TestCube is a platform to manage and monitor automation test results, it provides a friendly web interface which is build with Python and Django.
 
-You also need to learn about its API and client before using it.
+Let me use 1 minute to descript TestCube...
+
+**Why?** - To manage and analyze automation test results efficiently.
+
+**What?** - It is web portal to deal with stuff like test runs, test cases, test results and test reports.
+
+**How ?** - Your automation tests must generate [xunit](http://reflex.gforge.inria.fr/xunit.html#xunitReport) xml, TestCube will provide client or API to let you upload such xml files.
+
+So you have to learn about its API and client before using it.
+
 
 ## Get Started
 
@@ -31,7 +40,6 @@ To start a Django website, you have to do  things like below:
 - Create super user (to administrate the website)
 - Collect static files (only required for deployment, skip it during development)
 - Start the web server
-
 
 To accomplish above steps, open a command window and follow me:
 
@@ -67,6 +75,8 @@ Once the server started, you should be able to visit TestCube at http://127.0.0.
 ## Deployment
 
 Basically, you can follow steps in `/scripts/` folders to deploy TestCube, for more detail, please refer to [Django official deployment documents](https://docs.djangoproject.com/en/1.11/howto/deployment/).
+
+On target server, A best practice is setting environment variables as [example](/env.example).
 
 ## Join Development
 
