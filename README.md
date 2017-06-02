@@ -9,9 +9,9 @@ TestCube is a platform to manage and monitor automation test results, it provide
 
 Let me use 1 minute to descript TestCube...
 
-**Why?** - To manage and analyze automation test results efficiently.
+**Why ?** - To manage and analyze automation test results efficiently.
 
-**What?** - It is web portal to deal with stuff like test runs, test cases, test results and test reports.
+**What ?** - It is web portal to deal with stuff like test runs, test cases, test results and test reports.
 
 **How ?** - Your automation tests must generate [xunit](http://reflex.gforge.inria.fr/xunit.html#xunitReport) xml, TestCube will provide client or API to let you upload such xml files.
 
