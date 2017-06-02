@@ -24,10 +24,11 @@ BASE_DIR = dirname(SETTINGS_DIR)
 SECRET_KEY = environ.get('TESTCUBG_SECRET_KEY', 'hard to guess key')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = environ.get('TESTCUBE_DEBUG') or False
+DEBUG_VALUE = environ.get('TESTCUBE_DEBUG', '').lower()
+DEBUG = DEBUG_VALUE in ('true', 'yes', 'y', 'enabled')
 
 if environ.get('TESTCUBE_ALLOWED_HOSTS'):
-    ALLOWED_HOSTS = environ.get('TESTCUBE_ALLOWED_HOSTS').split(',')
+    ALLOWED_HOSTS = environ['TESTCUBE_ALLOWED_HOSTS'].split(',')
 
 DB_ENGINE = environ.get('TESTCUBE_DB_ENGINE') or 'django.db.backends.sqlite3'
 DB_NAME = environ.get('TESTCUBE_DB_NAME') or 'db.sqlite3'
