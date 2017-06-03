@@ -7,6 +7,10 @@ engines:
     enabled: true
   duplication:
     enabled: true
+      config:
+        languages:
+        - javascript:
+        - python:
 
 ratings:
   paths:
