@@ -18,10 +18,10 @@ ratings:
 
 exclude_paths:
 - "*.*"
-- "docs/"
-- "scripts/"
+- "docs/**"
+- "scripts/**"
 - "**/tests/**"
 - "**/migrations/**"
 - "**/static/libs/**"
-- "testcube/static/docs/"
-- "testcube/static/images/"
+- "**/static/docs/**"
+- "**/static/images/**"
