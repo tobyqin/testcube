@@ -21,8 +21,8 @@ install:
 - pip install codecov
 
 script:
-  python manage.py migrate
-  coverage run manage.py test
+- python manage.py migrate
+- coverage run manage.py test
 
 after_success:
-  codecov
+- codecov
