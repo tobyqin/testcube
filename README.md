@@ -1,6 +1,6 @@
 [![Build Status](https://img.shields.io/travis/tobyqin/testcube.svg)](https://travis-ci.org/tobyqin/testcube) 
 [![codecov](https://codecov.io/gh/tobyqin/testcube/branch/master/graph/badge.svg)](https://codecov.io/gh/tobyqin/testcube)
-[![Code Climate](https://img.shields.io/codeclimate/github/tobyqin/xmind2testlink.svg)](https://codeclimate.com/github/tobyqin/xmind2testlink)
+[![Code Climate](https://img.shields.io/codeclimate/github/tobyqin/testcube.svg)](https://codeclimate.com/github/tobyqin/testcube)
 [![GitHub tag](https://img.shields.io/github/tag/tobyqin/testcube.svg)](https://github.com/tobyqin/testcube/releases) 
 ![Python Version](https://img.shields.io/badge/python-3.5-green.svg)
 
