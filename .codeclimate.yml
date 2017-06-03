@@ -3,4 +3,6 @@ exclude_paths:
 - "scripts/"
 - "**/tests/"
 - "**/migrations/"
-- "**/static/"
+- "**/static/libs/"
+- "**/static/docs/"
+- "**/static/images/"
