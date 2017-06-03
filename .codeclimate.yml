@@ -1,11 +1,13 @@
 JavaScript: true
+Ruby: false
 Python: true
+PHP: false
 
 exclude_paths:
-- "docs/"
-- "scripts/"
-- "**/tests/"
-- "**/migrations/"
-- "**/static/libs/"
-- "**/static/docs/"
-- "**/static/images/"
+- docs/
+- scripts/
+- **/tests/
+- **/migrations/
+- **/static/libs/
+- **/static/docs/
+- **/static/images/
