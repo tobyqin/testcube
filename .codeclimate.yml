@@ -6,8 +6,8 @@ PHP: false
 exclude_paths:
 - docs/
 - scripts/
-- **/tests/
-- **/migrations/
-- **/static/libs/
-- **/static/docs/
-- **/static/images/
+- testcube/tests/
+- testcube/**/migrations/
+- testcube/static/libs/
+- testcube/static/docs/
+- testcube/static/images/
