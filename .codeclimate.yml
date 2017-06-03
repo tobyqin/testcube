@@ -17,6 +17,9 @@ ratings:
   - testcube/**
 
 exclude_paths:
+- "*.*"
+- "docs/"
+- "scripts/"
 - "**/tests/"
 - "**/migrations/"
 - "**/static/libs/"
