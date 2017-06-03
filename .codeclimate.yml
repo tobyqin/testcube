@@ -20,7 +20,7 @@ exclude_paths:
 - "*.*"
 - "docs/"
 - "scripts/"
-- "**/tests/"
+- "testcube/tests/"
 - "**/migrations/"
 - "testcube/static/libs/"
 - "testcube/static/docs/"
