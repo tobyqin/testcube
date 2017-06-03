@@ -1,3 +1,6 @@
+JavaScript: true
+Python: true
+
 exclude_paths:
 - "docs/"
 - "scripts/"
