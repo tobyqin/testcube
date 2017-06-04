@@ -18,13 +18,14 @@ from django.contrib import admin
 from rest_framework import routers
 
 from .core import views
+from .users import api as user_api
 from .users import views as user_views
 
 admin.site.site_header = 'TestCube Administration'
 admin.site.site_title = admin.site.site_header
 
 router = routers.DefaultRouter()
-router.register('users', user_views.UserViewSet)
+router.register('users', user_api.UserViewSet)
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
