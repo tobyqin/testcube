@@ -1,5 +1,8 @@
 # basic
 django
+djangorestframework
+markdown
+django-filter
 
 # for development
 django-debug-toolbar

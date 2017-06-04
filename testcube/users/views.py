@@ -1,8 +1,16 @@
 from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
+from rest_framework import viewsets
 
 from .forms import SignUpForm, SignInForm
+from .serializers import UserSerializer
 from ..utils import get_domain
+
+
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
 
 
 def signup(request):

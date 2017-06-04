@@ -13,8 +13,9 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url
+from django.conf.urls import url, include
 from django.contrib import admin
+from rest_framework import routers
 
 from .core import views
 from .users import views as user_views
@@ -22,8 +23,14 @@ from .users import views as user_views
 admin.site.site_header = 'TestCube Administration'
 admin.site.site_title = admin.site.site_header
 
+router = routers.DefaultRouter()
+router.register('users', user_views.UserViewSet)
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+
+    url(r'^api/', include(router.urls)),
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 
     url('^signin', user_views.signin, name='signin'),
     url('^signup', user_views.signup, name='signup'),
