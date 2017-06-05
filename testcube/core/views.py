@@ -4,7 +4,7 @@ from ..utils import read_document
 
 
 def home(request):
-    return render(request, 'home.html')
+    return render(request, 'bootstrap/home.html')
 
 
 def document(request, name):

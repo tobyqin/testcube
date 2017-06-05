@@ -30,7 +30,7 @@ router.register('users', user_api.UserViewSet)
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
 
-    url(r'^api/', include(router.urls)),
+    url(r'^api/', include(router.urls), name='api'),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 
     url('^signin', user_views.signin, name='signin'),
