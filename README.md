@@ -59,7 +59,7 @@ pip install -r requriements.txt
 python manage.py migrate
 
 # step 3. Load default data (optional)
-python manage.py loadata configuration
+python manage.py loaddata configuration
 
 # step 4. create super user
 python mange.py createsuperuser
