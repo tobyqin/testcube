@@ -62,7 +62,7 @@ python manage.py migrate
 python manage.py loaddata configuration
 
 # step 4. create super user
-python mange.py createsuperuser
+python manage.py createsuperuser
 
 # step 5. collect static files (optional, for deployment)
 python manage.py collectstatic
