@@ -12,5 +12,7 @@ class SignUpForm(UserCreationForm):
 
     def __init__(self, *args, **kwargs):
         super(UserCreationForm, self).__init__(*args, **kwargs)
+        self.fields['username'].widget.attrs.update({'autofocus': True})
+
         for name in ['username', 'password1', 'password2']:
             self.fields[name].help_text = ''
