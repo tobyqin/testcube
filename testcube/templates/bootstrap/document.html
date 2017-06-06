@@ -1,0 +1,29 @@
+{% extends './base.html' %}
+{% block title %}{{ name | upper }}{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <ol class="breadcrumb">
+                <li><a href="/">Home</a></li>
+                <li><a href="/docs">Library</a></li>
+                <li class="active">{{ name | upper }}</li>
+            </ol>
+            <div class="panel panel-default">
+                <div class="panel-body" id="content">
+                    <div>{{ content }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.bootcss.com/marked/0.3.6/marked.min.js"></script>
+    <script>
+        $(function () {
+            let contentDiv = $('#content');
+            let raw = contentDiv.children().first().text().trim();
+            let converted = marked(raw);
+            contentDiv.attr('data-text', raw);
+            contentDiv.empty().append(converted);
+        })
+    </script>
+{% endblock %}

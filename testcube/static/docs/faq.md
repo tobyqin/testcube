@@ -29,23 +29,31 @@ So you probably don't have to change anything in your current test project, just
 
 To talk to TestCube server, you should have TestCube client installed.
 
-> pip install testcube-client
+```
+pip install testcube-client
+```
 
 Then you can choose any strategy to talk to TestCube.
 
 #### 2.1 Upload xunit result to TestCube once test finished.
 
-> testcube-client --xunit "/path/to/xunit*.xml --server "http://server:port"
+```
+testcube-client --xunit "/path/to/xunit*.xml --server "http://server:port"
+```
 
 #### 2.2 Create and complete run separately.
 
 Before run started
 
-> testcube-client --start_run --run_name "Run Name" --tags "smoke,core"
+```
+testcube-client --start_run --run_name "Run Name" --tags "smoke,core"
+```
 
 After run finished
 
-> testcube-client --finish_run --run_id 123 --xunit "/path/to/*.xml"
+```
+testcube-client --finish_run --run_id 123 --xunit "/path/to/*.xml"
+```
 
 ### 3. Review Reports and Analyze Test Run
 
