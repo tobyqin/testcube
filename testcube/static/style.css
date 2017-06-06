@@ -1,11 +1,12 @@
 body {
-  padding-top: 50px;
-  padding-bottom: 20px;
+  padding-top: 75px;
+  padding-bottom: 30px;
 }
 
 .jumbotron {
   background-image: url("images/cube-light.jpg");
   background-size: cover;
+  margin-top: -25px;
 }
 
 .display-table {
