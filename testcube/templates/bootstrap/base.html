@@ -49,7 +49,8 @@
                     <li><a href="#" data-vivaldi-spatnav-clickable="1" style="">Tags</a></li>
                     <li><a href="{% url 'doc' 'faq' %}" data-vivaldi-spatnav-clickable="1" style="">FAQ</a></li>
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                           aria-expanded="false"
                            data-vivaldi-spatnav-clickable="1" style="">More <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
                             <li><a href="#" data-vivaldi-spatnav-clickable="1">TestLink</a></li>
@@ -70,16 +71,16 @@
                             </ul>
                         </li>
                     {% else %}
-                        <li><a href="{% url 'signin' %}" data-vivaldi-spatnav-clickable="1" style="">Sign In</a></li>
-                        <li><a href="{% url 'signup' %}" data-vivaldi-spatnav-clickable="1" style="">Sign Up</a></li>
+                        <li><a href="{% url 'signin' %}" data-vivaldi-spatnav-clickable="1" style="">Sign In</a>
+                        </li>
+                        <li><a href="{% url 'signup' %}" data-vivaldi-spatnav-clickable="1" style="">Sign Up</a>
+                        </li>
                     {% endif %}
 
                 </ul>
             </div>
         </div>
     </nav>
-
-    <div class="container" style="height: 30px"></div>
 
 {% endblock %}
 
@@ -90,7 +91,8 @@
             <p>TestCube is a platform to manage and monitor automation test results, it provides a friendly web
                 interface which is build with Python and Django.
             </p>
-            <p><a class="btn btn-primary btn-lg" href="{% url 'doc' 'faq' %}" role="button">Learn more &raquo;</a></p>
+            <p><a class="btn btn-primary btn-lg" href="{% url 'doc' 'faq' %}" role="button">Learn more &raquo;</a>
+            </p>
         </div>
     </div>
     <div class="container">
@@ -111,8 +113,10 @@
             <div class="col-md-4">
                 <h2>Have Questions?</h2>
                 <p>Welcome to visit <a href="https://github.com/tobyqin/testcube">project page</a> to submit
-                    an issue, or check out FAQ page to learn more about TestCube. Pull requests are always welcome.</p>
-                <p><a class="btn btn-default" href="{% url 'doc' 'faq' %}" role="button">View details &raquo;</a></p>
+                    an issue, or check out FAQ page to learn more about TestCube. Pull requests are always welcome.
+                </p>
+                <p><a class="btn btn-default" href="{% url 'doc' 'faq' %}" role="button">View details &raquo;</a>
+                </p>
             </div>
         </div>
     </div>

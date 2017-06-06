@@ -2,19 +2,18 @@
 {% block title %}{{ name | upper }} | TestCube{% endblock %}
 
 {% block body %}
-    <div class="container">
-        <div class="row">
-            <ol class="breadcrumb">
-                <li><a href="/">Home</a></li>
-                <li><a href="/docs">Library</a></li>
-                <li class="active">{{ name | upper }}</li>
-            </ol>
+    <div class="container" style="margin-top: 30px">
 
-            <div id="content">
-                <div>{{ content }}</div>
-            </div>
+        <ul class="breadcrumb">
+            <li><a href="/">Home</a></li>
+            <li><a href="/docs">Library</a></li>
+            <li class="active">{{ name | upper }}</li>
+        </ul>
 
+        <div id="content">
+            <div>{{ content }}</div>
         </div>
+
     </div>
     <script src="https://cdn.bootcss.com/marked/0.3.6/marked.min.js"></script>
     <script>
