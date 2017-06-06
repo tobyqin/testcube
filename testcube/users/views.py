@@ -41,3 +41,11 @@ def signin(request):
 def signout(request):
     logout(request)
     return redirect('/')
+
+
+def reset_password(request):
+    pass
+
+
+def user_profile(request, username):
+    pass

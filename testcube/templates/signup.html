@@ -8,22 +8,20 @@
 {% block body %}
     <div class="container" style="margin-top: 30px">
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-6 col-md-offset-3">
                 <form role="form" method="post">
-                    <legend>Let's go ahead and get you signed up.</legend>
+                    <legend>Create Your Account</legend>
                     {% csrf_token %}
                     {{ form | bootstrap }}
                     <button class="btn btn-primary" data-vivaldi-spatnav-clickable="1" type="submit">Submit</button>
                 </form>
-            </div>
-            <div class="col-md-6 text-center">
-                <div>
-                    <p class="lead" style="margin-top: 20px">
-                        Already have an account? <a href="{% url 'signin' %}">Sign in.</a></p>
-                </div>
+
+                <br>
+                <p>Already have an account? <a href="{% url 'signin' %}">Sign in.</a></p>
             </div>
         </div>
     </div>
+
     {% load static %}
     <script src="{% static 'signup.js' %}"></script>
 {% endblock %}

@@ -8,20 +8,17 @@
 {% block body %}
     <div class="container" style="margin-top: 30px">
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-6 col-md-offset-3">
                 <form role="form" method="post">
-                    <legend>Let's go ahead and get you signed in.</legend>
+                    <legend>Welcome Back</legend>
                     {% csrf_token %}
                     {{ form | bootstrap }}
-                    <button class="btn btn-primary" data-vivaldi-spatnav-clickable="1" type="submit">Submit</button>
+                    <button class="btn btn-primary" data-vivaldi-spatnav-clickable="1" type="submit">Sign In</button>
                 </form>
-            </div>
-            <div class="col-md-6 text-center">
-                <div>
-                    <p class="lead" style="margin-top: 20px">Doesn't have an account? <a href="{% url 'signup' %}">Sign
-                        up.</a>
-                    </p>
-                </div>
+
+                <br>
+                <p>Forget password? <a href="{% url 'reset_password' %}">Reset.</a>
+                </p>
             </div>
         </div>
     </div>

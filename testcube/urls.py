@@ -36,7 +36,9 @@ urlpatterns = [
     url('^signin', user_views.signin, name='signin'),
     url('^signup', user_views.signup, name='signup'),
     url('^signout', user_views.signout, name='signout'),
+    url('^reset', user_views.reset_password, name='reset_password'),
+    url('^profile/(.+)', user_views.user_profile, name='user_profile'),
 
     url(r'^$', views.home, name='home'),
-    url(r'^doc/(?P<name>.+)$', views.document, name='doc')
+    url(r'^docs/(?P<name>.+)$', views.document, name='docs')
 ]
