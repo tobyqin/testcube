@@ -3,6 +3,7 @@ django
 djangorestframework
 markdown
 django-filter
+django-bootstrap-form
 
 # for development
 django-debug-toolbar

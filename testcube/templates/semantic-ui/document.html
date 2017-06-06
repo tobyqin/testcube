@@ -1,19 +1,16 @@
-{% extends './base.html' %}
-{% block title %}{{ name | upper }} | TestCube{% endblock %}
+{% extends 'base.html' %}
+{% block title %}{{ name | upper }}{% endblock %}
 
 {% block body %}
-    <div class="container" style="margin-top: 30px">
-
-        <ul class="breadcrumb">
-            <li><a href="/">Home</a></li>
-            <li><a href="/docs">Library</a></li>
-            <li class="active">{{ name | upper }}</li>
-        </ul>
-
-        <div id="content">
-            <div>{{ content }}</div>
+    <h2 class="ui center aligned header dash_header loading">
+        <i class="book icon"></i>
+        {{ name | upper }}
+    </h2>
+    <div id="content" class="ui segment">
+        <div>{{ content }}</div>
+        <div class="ui active inverted dimmer">
+            <div class="ui text loader">Loading</div>
         </div>
-
     </div>
     <script src="https://cdn.bootcss.com/marked/0.3.6/marked.min.js"></script>
     <script>

@@ -1,43 +1,26 @@
-.main.container {
-  margin-top: 6em;
+body {
+  padding-top: 50px;
+  padding-bottom: 20px;
 }
 
-.last.container {
-  margin-bottom: 300px !important;
+.jumbotron {
+  background-image: url("images/cube-light.jpg");
+  background-size: cover;
 }
 
-h1.ui.center.header {
-  margin-top: 2em;
+.display-table {
+  display: table;
+  table-layout: fixed;
 }
 
-h2.ui.center.header {
-  margin-top: 3em;
-  margin-right: 0;
-  margin-left: 0;
+.display-cell {
+  display: table-cell;
+  vertical-align: middle;
+  float: none;
 }
 
-h3.ui.center.header {
-  margin: 1em 0;
-  padding: 1em 0;
-}
-
-.fixed.launch.button {
-  display: none;
-  position: fixed;
-  top: 45%;
-  right: 0;
-  width: 45px;
-  height: auto;
-  white-space: nowrap;
-  overflow: hidden;
-  -webkit-transition: 0.3s width ease,
-  0.5s transform ease;
-  -moz-transition: 0.3s width ease,
-  0.5s transform ease;
-  -o-transition: 0.3s width ease,
-  0.5s transform ease;
-  -ms-transition: 0.3s width ease,
-  0.5s transform ease;
-  transition: 0.3s width ease,
-  0.5s transform ease;
+.vcenter {
+  display: inline-block;
+  vertical-align: middle;
+  float: none;
 }

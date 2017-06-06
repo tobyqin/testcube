@@ -1,45 +1,28 @@
-{% extends 'base.html' %}
+{% extends './base.html' %}
 {% block title %}
-    Sign in
+    Sign in | TestCube
 {% endblock %}
 
+{% load bootstrap %}
+
 {% block body %}
-    <div class="ui two column divided middle aligned very relaxed stackable grid">
-        <div class="column">
-            <form class="ui form basic segment padded {% if form.errors %}error{% endif %}" method="post">
-                <p>Let's go ahead and get you signed in.</p>
-                {% csrf_token %}
-                <div class="field">
-                    <label>Username</label>
-                    <div class="ui left icon input">
-                        <input type="text" name="username" placeholder="Username" autofocus required>
-                        <i class="user icon"></i>
-                    </div>
+    <div class="container" style="margin-top: 30px">
+        <div class="row">
+            <div class="col-md-6">
+                <form role="form" method="post">
+                    <legend>Let's go ahead and get you signed in.</legend>
+                    {% csrf_token %}
+                    {{ form | bootstrap }}
+                    <button class="btn btn-primary" data-vivaldi-spatnav-clickable="1" type="submit">Submit</button>
+                </form>
+            </div>
+            <div class="col-md-6 text-center">
+                <div>
+                    <p class="lead" style="margin-top: 20px">Doesn't have an account? <a href="{% url 'signup' %}">Sign
+                        up.</a>
+                    </p>
                 </div>
-                <div class="field">
-                    <label>Password</label>
-                    <div class="ui left icon input">
-                        <input name="password" type="password" required>
-                        <i class="lock icon"></i>
-                    </div>
-                </div>
-                <div class="ui error message">
-                    {% if form.errors %}
-                        {% for field in form %}
-                            {% for error in field.errors %}
-                                <p>{{ error|escape }}</p>
-                            {% endfor %}
-                        {% endfor %}
-                        {% for error in form.non_field_errors %}
-                            <p>{{ error|escape }}</p>
-                        {% endfor %}
-                    {% endif %}
-                </div>
-                <button class="ui blue button" type="submit">Submit</button>
-            </form>
-        </div>
-        <div class="center aligned column">
-            <p>Doesn't have an account? <a href="/signup/">Sign up.</a></p>
+            </div>
         </div>
     </div>
 {% endblock %}

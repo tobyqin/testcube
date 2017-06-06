@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+    <link href="https://cdn.bootcss.com/semantic-ui/2.2.10/semantic.min.css" rel="stylesheet">
+    <link href="{% static 'style.css' %}" rel="stylesheet">
+    <script src="{% static 'libs/jquery-3.2.1.min.js' %}"></script>
+    <script src="https://cdn.bootcss.com/semantic-ui/2.2.10/semantic.min.js"></script>
+    <script src="https://cdn.bootcss.com/moment.js/2.18.1/moment.min.js"></script>
+    <script src="https://cdn.bootcss.com/mustache.js/2.3.0/mustache.min.js"></script>
+    <script src="https://cdn.bootcss.com/lodash.js/4.17.4/lodash.js"></script>
+    <script src="{% static 'script.js' %}"></script>
+    <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon"/>
+</head>
+<body>
+
+<div class="ui fixed top large inverted menu">
+    <div class="ui container">
+        <a href="{% url 'home' %}" class="header item">
+            <i class="home icon"></i>
+            Home
+        </a>
+        <a href="/testrun/" class="item">Test Runs</a>
+        <a href="/testcase/" class="item">Test Case</a>
+        <a href="/tags/" class="item">Tags</a>
+        <a href="{% url 'doc' 'faq' %}" class="item">FAQ</a>
+        <div class="right menu">
+            {% if user.is_authenticated %}
+                <a href="/users/{{ user.username }}" class="item">
+                    {% if user.first_name %}{{ user.first_name | upper }}
+                    {% else %}{{ user.username }}{% endif %}</a>
+                <a href="{% url 'signout' %}" class="item">Sign out</a>
+            {% else %}
+                <a href="{% url 'signin' %}" class="item">Sign in</a>
+                <a href="{% url 'signup' %}" class="item">Sign up</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<div class="ui main container">
+    {% block body %} {% endblock %}
+    <div class="ui  inverted section divider" style="margin-bottom: 0"></div>
+    <div class="ui horizontal small divided link list" style="margin-bottom: 2em">
+        <a class="item" href="https://github.com/tobyqin/testcube/issues">Report Issue</a>
+        <a class="item" href="/api/">API</a>
+        <div class="item">Powered by <a class="ui link active" href="https://github.com/tobyqin/testcube">
+            TestCube <i class="icon cube"></i></a></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        doSetup();
+    });
+</script>
+
+<div id="detail-dialog" class="ui small modal">
+    <div class="header"><i class="info icon"></i>Information</div>
+    <div class="content" style="background-color: #eee; padding: 3px 25px; margin: -15px 0;">
+            <pre>
+            </pre>
+    </div>
+    <div class="actions">
+        <div class="ui ok blue button">OK</div>
+    </div>
+</div>
+
+</body>
+</html>
