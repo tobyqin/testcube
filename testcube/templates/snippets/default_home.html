@@ -1,0 +1,35 @@
+<div class="jumbotron">
+    <div class="container">
+        <h1>Welcome to TestCube!</h1>
+        <p>TestCube is a platform to manage and monitor automation test results, it provides a friendly web
+            interface which is build with Python and Django.
+        </p>
+        <p><a class="btn btn-primary btn-lg" href="{% url 'docs' 'faq' %}" role="button">Learn more &raquo;</a>
+        </p>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <h2>TestCube Client</h2>
+            <p>To get started with TestCube, first choice is using its clients, for now we provide python client
+                to let you interact with TestCube easily.</p>
+            <p><a class="btn btn-default" href="https://github.com/tobyqin/testcube_client" role="button">View
+                details &raquo;</a></p>
+        </div>
+        <div class="col-md-4">
+            <h2>TestCube APIs</h2>
+            <p>It is pretty simple to get started with TestCube APIs, it is built on Django rest framework,
+                which is readable, elegant and robust.</p>
+            <p><a class="btn btn-default" href="/api" role="button">View details &raquo;</a></p>
+        </div>
+        <div class="col-md-4">
+            <h2>Have Questions?</h2>
+            <p>Welcome to visit <a href="https://github.com/tobyqin/testcube">project page</a> to submit
+                an issue, or check out FAQ page to learn more about TestCube. Pull requests are always welcome.
+            </p>
+            <p><a class="btn btn-default" href="{% url 'docs' 'faq' %}" role="button">View details &raquo;</a>
+            </p>
+        </div>
+    </div>
+</div>

@@ -22,6 +22,8 @@ def signup(request):
 
 
 def signin(request):
+    next_page = request.GET.get('next', '/')
+
     if request.method == 'POST':
         form = AuthenticationForm(data=request.POST)
         if form.is_valid():
@@ -30,7 +32,7 @@ def signin(request):
             user = authenticate(username=username, password=raw_password)
             if user:
                 login(request, user)
-                return redirect('/')
+                return redirect(next_page)
             else:
                 form.add_error('username', 'Invalid username or password!')
     else:
