@@ -6,17 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     {% load static %}
     <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon"/>
-    <title>{% block title %}TestCube Automation Test Platform{% endblock %}</title>
+    <title>{% block title %}Home{% endblock %} | TestCube</title>
     <link href="{% static 'libs/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
     <link href="{% static 'libs/bootstrap/css/ie10-viewport-bug-workaround.css' %}" rel="stylesheet">
     <link href="{% static 'style.css' %}" rel="stylesheet">
-
-    <script src="{% static 'libs/jquery-3.2.1.min.js' %}"></script>
-    <script src="https://cdn.bootcss.com/moment.js/2.18.1/moment.min.js"></script>
-    <script src="https://cdn.bootcss.com/mustache.js/2.3.0/mustache.min.js"></script>
-    <script src="https://cdn.bootcss.com/lodash.js/4.17.4/lodash.js"></script>
     <link rel="stylesheet" href="http://bootswatch.com/cosmo/bootstrap.min.css" type="text/css">
-    <script src="{% static 'script.js' %}"></script>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -32,14 +26,19 @@
 {% endblock %}
 
 {% block body %}
-    {% include './snippets/default_home.html' %}
+    {% include './snippets/default.html' %}
 {% endblock %}
 
 {% block footer %}
     {% include './snippets/footer.html' %}
 {% endblock %}
 
+<script src="{% static 'libs/jquery-3.2.1.min.js' %}"></script>
+<script src="https://cdn.bootcss.com/moment.js/2.18.1/moment.min.js"></script>
+<script src="https://cdn.bootcss.com/mustache.js/2.3.0/mustache.min.js"></script>
+<script src="https://cdn.bootcss.com/lodash.js/4.17.4/lodash.js"></script>
 <script src="{% static 'libs/bootstrap/js/bootstrap.min.js' %}"></script>
 <script src="{% static 'libs/bootstrap/js/ie10-viewport-bug-workaround.js' %}"></script>
+<script src="{% static 'script.js' %}"></script>
 </body>
 </html>

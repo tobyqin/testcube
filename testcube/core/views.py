@@ -1,10 +1,14 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, resolve_url
 
 from ..utils import read_document
 
 
-def home(request):
-    return render(request, 'home.html')
+def index(request):
+    return redirect(resolve_url('welcome'))
+
+
+def welcome(request):
+    return render(request, 'welcome.html')
 
 
 def document(request, name):
