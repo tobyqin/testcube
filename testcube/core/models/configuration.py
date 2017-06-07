@@ -12,3 +12,6 @@ class Configuration(models.Model):
             return Configuration.objects.get(key=key).value
         except Configuration.DoesNotExist:
             return default
+
+    def __str__(self):
+        return self.key

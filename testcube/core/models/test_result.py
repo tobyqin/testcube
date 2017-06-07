@@ -19,3 +19,6 @@ class TestResult(models.Model):
     is_rerun = models.BooleanField(default=False)
     test_client = models.ForeignKey(TestClient, on_delete=models.PROTECT)
     analysis = models.ForeignKey(ResultAnalysis, on_delete=models.SET_NULL, null=True, blank=True)
+
+    def __str__(self):
+        return self.id

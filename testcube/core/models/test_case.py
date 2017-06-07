@@ -12,3 +12,6 @@ class TestCase(models.Model):
     created_by = models.CharField(max_length=50)
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.name

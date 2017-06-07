@@ -1,4 +1,5 @@
 from django.db import models
+
 from .issue import Issue
 
 
@@ -9,3 +10,6 @@ class ResultAnalysis(models.Model):
     issue = models.ForeignKey(Issue, on_delete=models.PROTECT, blank=True)
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.reason

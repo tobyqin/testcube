@@ -6,3 +6,6 @@ class Product(models.Model):
     version = models.CharField(max_length=20, default='latest')
     owner = models.CharField(max_length=50, blank=True)
     created_on = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name

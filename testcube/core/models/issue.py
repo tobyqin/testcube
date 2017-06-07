@@ -10,3 +10,6 @@ class Issue(models.Model):
     status = models.CharField(max_length=50, blank=True)
     link = models.CharField(max_length=300, blank=True)
     is_synced = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.name
