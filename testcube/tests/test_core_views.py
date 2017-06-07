@@ -11,7 +11,7 @@ class ModelsTestCase(TC):
         assert 'sign in' in str(r.content).lower()
 
     def test_visit_faq(self):
-        r = self.client.get('/doc/faq')
+        r = self.client.get('/docs/faq')
         assert r.status_code == 200
         assert 'what' in str(r.content).lower()
 
