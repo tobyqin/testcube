@@ -4,6 +4,7 @@ djangorestframework
 markdown
 django-filter
 django-bootstrap-form
+django-ipware
 
 # for development
 django-debug-toolbar
