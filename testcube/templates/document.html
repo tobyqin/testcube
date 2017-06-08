@@ -1,5 +1,5 @@
 {% extends './base.html' %}
-{% block title %}{{ name | upper }} | TestCube{% endblock %}
+{% block title %}{{ name | upper }}{% endblock %}
 
 {% block body %}
     <div class="container">
@@ -15,6 +15,10 @@
         </div>
 
     </div>
+
+{% endblock %}
+
+{% block scripts %}
     <script src="https://cdn.bootcss.com/marked/0.3.6/marked.min.js"></script>
     <script>
         $(function () {

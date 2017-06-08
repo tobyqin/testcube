@@ -1,7 +1,10 @@
 {% extends "rest_framework/base.html" %}
 
+{% load static %}
+
 {% block bootstrap_theme %}
     <link rel="stylesheet" href="http://bootswatch.com/cosmo/bootstrap.min.css" type="text/css">
+    <link href="{% static 'style.css' %}" rel="stylesheet">
 {% endblock %}
 
 {% block title %}
@@ -10,4 +13,20 @@
 
 {% block navbar %}
     {% include '../snippets/nav_menu.html' %}
+{% endblock %}
+
+
+{% block breadcrumbs %}
+    <ul class="breadcrumb">
+        <li><a href="/">Home</a></li>
+        {% for breadcrumb_name, breadcrumb_url in breadcrumblist %}
+            {% if forloop.last %}
+                <li class="active"><a href="{{ breadcrumb_url }}">{{ breadcrumb_name }}</a></li>
+            {% else %}
+                <li><a href="{{ breadcrumb_url }}">{{ breadcrumb_name }}</a></li>
+            {% endif %}
+        {% empty %}
+            {% block breadcrumbs_empty %}&nbsp;{% endblock breadcrumbs_empty %}
+        {% endfor %}
+    </ul>
 {% endblock %}

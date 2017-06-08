@@ -37,6 +37,7 @@ urlpatterns = [
     url('^reset', user_views.reset_password, name='reset_password'),
     url('^profile/(.+)', user_views.user_profile, name='user_profile'),
 
-    url(r'^$', views.home, name='home'),
+    url(r'^$', views.index, name='index'),
+    url(r'^welcome', views.welcome, name='welcome'),
     url(r'^docs/(?P<name>.+)$', views.document, name='docs')
 ]
