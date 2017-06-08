@@ -21,15 +21,17 @@ def register(request):
             client_user = data.get('client_user')
             client_ip = get_ip(request)
             username = '__<{}>__'.format(client_name)
-            email = '{}@testcube.client'.format(username)
+            email = '{}@testcube.client'.format(client_name.lower())
 
             user, created = User.objects.update_or_create(username=username,
-                                                          defaults={'password': token,
-                                                                    'email': email,
+                                                          defaults={'email': email,
                                                                     'first_name': client_user,
                                                                     'last_name': client_ip})
             if user:
                 assert isinstance(user, User)
-                return JsonResponse({'username': user.username, 'password': token, 'first_time': created})
+                user.set_password(token)
+                user.save()
+
+                return JsonResponse({'client': user.username, 'token': token, 'first_time_register': created})
 
     return HttpResponseBadRequest('Failed to register testcube!')
