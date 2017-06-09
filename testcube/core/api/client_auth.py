@@ -2,6 +2,9 @@
 Will provide auth to testcube clients, will not expose such API to all users.
 """
 
+import re
+import uuid
+
 from django.contrib.auth.models import User
 from django.http import JsonResponse, HttpResponseBadRequest
 from django.views.decorators.csrf import csrf_exempt
@@ -13,22 +16,24 @@ def register(request):
     """To register a new client, must provide a token"""
     if request.method == 'POST':
         data = request.POST
-        token = data.get('token')
-        assert isinstance(token, str), 'invalid token!'
+        client_type = data.get('client_type')
+        pattern = r'testcube_([\d\w]+)_client'
+        match = re.search(pattern, client_type)
 
-        if token.startswith('testcube_client'):
+        if match:
+            client_type = match.group(1)
             client_name = data.get('client_name')
             client_user = data.get('client_user')
             client_ip = get_ip(request)
-            username = '__<{}>__'.format(client_name)
-            email = '{}@testcube.client'.format(client_name.lower())
+            username = '_<{}>_'.format(client_name)
+            email = '{}@{}.client'.format(client_name, client_type).lower()
 
             user, created = User.objects.update_or_create(username=username,
                                                           defaults={'email': email,
                                                                     'first_name': client_user,
                                                                     'last_name': client_ip})
             if user:
-                assert isinstance(user, User)
+                token = uuid.uuid4()
                 user.set_password(token)
                 user.save()
 
