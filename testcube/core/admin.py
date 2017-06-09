@@ -8,8 +8,8 @@ class ConfigAdmin(admin.ModelAdmin):
     list_display = ('key', 'value', 'created_on')
 
 
-@admin.register(Project)
-class ProjectAdmin(admin.ModelAdmin):
+@admin.register(Team)
+class TeamAdmin(admin.ModelAdmin):
     list_display = ('name', 'owner', 'created_on')
 
 
@@ -20,4 +20,9 @@ class ProductAdmin(admin.ModelAdmin):
 
 @admin.register(TestRun)
 class TestRunAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('team', 'product', 'name', 'start_time', 'state', 'status')
+
+
+@admin.register(TestCase)
+class TestCaseAdmin(admin.ModelAdmin):
+    list_display = ('name', 'priority', 'owner', 'updated_on')

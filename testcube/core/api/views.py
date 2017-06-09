@@ -5,14 +5,14 @@ from .serializers import *
 from ..models import *
 
 
-class ProjectViewSet(viewsets.ModelViewSet):
-    queryset = Project.objects.all()
-    serializer_class = ProjectSerializer
+class TeamViewSet(viewsets.ModelViewSet):
+    queryset = Team.objects.all()
+    serializer_class = TeamSerializer
 
 
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
-    serializer_class = ProjectSerializer
+    serializer_class = TeamSerializer
 
 
 class ConfigurationViewSet(viewsets.ModelViewSet):
