@@ -5,10 +5,9 @@ class ModelsTestCase(TC):
     def setUp(self):
         self.client = Client()
 
-    def test_visit_home(self):
-        r = self.client.get('/')
-        assert r.status_code == 200
-        assert 'sign in' in str(r.content).lower()
+    def test_visit_welcome(self):
+        r = self.client.get('/welcome')
+        assert 'welcome' in str(r.content).lower()
 
     def test_visit_faq(self):
         r = self.client.get('/docs/faq')

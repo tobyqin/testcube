@@ -2,7 +2,7 @@ from rest_framework import routers
 
 
 def api_registration():
-    from .restful import ProductViewSet, ProjectViewSet, ConfigurationViewSet, TestRunViewSet
+    from .views import ProductViewSet, ProjectViewSet, ConfigurationViewSet, TestRunViewSet
     from ...users.api import UserViewSet
 
     router = routers.DefaultRouter()

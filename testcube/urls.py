@@ -18,6 +18,7 @@ from django.contrib import admin
 
 from .core import api
 from .core import views
+from .core.api import client_auth
 from .users import views as user_views
 
 admin.site.site_header = 'TestCube Administration'
@@ -30,6 +31,7 @@ urlpatterns = [
 
     url(r'^api/', include(router.urls), name='api'),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    url(r'^client-register', client_auth.register, name='client_register'),
 
     url('^signin', user_views.signin, name='signin'),
     url('^signup', user_views.signup, name='signup'),
