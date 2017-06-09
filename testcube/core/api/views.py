@@ -27,3 +27,23 @@ class TestClientViewSet(viewsets.ModelViewSet):
 class TestRunViewSet(viewsets.ModelViewSet):
     queryset = TestRun.objects.all()
     serializer_class = TestRunSerializer
+
+
+class TestCaseViewSet(viewsets.ModelViewSet):
+    queryset = TestCase.objects.all()
+    serializer_class = TestCaseSerializer
+
+
+class TestResultViewSet(viewsets.ModelViewSet):
+    queryset = TestResult.objects.all()
+    serializer_class = TestResultSerializer
+
+
+class IssueViewSet(viewsets.ModelViewSet):
+    queryset = Issue.objects.all()
+    serializer_class = IssueSerializer
+
+
+class ResultAnalysisViewSet(viewsets.ModelViewSet):
+    queryset = ResultAnalysis.objects.all()
+    serializer_class = ResultAnalysisSerializer
