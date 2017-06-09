@@ -19,5 +19,8 @@ class TestRun(models.Model):
     state = models.IntegerField(choices=STATE_CHOICES, default=-1)
     status = models.IntegerField(choices=STATUS_CHOICES, default=-1)
 
+    class Meta:
+        ordering = ['-id']
+
     def __str__(self):
-        return self.id
+        return str(self.id)

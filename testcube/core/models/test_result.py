@@ -20,5 +20,8 @@ class TestResult(models.Model):
     test_client = models.ForeignKey(TestClient, on_delete=models.PROTECT)
     analysis = models.ForeignKey(ResultAnalysis, on_delete=models.SET_NULL, null=True, blank=True)
 
+    class Meta:
+        ordering = ['start_time']
+
     def __str__(self):
         return self.id

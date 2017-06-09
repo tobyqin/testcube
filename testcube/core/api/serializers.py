@@ -6,23 +6,28 @@ from ..models import *
 class ProjectSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Project
-        fields = ('url', 'id', 'name', 'owner', 'created_on')
+        fields = '__all__'
 
 
 class ProductSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Product
-        fields = ('url', 'id', 'name', 'owner', 'created_on')
+        fields = '__all__'
 
 
 class ConfigurationSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Configuration
-        fields = ('url', 'id', 'key', 'value', 'created_on')
+        fields = '__all__'
+
+
+class TestClientSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = TestClient
+        fields = '__all__'
 
 
 class TestRunSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = TestRun
-        fields = (
-            'url', 'id', 'name', 'project', 'product', 'owner', 'start_time', 'end_time', 'start_by', 'state', 'status')
+        fields = '__all__'

@@ -10,6 +10,8 @@ from django.http import JsonResponse, HttpResponseBadRequest
 from django.views.decorators.csrf import csrf_exempt
 from ipware.ip import get_ip
 
+from testcube.core.models import TestClient
+
 
 @csrf_exempt
 def register(request):
@@ -28,15 +30,25 @@ def register(request):
             username = '_<{}>_'.format(client_name)
             email = '{}@{}.client'.format(client_name, client_type).lower()
 
-            user, created = User.objects.update_or_create(username=username,
-                                                          defaults={'email': email,
-                                                                    'first_name': client_user,
-                                                                    'last_name': client_ip})
+            user, created = User.objects.update_or_create(
+                username=username,
+                defaults={'email': email,
+                          'first_name': client_user,
+                          'last_name': client_ip})
             if user:
                 token = uuid.uuid4()
                 user.set_password(token)
                 user.save()
 
-                return JsonResponse({'client': user.username, 'token': token, 'first_time_register': created})
+                TestClient.objects.update_or_create(
+                    name=client_name,
+                    defaults={'ip': client_ip,
+                              'platform': data.get('platform'),
+                              'owner': client_user})
+
+                return JsonResponse(
+                    {'client': user.username,
+                     'token': token,
+                     'first_time_register': created})
 
     return HttpResponseBadRequest('Failed to register testcube!')

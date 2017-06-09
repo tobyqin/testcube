@@ -19,6 +19,11 @@ class ConfigurationViewSet(viewsets.ModelViewSet):
     serializer_class = ConfigurationSerializer
 
 
+class TestClientViewSet(viewsets.ModelViewSet):
+    queryset = TestClient.objects.all()
+    serializer_class = TestClientSerializer
+
+
 class TestRunViewSet(viewsets.ModelViewSet):
     queryset = TestRun.objects.all()
     serializer_class = TestRunSerializer
