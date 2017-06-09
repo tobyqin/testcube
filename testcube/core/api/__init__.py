@@ -8,7 +8,7 @@ def api_registration():
     from ...users.api import UserViewSet
 
     router = routers.DefaultRouter()
-    router.register('team', TeamViewSet)
+    router.register('teams', TeamViewSet)
     router.register('products', ProductViewSet)
     router.register('runs', TestRunViewSet)
     router.register('cases', TestCaseViewSet)
