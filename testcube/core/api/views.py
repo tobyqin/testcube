@@ -1,4 +1,5 @@
 from rest_framework import viewsets
+from rest_framework.permissions import IsAdminUser
 
 from .serializers import *
 from ..models import *
@@ -15,6 +16,7 @@ class ProductViewSet(viewsets.ModelViewSet):
 
 
 class ConfigurationViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAdminUser]
     queryset = Configuration.objects.all()
     serializer_class = ConfigurationSerializer
 
