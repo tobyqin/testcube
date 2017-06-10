@@ -1,3 +1,5 @@
+from datetime import timedelta
+
 from django.db import models
 
 from .result_analysis import ResultAnalysis
@@ -14,15 +16,14 @@ class TestResult(models.Model):
     testcase = models.ForeignKey(TestCase, on_delete=models.PROTECT)
     outcome = models.IntegerField(choices=OUTCOME_CHOICES)
     error = models.ForeignKey(ResultError, on_delete=models.PROTECT, null=True, blank=True)
-    start_time = models.DateTimeField()
-    end_time = models.DateTimeField()
+    duration = models.DurationField(default=timedelta())
     assigned_to = models.CharField(max_length=50)
     is_rerun = models.BooleanField(default=False)
     test_client = models.ForeignKey(TestClient, on_delete=models.PROTECT)
     analysis = models.ForeignKey(ResultAnalysis, on_delete=models.SET_NULL, null=True, blank=True)
 
     class Meta:
-        ordering = ['start_time']
+        ordering = ['id']
 
     def __str__(self):
         return self.id
