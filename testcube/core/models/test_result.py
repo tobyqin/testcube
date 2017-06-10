@@ -1,5 +1,6 @@
 from django.db import models
 
+from .error import Error
 from .result_analysis import ResultAnalysis
 from .test_case import TestCase
 from .test_client import TestClient
@@ -12,7 +13,7 @@ class TestResult(models.Model):
     test_run = models.ForeignKey(TestRun, on_delete=models.CASCADE)
     testcase = models.ForeignKey(TestCase, on_delete=models.PROTECT)
     outcome = models.IntegerField(choices=OUTCOME_CHOICES)
-    output = models.TextField(default='...')
+    error = models.ForeignKey(Error, on_delete=models.PROTECT, null=True, blank=True)
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
     assigned_to = models.CharField(max_length=50)

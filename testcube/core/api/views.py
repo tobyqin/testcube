@@ -67,3 +67,10 @@ class ResultAnalysisViewSet(viewsets.ModelViewSet):
     serializer_class = ResultAnalysisSerializer
     filter_fields = ('by', 'reason', 'description')
     search_fields = filter_fields
+
+
+class ErrorViewSet(viewsets.ModelViewSet):
+    queryset = Error.objects.all()
+    serializer_class = ErrorSerializer
+    filter_fields = ('message', 'stacktrace', 'stdout')
+    search_fields = filter_fields

@@ -1,4 +1,5 @@
 from .configuration import Configuration
+from .error import Error
 from .issue import Issue
 from .product import Product
 from .result_analysis import ResultAnalysis
