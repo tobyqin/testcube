@@ -1,7 +1,7 @@
 from django.db import models
 
 
-class Error(models.Model):
+class ResultError(models.Model):
     message = models.CharField(max_length=1000)
     stacktrace = models.TextField(null=True, blank=True)
     stdout = models.TextField(null=True, blank=True)
