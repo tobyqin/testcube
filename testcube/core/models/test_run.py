@@ -14,7 +14,7 @@ class TestRun(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     owner = models.CharField(max_length=50)
     start_time = models.DateTimeField(default=timezone.now)
-    end_time = models.DateTimeField()
+    end_time = models.DateTimeField(null=True, blank=True)
     start_by = models.CharField(max_length=50)
     state = models.IntegerField(choices=STATE_CHOICES, default=-1)
     status = models.IntegerField(choices=STATUS_CHOICES, default=-1)

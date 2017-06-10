@@ -14,7 +14,7 @@ class TeamViewSet(viewsets.ModelViewSet):
 
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
-    serializer_class = TeamSerializer
+    serializer_class = ProductSerializer
     filter_fields = ('name', 'owner', 'version')
     search_fields = filter_fields
 
