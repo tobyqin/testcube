@@ -6,6 +6,7 @@ class ResultError(models.Model):
     message = models.CharField(max_length=1000, null=True, blank=True)
     stacktrace = models.TextField(null=True, blank=True)
     stdout = models.TextField(null=True, blank=True)
+    stderr = models.TextField(null=True, blank=True)
 
     class Meta:
         ordering = ['id']

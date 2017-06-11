@@ -12,7 +12,7 @@ class Issue(models.Model):
     is_synced = models.BooleanField(default=False)
 
     class Meta:
-        ordering = ['-created_on']
+        ordering = ['name']
 
     def __str__(self):
         return self.name
