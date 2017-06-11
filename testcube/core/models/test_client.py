@@ -9,5 +9,8 @@ class TestClient(models.Model):
     status = models.CharField(max_length=50, default='Ready')
     detail = models.TextField(blank=True)
 
+    class Meta:
+        ordering = ['id']
+
     def __str__(self):
         return self.name

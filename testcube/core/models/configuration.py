@@ -13,5 +13,8 @@ class Configuration(models.Model):
         except Configuration.DoesNotExist:
             return default
 
+    class Meta:
+        ordering = ['id']
+
     def __str__(self):
         return self.key

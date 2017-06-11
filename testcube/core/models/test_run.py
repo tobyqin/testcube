@@ -2,7 +2,7 @@ from django.db import models
 from django.utils import timezone
 
 from .product import Product
-from .project import Project
+from .team import Team
 
 
 class TestRun(models.Model):
@@ -10,7 +10,7 @@ class TestRun(models.Model):
     STATE_CHOICES = ((-1, 'Not Ready'), (0, 'Starting'), (1, 'Running'), (2, 'Aborted'), (3, 'Completed'))
 
     name = models.CharField(max_length=200)
-    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    team = models.ForeignKey(Team, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     owner = models.CharField(max_length=50)
     start_time = models.DateTimeField(default=timezone.now)
@@ -19,5 +19,8 @@ class TestRun(models.Model):
     state = models.IntegerField(choices=STATE_CHOICES, default=-1)
     status = models.IntegerField(choices=STATUS_CHOICES, default=-1)
 
+    class Meta:
+        ordering = ['-id']
+
     def __str__(self):
-        return self.id
+        return str(self.id)

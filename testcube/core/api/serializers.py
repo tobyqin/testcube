@@ -3,26 +3,55 @@ from rest_framework import serializers
 from ..models import *
 
 
-class ProjectSerializer(serializers.HyperlinkedModelSerializer):
+class TeamSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = Project
-        fields = ('url', 'id', 'name', 'owner', 'created_on')
+        model = Team
+        fields = '__all__'
 
 
 class ProductSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Product
-        fields = ('url', 'id', 'name', 'owner', 'created_on')
+        fields = '__all__'
 
 
 class ConfigurationSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Configuration
-        fields = ('url', 'id', 'key', 'value', 'created_on')
+        fields = '__all__'
+
+
+class TestClientSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = TestClient
+        fields = '__all__'
 
 
 class TestRunSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = TestRun
-        fields = (
-            'url', 'id', 'name', 'project', 'product', 'owner', 'start_time', 'end_time', 'start_by', 'state', 'status')
+        fields = '__all__'
+
+
+class TestCaseSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = TestCase
+        fields = '__all__'
+
+
+class TestResultSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = TestResult
+        fields = '__all__'
+
+
+class IssueSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Issue
+        fields = '__all__'
+
+
+class ResultAnalysisSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = ResultAnalysis
+        fields = '__all__'
