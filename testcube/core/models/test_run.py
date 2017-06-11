@@ -6,7 +6,7 @@ from .team import Team
 
 
 class TestRun(models.Model):
-    STATUS_CHOICES = ((-1, 'Pending'), (0, 'Passed'), (1, 'Analysis Required'), (2, 'Analyzed'), (3, 'Abandoned'))
+    STATUS_CHOICES = ((-1, 'Pending'), (0, 'Passed'), (1, 'Failed'), (2, 'Analyzed'), (3, 'Abandoned'))
     STATE_CHOICES = ((-1, 'Not Ready'), (0, 'Starting'), (1, 'Running'), (2, 'Aborted'), (3, 'Completed'))
 
     name = models.CharField(max_length=200)
