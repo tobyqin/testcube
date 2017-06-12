@@ -2,6 +2,7 @@ from .configuration import Configuration
 from .issue import Issue
 from .product import Product
 from .result_analysis import ResultAnalysis
+from .result_error import ResultError
 from .team import Team
 from .test_case import TestCase
 from .test_client import TestClient

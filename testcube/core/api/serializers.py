@@ -55,3 +55,9 @@ class ResultAnalysisSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = ResultAnalysis
         fields = '__all__'
+
+
+class ResultErrorSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = ResultError
+        fields = '__all__'
