@@ -1,10 +1,14 @@
 from django.shortcuts import render, redirect, resolve_url
 
+from .models import TestRun
 from ..utils import read_document
 
 
 def index(request):
-    return redirect(resolve_url('welcome'))
+    if TestRun.objects.count() > 0:
+        return runs(request)
+    else:
+        return redirect(resolve_url('welcome'))
 
 
 def welcome(request):
