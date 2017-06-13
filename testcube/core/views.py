@@ -14,3 +14,7 @@ def welcome(request):
 def document(request, name):
     content = read_document(name)
     return render(request, 'document.html', {'content': content, 'name': name})
+
+
+def runs(request):
+    return render(request, 'runs.html')
