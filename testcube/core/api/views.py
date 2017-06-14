@@ -1,6 +1,7 @@
 from rest_framework import viewsets
 from rest_framework.pagination import LimitOffsetPagination,PageNumberPagination
 from rest_framework.permissions import IsAdminUser
+from rest_framework import generics
 
 from .serializers import *
 from ..models import *
@@ -83,7 +84,7 @@ class LargeResultsSetPagination(PageNumberPagination):
     max_page_size = 1000
 
 
-class TestRunPageViewSet(viewsets.ModelViewSet):
+class TestRunPageViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = TestRun.objects.all()
     serializer_class = TestRunPageSerializer
     pagination_class = LargeResultsSetPagination
