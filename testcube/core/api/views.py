@@ -86,5 +86,5 @@ class LargeResultsSetPagination(PageNumberPagination):
 class TestRunPageViewSet(viewsets.ModelViewSet):
     queryset = TestRun.objects.all()
     serializer_class = TestRunPageSerializer
-    pagination_class = LimitOffsetPagination
+    pagination_class = LargeResultsSetPagination
     filter_fields = ('name', 'state', 'status')

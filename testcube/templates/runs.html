@@ -22,6 +22,9 @@
                         <table id="table" class="table table-striped table-hover">
                             <thead>
                             <tr>
+                                <th>ID</th>
+                                <th>Team</th>
+                                <th>Project</th>
                                 <th>Name</th>
                                 <th>Start By</th>
                                 <th>Start Time</th>
@@ -55,16 +58,19 @@
         $(function () {
             $('#table').DataTable({
                 ajax: {
-                    url: '/api/runs/',
+                    url: '/api/run_page/',
                     dataSrc: 'results'
                 },
                 columns: [
+                    {'data': 'id'},
+                    {'data': 'team.name'},
+                    {'data': 'product.name'},
                     {'data': 'name'},
                     {'data': 'start_by'},
                     {'data': 'start_time'},
                     {'data': 'end_time'},
-                    {'data': 'state'},
-                    {'data': 'status'},
+                    {'data': 'get_status_display'},
+                    {'data': 'get_state_display'},
                 ],
                 responsive: true
             });
