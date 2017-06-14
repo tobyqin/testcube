@@ -28,4 +28,4 @@ class TestResult(models.Model):
         ordering = ['created_on']
 
     def __str__(self):
-        return self.id
+        return '{}'.format(self.id)

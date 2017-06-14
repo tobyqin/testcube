@@ -41,5 +41,7 @@ urlpatterns = [
 
     url(r'^$', views.index, name='index'),
     url(r'^welcome', views.welcome, name='welcome'),
-    url(r'^docs/(?P<name>.+)$', views.document, name='docs')
+    url(r'^docs/(?P<name>.+)$', views.document, name='docs'),
+
+    url(r'^runs', views.runs, name='runs'),
 ]

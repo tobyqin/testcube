@@ -23,4 +23,4 @@ class TestRun(models.Model):
         ordering = ['-id']
 
     def __str__(self):
-        return str(self.id)
+        return '{}'.format(self.id)
