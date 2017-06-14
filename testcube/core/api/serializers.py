@@ -72,3 +72,14 @@ class TestRunPageSerializer(serializers.ModelSerializer):
             'result_total', 'result_passed', 'result_failed')
 
         depth = 1
+
+
+class TestCasePageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TestCase
+        fields = (
+            'id', 'team', 'product', 'name', 'full_name', 'keyword',
+            'priority', 'get_priority_display', 'owner',
+            'updated_on', 'created_on')
+
+        depth = 1

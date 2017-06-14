@@ -89,3 +89,10 @@ class TestRunPageViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = TestRunPageSerializer
     pagination_class = LargeResultsSetPagination
     filter_fields = ('name', 'state', 'status')
+
+
+class TestCasePageViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = TestCase.objects.all()
+    serializer_class = TestCasePageSerializer
+    pagination_class = LargeResultsSetPagination
+    filter_fields = ('name', 'full_name', 'keyword')

@@ -1,7 +1,7 @@
 "use strict";
 let my = {};
 my.defaultToolTip = "Loading ...";
-my.debugLog = false;
+my.debugLog = true;
 
 function disableConsoleLog() {
     my.logMethod = console.log;
