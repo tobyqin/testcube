@@ -1,0 +1,59 @@
+{% extends './base.html' %}
+{% load static %}
+
+{% block title %}Runs{% endblock %}
+{% block header %}
+    <link href="{% static 'libs/bootstrap-table/bootstrap-table.min.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+
+        <ul class="breadcrumb">
+            <li><a href="/">TestCases</a></li>
+            <li class="active">Runs</li>
+        </ul>
+
+        <div id="main-content">
+            <div class="row">
+
+                <table id="table" class="table table-striped table-hover">
+                    <thead>
+                    <tr>
+                        <th data-field="id">ID</th>
+                        <th data-field="team.name">Team</th>
+                        <th data-field="product.name">Product</th>
+                        <th data-field="name">Name</th>
+                        <th data-field="full_name">Full Name</th>
+                        <th data-field="priority">Priority</th>
+                        <th data-field="owner">Owner</th>
+                        <th data-field="updated_on">Updated Time</th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+
+        </div>
+
+    </div>
+
+{% endblock %}
+
+{% block scripts %}
+    <script src="{% static 'libs/bootstrap-table/bootstrap-table.min.js' %}"></script>
+
+    <script>
+        $(function () {
+            $('#table').bootstrapTable({
+                url: '/api/case_page/',
+                responseHandler: function (data) {
+                    return data.results;
+                },
+                search: true,
+                pagination: true,
+                pageSize: 20,
+                pageList: [20, 30, 50, 100]
+            });
+        });
+    </script>
+{% endblock %}

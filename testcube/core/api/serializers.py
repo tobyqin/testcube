@@ -61,3 +61,25 @@ class ResultErrorSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = ResultError
         fields = '__all__'
+
+
+class TestRunPageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TestRun
+        fields = (
+            'id', 'team', 'product', 'name', 'start_time', 'end_time',
+            'start_by', 'get_status_display', 'get_state_display',
+            'result_total', 'result_passed', 'result_failed')
+
+        depth = 1
+
+
+class TestCasePageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TestCase
+        fields = (
+            'id', 'team', 'product', 'name', 'full_name', 'keyword',
+            'priority', 'get_priority_display', 'owner',
+            'updated_on', 'created_on')
+
+        depth = 1

@@ -1,5 +1,7 @@
 from rest_framework import viewsets
+from rest_framework.pagination import LimitOffsetPagination,PageNumberPagination
 from rest_framework.permissions import IsAdminUser
+from rest_framework import generics
 
 from .serializers import *
 from ..models import *
@@ -74,3 +76,23 @@ class ResultErrorViewSet(viewsets.ModelViewSet):
     serializer_class = ResultErrorSerializer
     filter_fields = ('exception_type', 'message', 'stacktrace', 'stdout')
     search_fields = filter_fields
+
+
+class LargeResultsSetPagination(PageNumberPagination):
+    page_size = 5000
+    page_size_query_param = 'page_size'
+    max_page_size = 1000
+
+
+class TestRunPageViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = TestRun.objects.all()
+    serializer_class = TestRunPageSerializer
+    pagination_class = LargeResultsSetPagination
+    filter_fields = ('name', 'state', 'status')
+
+
+class TestCasePageViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = TestCase.objects.all()
+    serializer_class = TestCasePageSerializer
+    pagination_class = LargeResultsSetPagination
+    filter_fields = ('name', 'full_name', 'keyword')

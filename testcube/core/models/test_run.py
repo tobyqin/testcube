@@ -19,6 +19,21 @@ class TestRun(models.Model):
     state = models.IntegerField(choices=STATE_CHOICES, default=-1)
     status = models.IntegerField(choices=STATUS_CHOICES, default=-1)
 
+    def result_total(self):
+        return self.testresult_set.count()
+
+    def result_passed(self):
+        return self.testresult_set.filter(outcome=0).count()
+
+    def result_failed(self):
+        return self.testresult_set.filter(outcome=1).count()
+
+    def result_skipped(self):
+        return self.testresult_set.filter(outcome=2).count()
+
+    def result_error(self):
+        return self.testresult_set.filter(outcome=3).count()
+
     class Meta:
         ordering = ['-id']
 
