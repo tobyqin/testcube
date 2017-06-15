@@ -1,10 +1,11 @@
 from rest_framework import viewsets
-from rest_framework.pagination import LimitOffsetPagination,PageNumberPagination
+from rest_framework.pagination import LimitOffsetPagination, PageNumberPagination
 from rest_framework.permissions import IsAdminUser
 from rest_framework import generics
 
 from .serializers import *
 from ..models import *
+from .filters import *
 
 
 class TeamViewSet(viewsets.ModelViewSet):
@@ -84,15 +85,22 @@ class LargeResultsSetPagination(PageNumberPagination):
     max_page_size = 1000
 
 
-class TestRunPageViewSet(viewsets.ReadOnlyModelViewSet):
+class TestRunListViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = TestRun.objects.all()
-    serializer_class = TestRunPageSerializer
+    serializer_class = TestRunListSerializer
     pagination_class = LargeResultsSetPagination
     filter_fields = ('name', 'state', 'status')
 
 
-class TestCasePageViewSet(viewsets.ReadOnlyModelViewSet):
+class TestCaseListViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = TestCase.objects.all()
-    serializer_class = TestCasePageSerializer
+    serializer_class = TestCaseListSerializer
     pagination_class = LargeResultsSetPagination
     filter_fields = ('name', 'full_name', 'keyword')
+
+
+class TestResultListViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = TestResult.objects.all()
+    serializer_class = TestResultListSerializer
+    pagination_class = LargeResultsSetPagination
+    filter_class = ResultFilter

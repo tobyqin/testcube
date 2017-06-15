@@ -43,6 +43,7 @@ urlpatterns = [
     url(r'^welcome', views.welcome, name='welcome'),
     url(r'^docs/(?P<name>.+)$', views.document, name='docs'),
 
-    url(r'^run', views.run, name='run'),
+    url(r'^run$', views.run, name='run'),
+    url(r'^run/(\d+)$', views.run_detail, name='run_detail'),
     url(r'^testcase', views.case, name='testcase'),
 ]

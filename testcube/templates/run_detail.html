@@ -11,17 +11,18 @@
 
         <ul class="breadcrumb">
             <li><a href="/">Home</a></li>
-            <li class="active">Runs</li>
+            <li><a href="{% url 'run' %}">Runs</a></li>
+            <li class="active">{{ run_id }}</li>
         </ul>
 
         <div id="main-content">
             <div class="row">
                 <div class="col-md-2">
-                    <p class="lead">By Teams</p>
+                    <p class="lead">By Outcome</p>
                     <div class="list-group">
                         <a href="#" class="list-group-item active">All</a>
-                        <a href="#" class="list-group-item">Core</a>
-                        <a href="#" class="list-group-item">TestCube</a>
+                        <a href="#" class="list-group-item">Failed</a>
+                        <a href="#" class="list-group-item">Passed</a>
                     </div>
                 </div>
 
@@ -43,13 +44,14 @@
     <script src="https://cdn.bootcss.com/moment.js/2.18.1/moment.min.js"></script>
 
     <script>
-        function runIdFormatter(id) {
-            return `<a href="/run/${id}">${id}</a>`
+
+        function resultIdFormatter(id) {
+            return `<a href="/results/${id}">${id}</a>`
         }
 
         $(function () {
             $('#table').bootstrapTable({
-                url: '/api/run_list/',
+                url: '/api/result_list/?outcome={{ outcome }}&run={{ run_id }}',
                 responseHandler: function (data) {
                     let rows = data.results;
                     for (let r of rows) {
@@ -66,13 +68,12 @@
                 sortable: true,
                 showFooter: false,
                 columns: [
-                    {title: 'ID', field: 'id', formatter: runIdFormatter, sortable: true},
-                    {title: 'Team', field: 'team.name', sortable: true},
-                    {title: 'Product', field: 'product.name', sortable: true},
-                    {title: 'Title', field: 'name', width: '50%', sortable: true},
-                    {title: 'Time', field: 'start_time', sortable: true},
-                    {title: 'Status', field: 'get_status_display', sortable: true},
-                    {title: 'State', field: 'get_state_display', sortable: true}
+                    {title: 'ID', field: 'id', formatter: resultIdFormatter, sortable: true},
+                    {title: 'TestCase', field: 'testcase_info.name', sortable: true},
+                    {title: 'Duration', field: 'duration', sortable: true},
+                    {title: 'Assigned To', field: 'assigned_to', sortable: true},
+                    {title: 'Client', field: 'test_client.name', sortable: true},
+                    {title: 'Outcome', field: 'get_outcome_display', sortable: true}
                 ]
             });
         });
