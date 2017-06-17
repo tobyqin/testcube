@@ -28,7 +28,7 @@ General to say, there are 3 steps to use TestCube:
 2. Install TestCube client to upload test results files. (*.xml)
 3. View and analyze runs from TestCube website.
 
-TestCube is built on Python, but do not limit clients and users must on Python.
+TestCube is built on Python, but it does not limit clients and users are must on Python.
 
 ### Project Links
 
@@ -53,12 +53,12 @@ You might want to update: `SECRET_KEY`, `ALLOWED_HOSTS`, `DATABASES`, `STATIC_RO
 
 To start a Django website, you have to do  things like below:
 
-- Install requirements
-- Create database scheme
-- Load default data (optional)
-- Create super user (to administrate the website)
-- Collect static files (only required for deployment, skip it during development)
-- Start the web server
+- Install requirements.
+- Create database scheme.
+- Load default data. (optional)
+- Create super user. (to administrate the website)
+- Collect static files. (required for production deployment, skip it during development)
+- Start the web server.
 
 To accomplish above steps, open a command window and follow me:
 
@@ -85,13 +85,13 @@ python manage.py createsuperuser
 # step 5. collect static files (optional, for deployment)
 python manage.py collectstatic
 
-# step 6. start the web server (for site preview and development)
+# step 6. start the web server (for site preview or development)
 python manage.py runserver
 ```
 
 Once the server started, you should be able to visit TestCube at http://127.0.0.1:8000/. 
 
-### 4. More
+### 4. Production Deployment
 
 Basically, you can follow steps in `/scripts/` folders to deploy TestCube, for more detail, 
 please refer to [Django official deployment documents](https://docs.djangoproject.com/en/1.11/howto/deployment/).
