@@ -1,4 +1,4 @@
-from rest_framework import serializers
+from rest_framework import serializers, generics, mixins
 
 from ..models import *
 
@@ -63,7 +63,7 @@ class ResultErrorSerializer(serializers.HyperlinkedModelSerializer):
         fields = '__all__'
 
 
-class TestRunPageSerializer(serializers.ModelSerializer):
+class TestRunListSerializer(serializers.ModelSerializer):
     class Meta:
         model = TestRun
         fields = (
@@ -74,12 +74,22 @@ class TestRunPageSerializer(serializers.ModelSerializer):
         depth = 1
 
 
-class TestCasePageSerializer(serializers.ModelSerializer):
+class TestCaseListSerializer(serializers.ModelSerializer):
     class Meta:
         model = TestCase
         fields = (
             'id', 'team', 'product', 'name', 'full_name', 'keyword',
             'priority', 'get_priority_display', 'owner',
             'updated_on', 'created_on')
+
+        depth = 1
+
+
+class TestResultListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TestResult
+        fields = (
+            'id', 'run_id', 'testcase_info', 'get_outcome_display', 'duration', 'assigned_to',
+            'is_rerun', 'test_client', 'created_on')
 
         depth = 1

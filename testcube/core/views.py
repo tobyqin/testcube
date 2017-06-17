@@ -26,3 +26,10 @@ def run(request):
 
 def case(request):
     return render(request, 'testcases.html')
+
+
+def run_detail(request, run_id):
+    if request.method == 'GET':
+        outcome = request.GET.get('outcome', default='')
+        return render(request, 'run_detail.html', {'run_id': run_id,
+                                                   'outcome': outcome})
