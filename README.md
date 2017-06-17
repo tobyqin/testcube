@@ -14,12 +14,28 @@ Let me use 1 minute to describe TestCube...
 
 **What ?** - It is web portal to deal with stuff like test runs, test cases, test results and test reports.
 
-**How ?** - Your automation tests must generate [xunit](http://reflex.gforge.inria.fr/xunit.html#xunitReport)  or [junit](http://llg.cubic.org/docs/junit/) xmls, TestCube will provide client or API to let you upload such xml files.
+**How ?** - Your automation tests must generate [xunit](http://reflex.gforge.inria.fr/xunit.html#xunitReport)  
+or [junit](http://llg.cubic.org/docs/junit/) xmls, TestCube will provide client or API to let you upload such xml files.
 
 So you have to learn about its API and client before using it.
 
 
 ## Get Started
+
+General to say, there are 3 steps to use TestCube:
+
+1. Deploy a TestCube server
+2. Install TestCube client to upload test results files (*.xml)
+3. View and analyze runs from TestCube dashboard
+
+TestCube is built on Python, but do not limit clients and users are Python must.
+
+### Project Links
+
+- TestCube Server: https://github.com/tobyqin/testcube
+- TestCube Python Client: https://github.com/tobyqin/testcube-client
+
+## Deployment
 
 I assume you have basic knowledge with python and Django, or it will be hard to help you on the way.
 
@@ -73,9 +89,10 @@ python manage.py runserver
 
 Once the server started, you should be able to visit TestCube at http://127.0.0.1:8000/. 
 
-## Deployment
+### 4. More
 
-Basically, you can follow steps in `/scripts/` folders to deploy TestCube, for more detail, please refer to [Django official deployment documents](https://docs.djangoproject.com/en/1.11/howto/deployment/).
+Basically, you can follow steps in `/scripts/` folders to deploy TestCube, for more detail, 
+please refer to [Django official deployment documents](https://docs.djangoproject.com/en/1.11/howto/deployment/).
 
 On target server, A best practice is setting environment variables as [example](/env.example).
 
@@ -102,7 +119,9 @@ open htmlcov/index.html
 
 ## FAQ
 
-More questions about TestCube will be answered at  [FAQ](/testcube/static/docs/faq.md).
+More questions about TestCube will be answered at  [FAQ](/testcube/static/docs/faq.md). 
+You can find an xmind file in `/docs` folder, that is the original design and prototype.
 
 ## License
+
 MIT
