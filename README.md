@@ -14,8 +14,8 @@ Let me use 1 minute to describe TestCube...
 
 **What ?** - It is web portal to deal with stuff like test runs, test cases, test results and test reports.
 
-**How ?** - Your automation tests must generate [xunit](http://reflex.gforge.inria.fr/xunit.html#xunitReport)  
-or [junit](http://llg.cubic.org/docs/junit/) xmls, TestCube will provide client or API to let you upload such xml files.
+**How ?** - Your automation tests must generate [xunit](http://reflex.gforge.inria.fr/xunit.html#xunitReport) or 
+[junit](http://llg.cubic.org/docs/junit/) xmls, TestCube will provide client or API to let you upload such xml files.
 
 So you have to learn about its API and client before using it.
 
@@ -24,11 +24,11 @@ So you have to learn about its API and client before using it.
 
 General to say, there are 3 steps to use TestCube:
 
-1. Deploy a TestCube server
-2. Install TestCube client to upload test results files (*.xml)
-3. View and analyze runs from TestCube dashboard
+1. Deploy a TestCube server.
+2. Install TestCube client to upload test results files. (*.xml)
+3. View and analyze runs from TestCube website.
 
-TestCube is built on Python, but do not limit clients and users are Python must.
+TestCube is built on Python, but do not limit clients and users must on Python.
 
 ### Project Links
 
@@ -37,7 +37,7 @@ TestCube is built on Python, but do not limit clients and users are Python must.
 
 ## Deployment
 
-I assume you have basic knowledge with python and Django, or it will be hard to help you on the way.
+I assume you have basic knowledge with Python and Django, or it is not easy to help you on the way.
 
 ### 1. Fetch the code
 Clone or download this repo into your local workspace.
@@ -45,12 +45,14 @@ Clone or download this repo into your local workspace.
 git clone https://github.com/tobyqin/testcube.git
 ```
 
-### 2. Review and update settings
-Before getting started, you should review and update `/testcube/settings.py` to meet your needs. You might want to update: `SECRET_KEY`, `ALLOWED_HOSTS`, `DATABASES`, `STATIC_ROOT` and more.
+### 2. Update settings based on your demands
+Before getting started, you should review and update `/testcube/settings.py` to meet your needs. 
+You might want to update: `SECRET_KEY`, `ALLOWED_HOSTS`, `DATABASES`, `STATIC_ROOT` and more.
 
-### 3. Basic setup commands
+### 3. Follow setup steps
 
 To start a Django website, you have to do  things like below:
+
 - Install requirements
 - Create database scheme
 - Load default data (optional)
