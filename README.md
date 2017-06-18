@@ -22,7 +22,7 @@ So you have to learn about its API and client before using it.
 
 ## Get Started
 
-General to say, there are 3 steps to use TestCube:
+Basically, there are 3 steps to run TestCube:
 
 1. Deploy a TestCube server.
 2. Install TestCube client to upload test results files. (*.xml)
