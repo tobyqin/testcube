@@ -6,7 +6,7 @@ from ..utils import read_document
 
 def index(request):
     if TestRun.objects.count() > 0:
-        return redirect(resolve_url('run'))
+        return redirect(resolve_url('runs'))
     else:
         return redirect(resolve_url('welcome'))
 
@@ -20,11 +20,11 @@ def document(request, name):
     return render(request, 'document.html', {'content': content, 'name': name})
 
 
-def run(request):
+def runs(request):
     return render(request, 'runs.html')
 
 
-def case(request):
+def cases(request):
     return render(request, 'testcases.html')
 
 

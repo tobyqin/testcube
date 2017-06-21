@@ -54,6 +54,8 @@
                     let rows = data.results;
                     for (let r of rows) {
                         r.start_time = moment(r.start_time).fromNow();
+                        r.passing_rate = (r.result_total - r.result_failed ) / r.result_total;
+                        r.passing_rate = r.passing_rate.toLocaleString('en', {style: "percent"})
                     }
                     return rows;
                 },
@@ -69,9 +71,9 @@
                     {title: 'ID', field: 'id', formatter: runIdFormatter, sortable: true},
                     {title: 'Team', field: 'team.name', sortable: true},
                     {title: 'Product', field: 'product.name', sortable: true},
-                    {title: 'Title', field: 'name', width: '50%', sortable: true},
+                    {title: 'Title', field: 'name', sortable: true},
                     {title: 'Time', field: 'start_time', sortable: true},
-                    {title: 'Status', field: 'get_status_display', sortable: true},
+                    {title: 'Passed / Total', field: 'passing_rate', sortable: true},
                     {title: 'State', field: 'get_state_display', sortable: true}
                 ]
             });
