@@ -14,14 +14,30 @@ Let me use 1 minute to describe TestCube...
 
 **What ?** - It is web portal to deal with stuff like test runs, test cases, test results and test reports.
 
-**How ?** - Your automation tests must generate [xunit](http://reflex.gforge.inria.fr/xunit.html#xunitReport)  or [junit](http://llg.cubic.org/docs/junit/) xmls, TestCube will provide client or API to let you upload such xml files.
+**How ?** - Your automation tests must generate [xunit](http://reflex.gforge.inria.fr/xunit.html#xunitReport) or 
+[junit](http://llg.cubic.org/docs/junit/) xmls, TestCube will provide client or API to let you upload such xml files.
 
 So you have to learn about its API and client before using it.
 
 
 ## Get Started
 
-I assume you have basic knowledge with python and Django, or it will be hard to help you on the way.
+Basically, there are 3 steps to run TestCube:
+
+1. Deploy a TestCube server.
+2. Install TestCube client to upload test results files. (*.xml)
+3. View and analyze runs from TestCube website.
+
+TestCube is built on Python, but it does not limit clients and users are must on Python.
+
+### Project Links
+
+- TestCube Server: https://github.com/tobyqin/testcube
+- TestCube Python Client: https://github.com/tobyqin/testcube-client
+
+## Deployment
+
+I assume you have basic knowledge with Python and Django, or it is not easy to help you on the way.
 
 ### 1. Fetch the code
 Clone or download this repo into your local workspace.
@@ -29,18 +45,20 @@ Clone or download this repo into your local workspace.
 git clone https://github.com/tobyqin/testcube.git
 ```
 
-### 2. Review and update settings
-Before getting started, you should review and update `/testcube/settings.py` to meet your needs. You might want to update: `SECRET_KEY`, `ALLOWED_HOSTS`, `DATABASES`, `STATIC_ROOT` and more.
+### 2. Update settings based on your demands
+Before getting started, you should review and update `/testcube/settings.py` to meet your needs. 
+You might want to update: `SECRET_KEY`, `ALLOWED_HOSTS`, `DATABASES`, `STATIC_ROOT` and more.
 
-### 3. Basic setup commands
+### 3. Follow setup steps
 
 To start a Django website, you have to do  things like below:
-- Install requirements
-- Create database scheme
-- Load default data (optional)
-- Create super user (to administrate the website)
-- Collect static files (only required for deployment, skip it during development)
-- Start the web server
+
+- Install requirements.
+- Create database scheme.
+- Load default data. (optional)
+- Create super user. (to administrate the website)
+- Collect static files. (required for production deployment, skip it during development)
+- Start the web server.
 
 To accomplish above steps, open a command window and follow me:
 
@@ -67,15 +85,16 @@ python manage.py createsuperuser
 # step 5. collect static files (optional, for deployment)
 python manage.py collectstatic
 
-# step 6. start the web server (for site preview and development)
+# step 6. start the web server (for site preview or development)
 python manage.py runserver
 ```
 
 Once the server started, you should be able to visit TestCube at http://127.0.0.1:8000/. 
 
-## Deployment
+### 4. Production Deployment
 
-Basically, you can follow steps in `/scripts/` folders to deploy TestCube, for more detail, please refer to [Django official deployment documents](https://docs.djangoproject.com/en/1.11/howto/deployment/).
+Basically, you can follow steps in `/scripts/` folders to deploy TestCube, for more detail, 
+please refer to [Django official deployment documents](https://docs.djangoproject.com/en/1.11/howto/deployment/).
 
 On target server, A best practice is setting environment variables as [example](/env.example).
 
@@ -102,7 +121,9 @@ open htmlcov/index.html
 
 ## FAQ
 
-More questions about TestCube will be answered at  [FAQ](/testcube/static/docs/faq.md).
+More questions about TestCube will be answered at  [FAQ](/testcube/static/docs/faq.md). 
+You can find an xmind file in `/docs` folder, that is the original design and prototype.
 
 ## License
+
 MIT
