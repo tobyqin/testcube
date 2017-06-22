@@ -1,4 +1,4 @@
-from rest_framework import serializers, generics, mixins
+from rest_framework import serializers
 
 from ..models import *
 
@@ -85,11 +85,34 @@ class TestCaseListSerializer(serializers.ModelSerializer):
         depth = 1
 
 
-class TestResultListSerializer(serializers.ModelSerializer):
+class TestResultInfoSerializer(serializers.ModelSerializer):
     class Meta:
         model = TestResult
         fields = (
             'id', 'run_info', 'testcase_info', 'get_outcome_display', 'duration', 'assigned_to',
             'is_rerun', 'test_client', 'created_on')
+
+        depth = 1
+
+
+class TestResultDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TestResult
+        fields = (
+            'id', 'test_run', 'testcase', 'get_outcome_display', 'duration', 'assigned_to',
+            'is_rerun', 'test_client', 'created_on', 'stdout', 'error', 'analysis')
+
+        depth = 1
+
+
+class TestRunDetailSerializer(serializers.ModelSerializer):
+    results = TestResultInfoSerializer(many=True)
+
+    class Meta:
+        model = TestRun
+        fields = (
+            'id', 'team', 'product', 'name', 'start_time', 'end_time',
+            'start_by', 'get_status_display', 'get_state_display',
+            'result_total', 'result_passed', 'result_failed', 'results')
 
         depth = 1

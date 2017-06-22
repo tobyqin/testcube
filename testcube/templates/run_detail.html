@@ -48,7 +48,7 @@
 
         $(function () {
             $('#table').bootstrapTable({
-                url: '/api/result_list/?outcome={{ outcome }}&run={{ run_id }}',
+                url: '/api/runs/{{ run_id }}/info/',
                 responseHandler: resultTableDataHandler,
                 search: true,
                 pagination: true,
