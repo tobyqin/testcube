@@ -1,0 +1,80 @@
+{% extends './base.html' %}
+{% load static %}
+
+{% block title %}Runs{% endblock %}
+{% block header %}
+    <link href="{% static 'libs/bootstrap-table/bootstrap-table.min.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+
+        <ul class="breadcrumb">
+            <li><a href="/">Home</a></li>
+            <li><a href="{% url 'runs' %}">Runs</a></li>
+            <li><a href="{% url 'runs' %}">...</a></li>
+            <li class="active">{{ result_id }}</li>
+        </ul>
+
+        <div id="main-content">
+            <div class="row">
+                <div class="col-md-2">
+                    <p class="lead">By Outcome</p>
+                    <div class="list-group">
+                        <a href="#" class="list-group-item active">All</a>
+                        <a href="#" class="list-group-item">Failed</a>
+                        <a href="#" class="list-group-item">Passed</a>
+                    </div>
+                </div>
+
+                <div class="col-md-10">
+                    <div class="">
+                        <table id="table" class="table">
+                        </table>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <pre class="well" id="stdout">
+                                Loading...
+                            </pre>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+{% endblock %}
+
+{% block scripts %}
+    <script src="{% static 'libs/bootstrap-table/bootstrap-table.min.js' %}"></script>
+    <script src="{% static 'table-utils.js' %}"></script>
+    <script src="https://cdn.bootcss.com/moment.js/2.18.1/moment.min.js"></script>
+
+    <script>
+
+        $(function () {
+            $('#table').bootstrapTable({
+                url: '/api/results/{{ result_id }}/info/',
+                responseHandler: resultDetailTableDataHandler,
+                search: false,
+                pagination: false,
+                sortName: 'id',
+                sortOrder: 'desc',
+                sortable: true,
+                showFooter: false,
+                columns: [
+                    {title: 'ID', field: 'id', sortable: true},
+                    {title: 'TestCase', field: 'testcase.name', sortable: true},
+                    {title: 'Duration', field: 'duration', sortable: true},
+                    {title: 'Assigned To', field: 'assigned_to', sortable: true},
+                    {title: 'Client', field: 'test_client.name', sortable: true},
+                    {title: 'Outcome', field: 'get_outcome_display', sortable: true}
+                ],
+                onPostBody: resultDetailTablePostEvent
+            });
+        });
+    </script>
+{% endblock %}

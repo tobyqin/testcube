@@ -46,4 +46,5 @@ urlpatterns = [
     url(r'^runs$', views.runs, name='runs'),
     url(r'^runs/(\d+)$', views.run_detail, name='run_detail'),
     url(r'^testcases', views.cases, name='testcases'),
+    url(r'^results/(\d+)', views.result_detail, name='result_detail'),
 ]

@@ -54,3 +54,23 @@ function resultTableDataHandler(data) {
 function resultTablePostEvent(data) {
     console.log(data)
 }
+
+
+function resultDetailTableDataHandler(data) {
+    my.data = data;
+    return [data];
+}
+
+function resultDetailTablePostEvent(data) {
+    if (data[0] === undefined) return;
+    let result = data[0];
+    let stdout = "";
+    if (result.error) {
+        stdout = result.error.message + '\n' + result.error.stacktrace;
+    }
+    if (result.stdout) {
+        stdout = stdout + result.stdout;
+    }
+
+    $('#stdout').empty().append(stdout)
+}

@@ -33,3 +33,8 @@ def run_detail(request, run_id):
         outcome = request.GET.get('outcome', default='')
         return render(request, 'run_detail.html', {'run_id': run_id,
                                                    'outcome': outcome})
+
+
+def result_detail(request, result_id):
+    if request.method == 'GET':
+        return render(request, 'result_detail.html', {'result_id': result_id})
