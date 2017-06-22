@@ -41,24 +41,15 @@
 
 {% block scripts %}
     <script src="{% static 'libs/bootstrap-table/bootstrap-table.min.js' %}"></script>
+    <script src="{% static 'table-utils.js' %}"></script>
     <script src="https://cdn.bootcss.com/moment.js/2.18.1/moment.min.js"></script>
 
     <script>
 
-        function resultIdFormatter(id) {
-            return `<a href="/results/${id}">${id}</a>`
-        }
-
         $(function () {
             $('#table').bootstrapTable({
                 url: '/api/result_list/?outcome={{ outcome }}&run={{ run_id }}',
-                responseHandler: function (data) {
-                    let rows = data.results;
-                    for (let r of rows) {
-                        r.start_time = moment(r.start_time).fromNow();
-                    }
-                    return rows;
-                },
+                responseHandler: resultTableDataHandler,
                 search: true,
                 pagination: true,
                 pageSize: 20,
@@ -74,7 +65,8 @@
                     {title: 'Assigned To', field: 'assigned_to', sortable: true},
                     {title: 'Client', field: 'test_client.name', sortable: true},
                     {title: 'Outcome', field: 'get_outcome_display', sortable: true}
-                ]
+                ],
+                onPostBody: resultTablePostEvent
             });
         });
     </script>

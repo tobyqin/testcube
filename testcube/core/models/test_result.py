@@ -24,8 +24,8 @@ class TestResult(models.Model):
     analysis = models.ForeignKey(ResultAnalysis, on_delete=models.SET_NULL, null=True, blank=True)
     created_on = models.DateTimeField(auto_now_add=True)
 
-    def run_id(self):
-        return self.test_run.id
+    def run_info(self):
+        return {'id': self.test_run.id, 'name': self.test_run.name}
 
     def testcase_info(self):
         return {'id': self.testcase.id, 'name': self.testcase.name}
