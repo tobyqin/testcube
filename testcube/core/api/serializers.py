@@ -69,7 +69,7 @@ class TestRunListSerializer(serializers.ModelSerializer):
         fields = (
             'id', 'team', 'product', 'name', 'start_time', 'end_time',
             'start_by', 'get_status_display', 'get_state_display',
-            'result_total', 'result_passed', 'result_failed')
+            'result_total', 'result_passed', 'result_failed', 'duration')
 
         depth = 1
 
@@ -113,6 +113,6 @@ class TestRunDetailSerializer(serializers.ModelSerializer):
         fields = (
             'id', 'team', 'product', 'name', 'start_time', 'end_time',
             'start_by', 'get_status_display', 'get_state_display',
-            'result_total', 'result_passed', 'result_failed', 'results')
+            'result_total', 'result_passed', 'result_failed', 'duration', 'results')
 
         depth = 1

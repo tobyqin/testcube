@@ -1,3 +1,5 @@
+import datetime
+
 from django.db import models
 from django.utils import timezone
 
@@ -33,6 +35,12 @@ class TestRun(models.Model):
 
     def result_error(self):
         return self.results.filter(outcome=3).count()
+
+    def duration(self):
+        if not isinstance(self.end_time, datetime.datetime):
+            return None
+        else:
+            return str((self.end_time - self.start_time))
 
     class Meta:
         ordering = ['-id']
