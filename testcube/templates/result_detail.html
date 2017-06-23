@@ -12,25 +12,22 @@
         <ul class="breadcrumb">
             <li><a href="/">Home</a></li>
             <li><a href="{% url 'runs' %}">Runs</a></li>
-            <li id="run-nav" class="active"><a href="">{{ run_id }}</a></li>
+            <li id="run-nav"><a href="">...</a></li>
+            <li id="result-nav" class="active">{{ result_id }}</li>
         </ul>
 
         <div id="main-content">
             <div class="row">
-                <div class="col-md-2">
-                    <p class="lead">By Outcome</p>
-                    <div class="list-group">
-                        <a href="#" class="list-group-item active">All</a>
-                        <a href="#" class="list-group-item">Failed</a>
-                        <a href="#" class="list-group-item">Passed</a>
-                    </div>
-                </div>
 
-                <div class="col-md-10">
-                    <div class="">
-                        <table id="table" class="table">
-                        </table>
-                    </div>
+                <div class="col-md-12">
+                    <h2>Summary</h2>
+                    <hr/>
+                    <table id="table" class="table">
+                    </table>
+
+                    <h2>Output</h2>
+                    <hr/>
+                    <pre class="well" id="stdout">Loading...</pre>
                 </div>
             </div>
         </div>
@@ -48,25 +45,23 @@
 
         $(function () {
             $('#table').bootstrapTable({
-                url: '/api/runs/{{ run_id }}/info/',
-                responseHandler: resultTableDataHandler,
-                search: true,
-                pagination: true,
-                pageSize: 20,
-                pageList: [20, 30, 50, 100],
+                url: '/api/results/{{ result_id }}/info/',
+                responseHandler: resultDetailTableDataHandler,
+                search: false,
+                pagination: false,
                 sortName: 'id',
                 sortOrder: 'desc',
                 sortable: true,
                 showFooter: false,
                 columns: [
-                    {title: 'ID', field: 'id', formatter: resultIdFormatter, sortable: true},
-                    {title: 'TestCase', field: 'testcase_info.name', sortable: true},
+                    {title: 'ID', field: 'id', sortable: true},
+                    {title: 'TestCase', field: 'testcase.name', sortable: true},
                     {title: 'Duration', field: 'duration', sortable: true},
                     {title: 'Assigned To', field: 'assigned_to', sortable: true},
                     {title: 'Client', field: 'test_client.name', sortable: true},
                     {title: 'Outcome', field: 'get_outcome_display', sortable: true}
                 ],
-                onPostBody: resultTablePostEvent
+                onPostBody: resultDetailTablePostEvent
             });
         });
     </script>

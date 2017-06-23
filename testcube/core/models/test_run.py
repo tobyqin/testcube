@@ -10,8 +10,8 @@ class TestRun(models.Model):
     STATE_CHOICES = ((-1, 'Not Ready'), (0, 'Starting'), (1, 'Running'), (2, 'Aborted'), (3, 'Completed'))
 
     name = models.CharField(max_length=200)
-    team = models.ForeignKey(Team, on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    team = models.ForeignKey(Team, on_delete=models.CASCADE, related_name='runs')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='runs')
     owner = models.CharField(max_length=50)
     start_time = models.DateTimeField(default=timezone.now)
     end_time = models.DateTimeField(null=True, blank=True)
@@ -20,19 +20,19 @@ class TestRun(models.Model):
     status = models.IntegerField(choices=STATUS_CHOICES, default=-1)
 
     def result_total(self):
-        return self.testresult_set.count()
+        return self.results.count()
 
     def result_passed(self):
-        return self.testresult_set.filter(outcome=0).count()
+        return self.results.filter(outcome=0).count()
 
     def result_failed(self):
-        return self.testresult_set.filter(outcome=1).count()
+        return self.results.filter(outcome=1).count()
 
     def result_skipped(self):
-        return self.testresult_set.filter(outcome=2).count()
+        return self.results.filter(outcome=2).count()
 
     def result_error(self):
-        return self.testresult_set.filter(outcome=3).count()
+        return self.results.filter(outcome=3).count()
 
     class Meta:
         ordering = ['-id']

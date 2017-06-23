@@ -40,44 +40,14 @@
 
 {% block scripts %}
     <script src="{% static 'libs/bootstrap-table/bootstrap-table.min.js' %}"></script>
+    <script src="{% static 'table-utils.js' %}"></script>
     <script src="https://cdn.bootcss.com/moment.js/2.18.1/moment.min.js"></script>
 
     <script>
-        function runIdFormatter(id) {
-            return `<a href="/runs/${id}">${id}</a>`
-        }
-
-        function rateFormatter(rate) {
-            let percent = (rate.passed / rate.total).toLocaleString('en', {style: "percent"});
-            return `<a href="/runs/${rate.id}" data-toggle="tooltip" title="${rate.passed} / ${rate.total}">${percent}</a>`
-        }
-
-        function rateSorter(a, b) {
-            let x = (a.passed / a.total);
-            let y = (b.passed / b.total);
-            if (isNaN(x)) x = -1;
-            if (isNaN(y)) y = -1;
-            if (x > y) return 1;
-            if (x < y)return -1;
-            return 0;
-
-        }
-
         $(function () {
             $('#table').bootstrapTable({
-                url: '/api/run_list/',
-                responseHandler: function (data) {
-                    let rows = data.results;
-                    for (let r of rows) {
-                        r.start_time = moment(r.start_time).fromNow();
-                        r.passing_rate = {
-                            id: r.id,
-                            passed: r.result_total - r.result_failed,
-                            total: r.result_total
-                        };
-                    }
-                    return rows;
-                },
+                url: '/api/runs/recent/',
+                responseHandler: runTableDataHandler,
                 search: true,
                 pagination: true,
                 pageSize: 20,
@@ -91,7 +61,7 @@
                     {title: 'Team', field: 'team.name', sortable: true},
                     {title: 'Product', field: 'product.name', sortable: true},
                     {title: 'Title', field: 'name', sortable: true},
-                    {title: 'Time', field: 'start_time', sortable: true},
+                    {title: 'Start Time', field: 'start_time', sortable: true},
                     {
                         title: 'Passing',
                         field: 'passing_rate',
@@ -101,9 +71,7 @@
                     },
                     {title: 'State', field: 'get_state_display', sortable: true}
                 ],
-                onPostBody: function () {
-                    $("[data-toggle='tooltip']").tooltip();
-                }
+                onPostBody: runTablePostEvent
             });
 
 

@@ -1,10 +1,11 @@
-from rest_framework.pagination import LimitOffsetPagination, PageNumberPagination
+from rest_framework import viewsets
+from rest_framework.decorators import detail_route, list_route
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAdminUser
-from rest_framework import generics, mixins, viewsets
+from rest_framework.response import Response
 
 from .serializers import *
 from ..models import *
-from .filters import *
 
 
 class TeamViewSet(viewsets.ModelViewSet):
@@ -42,6 +43,26 @@ class TestRunViewSet(viewsets.ModelViewSet):
     filter_fields = ('name', 'state', 'status', 'owner')
     search_fields = filter_fields
 
+    @detail_route(methods=['get'])
+    def info(self, request, pk=None):
+        self.serializer_class = TestRunDetailSerializer
+        instance = self.get_object()
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)
+
+    @list_route()
+    def recent(self, request):
+        recent_runs = TestRun.objects.all()
+        self.serializer_class = TestRunListSerializer
+        self.pagination_class = LargeResultsSetPagination
+        page = self.paginate_queryset(recent_runs)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(recent_runs, many=True)
+        return Response(serializer.data)
+
 
 class TestCaseViewSet(viewsets.ModelViewSet):
     queryset = TestCase.objects.all()
@@ -49,12 +70,32 @@ class TestCaseViewSet(viewsets.ModelViewSet):
     filter_fields = ('name', 'keyword', 'priority', 'owner')
     search_fields = filter_fields
 
+    @list_route()
+    def recent(self, request):
+        recent_runs = TestCase.objects.all()
+        self.serializer_class = TestCaseListSerializer
+        self.pagination_class = LargeResultsSetPagination
+        page = self.paginate_queryset(recent_runs)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(recent_runs, many=True)
+        return Response(serializer.data)
+
 
 class TestResultViewSet(viewsets.ModelViewSet):
     queryset = TestResult.objects.all()
     serializer_class = TestResultSerializer
     filter_fields = ('outcome', 'assigned_to')
     search_fields = filter_fields
+
+    @detail_route(methods=['get'])
+    def info(self, request, pk=None):
+        self.serializer_class = TestResultDetailSerializer
+        instance = self.get_object()
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)
 
 
 class IssueViewSet(viewsets.ModelViewSet):
@@ -82,24 +123,3 @@ class LargeResultsSetPagination(PageNumberPagination):
     page_size = 5000
     page_size_query_param = 'page_size'
     max_page_size = 1000
-
-
-class TestRunListViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
-    queryset = TestRun.objects.all()
-    serializer_class = TestRunListSerializer
-    pagination_class = LargeResultsSetPagination
-    filter_fields = ('name', 'state', 'status')
-
-
-class TestCaseListViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
-    queryset = TestCase.objects.all()
-    serializer_class = TestCaseListSerializer
-    pagination_class = LargeResultsSetPagination
-    filter_fields = ('name', 'full_name', 'keyword')
-
-
-class TestResultListViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
-    queryset = TestResult.objects.all()
-    serializer_class = TestResultListSerializer
-    pagination_class = LargeResultsSetPagination
-    filter_class = ResultFilter

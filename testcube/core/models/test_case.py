@@ -7,8 +7,8 @@ from .team import Team
 class TestCase(models.Model):
     PRIORITY_CHOICES = ((0, 'Urgent'), (1, 'High'), (2, 'Medium'), (3, 'Low'))
 
-    team = models.ForeignKey(Team, on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    team = models.ForeignKey(Team, on_delete=models.CASCADE, related_name='cases')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='cases')
     name = models.CharField(max_length=200)
     full_name = models.CharField(max_length=400, default='')
     keyword = models.CharField(max_length=100, null=True, blank=True)
