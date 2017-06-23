@@ -51,22 +51,6 @@ function runDetailSummaryDataHandler(data) {
     return [data];
 }
 
-function runDetailPassedDataHandler(data) {
-    let rows = data.results;
-    for (let r of rows) {
-        r.start_time = moment(r.start_time).fromNow();
-    }
-    return rows;
-}
-
-function runDetailFailedDataHandler(data) {
-    let rows = data.results;
-    for (let r of rows) {
-        r.start_time = moment(r.start_time).fromNow();
-    }
-    return rows;
-}
-
 function runDetailTablePostEvent(data) {
     if (data[0] === undefined) return;
     let run = data[0];
