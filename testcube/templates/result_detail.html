@@ -12,34 +12,22 @@
         <ul class="breadcrumb">
             <li><a href="/">Home</a></li>
             <li><a href="{% url 'runs' %}">Runs</a></li>
-            <li><a href="{% url 'runs' %}">...</a></li>
-            <li class="active">{{ result_id }}</li>
+            <li id="run-nav"><a href="">...</a></li>
+            <li id="result-nav" class="active">{{ result_id }}</li>
         </ul>
 
         <div id="main-content">
             <div class="row">
-                <div class="col-md-2">
-                    <p class="lead">By Outcome</p>
-                    <div class="list-group">
-                        <a href="#" class="list-group-item active">All</a>
-                        <a href="#" class="list-group-item">Failed</a>
-                        <a href="#" class="list-group-item">Passed</a>
-                    </div>
-                </div>
 
-                <div class="col-md-10">
-                    <div class="">
-                        <table id="table" class="table">
-                        </table>
-                    </div>
-                    <div class="panel panel-default">
-                        <div class="panel-body">
-                            <pre class="well" id="stdout">
-                                Loading...
-                            </pre>
-                        </div>
+                <div class="col-md-12">
+                    <h2>Summary</h2>
+                    <hr/>
+                    <table id="table" class="table">
+                    </table>
 
-                    </div>
+                    <h2>Output</h2>
+                    <hr/>
+                    <pre class="well" id="stdout">Loading...</pre>
                 </div>
             </div>
         </div>

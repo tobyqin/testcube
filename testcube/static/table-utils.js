@@ -52,7 +52,12 @@ function resultTableDataHandler(data) {
 }
 
 function resultTablePostEvent(data) {
-    console.log(data)
+    if (data[0] === undefined) return;
+    let result = data[0];
+    if (result.run_info) {
+        let nav = `<a href="/runs/${result.run_info.id}">${result.run_info.id} - ${result.run_info.name}</a>`;
+        $('#run-nav').empty().append(nav);
+    }
 }
 
 
@@ -65,12 +70,22 @@ function resultDetailTablePostEvent(data) {
     if (data[0] === undefined) return;
     let result = data[0];
     let stdout = "";
+
     if (result.error) {
         stdout = result.error.message + '\n' + result.error.stacktrace;
     }
     if (result.stdout) {
-        stdout = stdout + result.stdout;
+        stdout = stdout + '\n' + result.stdout;
     }
 
-    $('#stdout').empty().append(stdout)
+    $('#stdout').empty().append(stdout);
+
+    if (result.test_run) {
+        let nav = `<a href="/runs/${result.test_run.id}">${result.test_run.id} - ${result.test_run.name}</a>`;
+        $('#run-nav').empty().append(nav);
+    }
+    if (result.testcase) {
+        let nav = `${result.id} - ${result.testcase.name}`;
+        $('#result-nav').empty().append(nav);
+    }
 }
