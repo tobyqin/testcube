@@ -72,10 +72,11 @@ function resultDetailTablePostEvent(data) {
     let stdout = "";
 
     if (result.error) {
-        stdout = result.error.message + '\n' + result.error.stacktrace;
+        stdout = result.error.message + '\n\n' + result.error.stacktrace;
+        stdout = stdout + '\n\n---------------------------------------\n\n'
     }
     if (result.stdout) {
-        stdout = stdout + '\n' + result.stdout;
+        stdout = stdout + result.stdout;
     }
 
     $('#stdout').empty().append(stdout);
