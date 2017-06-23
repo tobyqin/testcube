@@ -69,11 +69,9 @@ function runDetailFailedDataHandler(data) {
 
 function runDetailTablePostEvent(data) {
     if (data[0] === undefined) return;
-    let result = data[0].results[0];
-    if (result.run_info) {
-        let nav = `<a href="/runs/${result.run_info.id}">${result.run_info.id} - ${result.run_info.name}</a>`;
-        $('#run-nav').empty().append(nav);
-    }
+    let run = data[0];
+    let nav = `<a href="/runs/${run.id}">${run.id} - ${run.name}</a>`;
+    $('#run-nav').empty().append(nav);
 
     $('#result-list').bootstrapTable({
         data: my.data.results,
