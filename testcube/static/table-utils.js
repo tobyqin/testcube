@@ -1,21 +1,33 @@
 "use strict";
 
+my.runListFilter = {};
+
 function runIdFormatter(id) {
-    return `<a href="/runs/${id}">${id}</a>`
+    return `<a href="/runs/${id}">${id}</a>`;
 }
 
 function resultIdFormatter(id) {
-    return `<a href="/results/${id}">${id}</a>`
+    return `<a href="/results/${id}">${id}</a>`;
 }
 
 function caseIdFormatter(id) {
-    return `<a href="/testcases/${id}">${id}</a>`
+    return `<a href="/testcases/${id}">${id}</a>`;
 }
 
-
 function rateFormatter(rate) {
-    let percent = (rate.passed / rate.total).toLocaleString('en', {style: "percent"});
-    return `<a href="/runs/${rate.id}" data-toggle="tooltip" title="${rate.passed} / ${rate.total}">${percent}</a>`
+    let percentNum = rate.passed / rate.total;
+    let percent = percentNum.toLocaleString('en', {style: "percent"});
+
+    if (isNaN(percentNum)) {
+        percentNum = 0;
+    }
+
+    let color = getColor(percentNum);
+    return `<a href="/runs/${rate.id}" 
+                data-toggle="tooltip" 
+                title="${rate.passed} / ${rate.total}"
+                style="color: ${color};text-decoration: none"
+                >${percent}</a>`
 }
 
 function rateSorter(a, b) {
@@ -28,26 +40,85 @@ function rateSorter(a, b) {
     return 0;
 }
 
+function timeHumanFormatter(time) {
+    return moment(time).fromNow();
+}
+
 function timeFormatter(time) {
-    return moment(time).fromNow()
+    return moment(time).calendar();
 }
 
 function runTableDataHandler(data) {
     my.data = data;
     let rows = data.results;
     for (let r of rows) {
-        r.start_time = moment(r.start_time).fromNow();
         r.passing_rate = {
             id: r.id,
             passed: r.result_total - r.result_failed,
             total: r.result_total
         };
+        r.product_name = r.product.name;
+        r.team_name = r.team.name;
     }
     return rows;
 }
 
+function runListFilter() {
+    $('#table').bootstrapTable('filterBy', my.runListFilter);
+}
+
+function runListPickerChanged(e, index, newVal, oldVal) {
+    if (e.target.id == 'team-picker') {
+        let picker = $('#team-picker');
+        let value = picker.selectpicker('val');
+        if (value) {
+            my.runListFilter.team_name = value;
+        }
+        else {
+            delete my.runListFilter.team_name;
+        }
+
+        runListFilter();
+    }
+    if (e.target.id == 'product-picker') {
+        let picker = $('#product-picker');
+        let value = picker.selectpicker('val');
+        if (value) {
+            my.runListFilter.product_name = value;
+        }
+        else {
+            delete my.runListFilter.product_name;
+        }
+
+        runListFilter();
+    }
+
+}
+
 function runTablePostEvent(data) {
+    if (data[0] === undefined) return;
     $("[data-toggle='tooltip']").tooltip();
+    if (my.setFilters) return;
+
+    let products = [];
+    let teams = [];
+    for (let run of data) {
+        products.push(run.product.name);
+        teams.push(run.team.name);
+    }
+    products = [...new Set(products)];
+    teams = [...new Set(teams)];
+    for (let obj of products) {
+        $('#product-picker').append(`<option value="${obj}">${obj}</option>`);
+    }
+    for (let obj of teams) {
+        $('#team-picker').append(`<option value="${obj}">${obj}</option>`);
+    }
+
+    $('.selectpicker').selectpicker('refresh')
+        .on('changed.bs.select', runListPickerChanged);
+
+    my.setFilters = true;
 }
 
 function runDetailSummaryDataHandler(data) {
@@ -58,7 +129,7 @@ function runDetailSummaryDataHandler(data) {
 function runDetailTablePostEvent(data) {
     if (data[0] === undefined) return;
     let run = data[0];
-    let nav = `<a href="/runs/${run.id}">${run.id} - ${run.name}</a>`;
+    let nav = `${run.id} - ${run.name}`;
     $('#run-nav').empty().append(nav);
 
     $('#result-list').bootstrapTable({
