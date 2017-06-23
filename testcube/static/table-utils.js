@@ -8,6 +8,10 @@ function resultIdFormatter(id) {
     return `<a href="/results/${id}">${id}</a>`
 }
 
+function caseIdFormatter(id) {
+    return `<a href="/testcases/${id}">${id}</a>`
+}
+
 
 function rateFormatter(rate) {
     let percent = (rate.passed / rate.total).toLocaleString('en', {style: "percent"});
@@ -61,8 +65,8 @@ function runDetailTablePostEvent(data) {
         data: my.data.results,
         search: true,
         pagination: true,
-        pageSize: 20,
-        pageList: [20, 30, 50, 100],
+        pageSize: 100,
+        pageList: [100, 200],
         sortName: 'id',
         sortOrder: 'desc',
         sortable: true,
