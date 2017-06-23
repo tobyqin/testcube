@@ -42,8 +42,7 @@
                 pagination: true,
                 pageSize: 20,
                 pageList: [20, 30, 50, 100],
-                sortName: 'id',
-                sortOrder: 'desc',
+                showColumns: true,
                 sortable: true,
                 showFooter: false,
                 columns: [
@@ -52,6 +51,8 @@
                     {title: 'Product', field: 'product.name', sortable: true},
                     {title: 'Title', field: 'name', sortable: true},
                     {title: 'Start Time', field: 'start_time', sortable: true},
+                    {title: 'Duration', field: 'duration', sortable: true},
+                    {title: 'Start By', field: 'start_by', sortable: true},
                     {
                         title: 'Passing',
                         field: 'passing_rate',
