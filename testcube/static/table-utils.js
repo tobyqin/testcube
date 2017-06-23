@@ -24,6 +24,10 @@ function rateSorter(a, b) {
     return 0;
 }
 
+function timeFormatter(time) {
+    return moment(time).fromNow()
+}
+
 function runTableDataHandler(data) {
     my.data = data;
     let rows = data.results;
@@ -42,8 +46,12 @@ function runTablePostEvent(data) {
     $("[data-toggle='tooltip']").tooltip();
 }
 
-function resultTableDataHandler(data) {
+function runDetailSummaryDataHandler(data) {
     my.data = data;
+    return [data];
+}
+
+function runDetailPassedDataHandler(data) {
     let rows = data.results;
     for (let r of rows) {
         r.start_time = moment(r.start_time).fromNow();
@@ -51,13 +59,42 @@ function resultTableDataHandler(data) {
     return rows;
 }
 
-function resultTablePostEvent(data) {
+function runDetailFailedDataHandler(data) {
+    let rows = data.results;
+    for (let r of rows) {
+        r.start_time = moment(r.start_time).fromNow();
+    }
+    return rows;
+}
+
+function runDetailTablePostEvent(data) {
     if (data[0] === undefined) return;
-    let result = data[0];
+    let result = data[0].results[0];
     if (result.run_info) {
         let nav = `<a href="/runs/${result.run_info.id}">${result.run_info.id} - ${result.run_info.name}</a>`;
         $('#run-nav').empty().append(nav);
     }
+
+    $('#result-list').bootstrapTable({
+        data: my.data.results,
+        search: true,
+        pagination: true,
+        pageSize: 20,
+        pageList: [20, 30, 50, 100],
+        sortName: 'id',
+        sortOrder: 'desc',
+        sortable: true,
+        showFooter: false,
+        columns: [
+            {title: 'ID', field: 'id', formatter: resultIdFormatter, sortable: true},
+            {title: 'TestCase', field: 'testcase_info.name', sortable: true},
+            {title: 'Duration', field: 'duration', sortable: true},
+            {title: 'Assigned To', field: 'assigned_to', sortable: true},
+            {title: 'Client', field: 'test_client.name', sortable: true},
+            {title: 'Outcome', field: 'get_outcome_display', sortable: true}
+        ],
+        onPostBody: undefined
+    });
 }
 
 

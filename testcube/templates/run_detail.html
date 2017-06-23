@@ -17,25 +17,19 @@
 
         <div id="main-content">
             <div class="row">
-                <div class="col-md-2">
-                    <p class="lead">By Outcome</p>
-                    <div class="list-group">
-                        <a href="#" class="list-group-item active">All</a>
-                        <a href="#" class="list-group-item">Failed</a>
-                        <a href="#" class="list-group-item">Passed</a>
-                    </div>
-                </div>
 
-                <div class="col-md-10">
-                    <div class="">
-                        <table id="table" class="table">
-                        </table>
-                    </div>
+                <div class="col-md-12">
+                    <h2>Summary</h2>
+                    <hr/>
+                    <table id="run-summary" class="table"></table>
+                    <h2>Results</h2>
+                    <hr/>
+                    <table id="result-list" class="table"></table>
                 </div>
             </div>
         </div>
-
     </div>
+
 
 {% endblock %}
 
@@ -47,26 +41,28 @@
     <script>
 
         $(function () {
-            $('#table').bootstrapTable({
+            $('#run-summary').bootstrapTable({
                 url: '/api/runs/{{ run_id }}/info/',
-                responseHandler: resultTableDataHandler,
-                search: true,
-                pagination: true,
-                pageSize: 20,
-                pageList: [20, 30, 50, 100],
-                sortName: 'id',
-                sortOrder: 'desc',
+                responseHandler: runDetailSummaryDataHandler,
+                search: false,
+                pagination: false,
                 sortable: true,
                 showFooter: false,
                 columns: [
-                    {title: 'ID', field: 'id', formatter: resultIdFormatter, sortable: true},
-                    {title: 'TestCase', field: 'testcase_info.name', sortable: true},
-                    {title: 'Duration', field: 'duration', sortable: true},
-                    {title: 'Assigned To', field: 'assigned_to', sortable: true},
-                    {title: 'Client', field: 'test_client.name', sortable: true},
-                    {title: 'Outcome', field: 'get_outcome_display', sortable: true}
+                    {title: 'ID', field: 'id'},
+                    {title: 'Team', field: 'team.name'},
+                    {title: 'Product', field: 'product.name'},
+                    {title: 'Name', field: 'name'},
+                    {title: 'Start Time', field: 'start_time', formatter: timeFormatter},
+                    {title: 'Duration', field: 'duration'},
+                    {title: 'Start By', field: 'start_by'},
+                    {title: 'Passed', field: 'result_passed'},
+                    {title: 'Failed', field: 'result_failed'},
+                    {title: 'Total', field: 'result_total'},
+                    {title: 'Status', field: 'get_status_display'},
+                    {title: 'State', field: 'get_state_display'}
                 ],
-                onPostBody: resultTablePostEvent
+                onPostBody: runDetailTablePostEvent
             });
         });
     </script>
