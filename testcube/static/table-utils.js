@@ -268,7 +268,7 @@ function runDetailChartRender(data) {
             },
             types: {
                 Failed: 'area-spline',
-                Passed: 'spline',
+                Passed: 'area-spline',
                 Total: 'spline'
             }
         },
