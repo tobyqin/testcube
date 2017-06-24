@@ -16,16 +16,7 @@
 
         <div id="main-content">
             <div class="row">
-                <div class="col-md-2">
-                    <p class="lead">By Teams</p>
-                    <div class="list-group">
-                        <a href="#" class="list-group-item active">All</a>
-                        <a href="#" class="list-group-item">Core</a>
-                        <a href="#" class="list-group-item">TestCube</a>
-                    </div>
-                </div>
-
-                <div class="col-md-10">
+                <div class="col-md-12">
                     <div class="">
                         <table id="table" class="table">
                         </table>
@@ -33,7 +24,6 @@
                 </div>
             </div>
         </div>
-
     </div>
 
 {% endblock %}
@@ -50,10 +40,9 @@
                 responseHandler: runTableDataHandler,
                 search: true,
                 pagination: true,
-                pageSize: 20,
-                pageList: [20, 30, 50, 100],
-                sortName: 'id',
-                sortOrder: 'desc',
+                pageSize: 30,
+                pageList: [30, 50, 100],
+                showColumns: true,
                 sortable: true,
                 showFooter: false,
                 columns: [
@@ -62,6 +51,8 @@
                     {title: 'Product', field: 'product.name', sortable: true},
                     {title: 'Title', field: 'name', sortable: true},
                     {title: 'Start Time', field: 'start_time', sortable: true},
+                    {title: 'Duration', field: 'duration', sortable: true},
+                    {title: 'Start By', field: 'start_by', sortable: true},
                     {
                         title: 'Passing',
                         field: 'passing_rate',
