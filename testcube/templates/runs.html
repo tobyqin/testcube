@@ -79,6 +79,8 @@
                 cookieExpire: '1y',
                 cookieIdTable: 'runListTable'
             });
+
+            $.ajax('/api/runs/clear/')
         });
     </script>
 {% endblock %}

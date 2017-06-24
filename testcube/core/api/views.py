@@ -1,3 +1,5 @@
+from datetime import datetime, timezone
+
 from rest_framework import viewsets
 from rest_framework.decorators import detail_route, list_route
 from rest_framework.pagination import PageNumberPagination
@@ -86,10 +88,27 @@ class TestRunViewSet(viewsets.ModelViewSet):
 
     @list_route()
     def recent(self, request):
+        """get recent runs, in run list view"""
         return recent_view(self, TestRun, TestRunListSerializer)
+
+    @list_route()
+    def clear(self, request):
+        """clear dead runs, will be called async when user visit run list."""
+        pending_runs = TestRun.objects.filter(status__lt=1)
+        fixed = []
+
+        for run in pending_runs:
+            delta = datetime.now(timezone.utc) - run.start_time
+            if delta.days > 1:
+                run.state, run.status = 2, 1  # abort, failed
+                run.save()
+                fixed.append(run.id)
+
+        return Response(data=fixed)
 
     @detail_route(methods=['get'])
     def history(self, request, pk=None):
+        """get run history, will be used in run detail page."""
         instance = self.get_object()
         queryset = TestRun.objects.filter(name=instance.name)[:20]
         return history_view(self, queryset, TestRunListSerializer)
@@ -103,10 +122,12 @@ class TestCaseViewSet(viewsets.ModelViewSet):
 
     @list_route()
     def recent(self, request):
+        """get recent testcase, use for test case page."""
         return recent_view(self, TestCase, TestCaseListSerializer)
 
     @detail_route(methods=['get'])
     def history(self, request, pk=None):
+        """get test case history, use in test case view or result detail view."""
         instance = self.get_object()
         queryset = TestResult.objects.filter(testcase__id=instance.id)[:20]
         return history_view(self, queryset, TestResultHistorySerializer)
@@ -120,6 +141,7 @@ class TestResultViewSet(viewsets.ModelViewSet):
 
     @detail_route(methods=['get'])
     def info(self, request, pk=None):
+        """query result info, use for result detail page."""
         return info_view(self, TestResultDetailSerializer)
 
 
