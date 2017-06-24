@@ -9,33 +9,76 @@
 {% block body %}
     <div class="container">
 
-        <ul class="breadcrumb">
-            <li><a href="/">Home</a></li>
-            <li><a href="{% url 'runs' %}">Runs</a></li>
-            <li id="run-nav"><a href="">...</a></li>
-            <li id="result-nav" class="active">{{ result_id }}</li>
-        </ul>
+    <ul class="breadcrumb">
+        <li><a href="/">Home</a></li>
+        <li><a href="{% url 'runs' %}">Runs</a></li>
+        <li id="run-nav"><a href="">...</a></li>
+        <li id="result-nav" class="active">{{ result_id }}</li>
+    </ul>
 
-        <div id="main-content">
-            <div class="row">
+    <div id="main-content">
+        <div class="row">
 
-                <div class="col-md-12">
-                    <h2>Summary</h2>
+            <div class="col-md-12">
+                <h2>Summary</h2>
+                <hr/>
+                <table id="table">
+                </table>
+
+                <h2>Results</h2>
+                <hr/>
+
+                <ul class="nav nav-pills ">
+                    <li class="active nav"><a href="#tab-error" data-toggle="tab">Error</a></li>
+                    <li class="nav"><a href="#tab-stdout" data-toggle="tab">Output</a></li>
+                    <li class="nav"><a href="#tab-history" data-toggle="tab">History</a></li>
+                    <li class="nav"><a href="#tab-issues" data-toggle="tab">Issues</a></li>
+                </ul>
+
+                <div class="tab-content">
+                    <div class="tab-pane fade in active" id="tab-error">
+                        <div class="spacer20"></div>
+                        <pre style="white-space: pre-wrap;word-wrap: break-word;line-height: 220%"
+                             id="stderr">Loading...</pre>
+                    </div>
+                    <div class="tab-pane fade" id="tab-stdout">
+                        <div class="spacer20"></div>
+                        <pre style="white-space: pre-wrap;word-wrap: break-word;line-height: 220%"
+                             id="stdout">Loading...</pre>
+                    </div>
+                    <div class="tab-pane fade" id="tab-history">
+                        <div class="spacer20"></div>
+                        <table id="result-history">
+                        </table>
+                    </div>
+                    <div class="tab-pane fade" id="tab-issues">
+                        <div class="spacer20"></div>
+                        <div id="result-issues">Loading...</div>
+                    </div>
+
+                    <h2>Analysis</h2>
                     <hr/>
-                    <table id="table">
-                    </table>
+                    <form>
+                        <div class="form-group">
+                            <label for="reason-select">Reason</label>
+                            <select class="form-control" id="reason-select">
+                                <option>Product bug on it</option>
+                                <option>Test need to be fixed</option>
+                                <option>Environment not stable</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="issue-id">Link Issue</label>
+                            <input class="form-control" id="issue-id"
+                                   placeholder="Enter Issue ID">
+                        </div>
+                        <div class="form-group">
+                            <label for="comment">Description</label>
+                            <textarea class="form-control" id="comment" rows="3"></textarea>
+                        </div>
 
-                    <div class="spacer30"></div>
-
-                    <ul class="nav nav-tabs">
-                        <li role="presentation" class="active"><a href="#">Error</a></li>
-                        <li role="presentation"><a href="#">Output</a></li>
-                        <li role="presentation"><a href="#">History</a></li>
-                        <li role="presentation"><a href="#">Issues</a></li>
-                    </ul>
-                    <div class="spacer15"></div>
-                    <pre style="white-space: pre-wrap;word-wrap: break-word;line-height: 220%"
-                         id="stdout">Loading...</pre>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -67,10 +110,11 @@
                     {title: 'Duration', field: 'duration', sortable: true},
                     {title: 'Assigned To', field: 'assigned_to', sortable: true},
                     {title: 'Client', field: 'test_client.name', sortable: true},
-                    {title: 'Outcome', field: 'get_outcome_display', sortable: true}
+                    {title: 'Outcome', field: 'get_outcome_display', formatter: outcomeFormatter, sortable: true}
                 ],
                 onPostBody: resultDetailTablePostEvent
             });
+
         });
     </script>
 {% endblock %}

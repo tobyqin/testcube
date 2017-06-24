@@ -48,6 +48,17 @@ function timeFormatter(time) {
     return moment(time).calendar();
 }
 
+function outcomeFormatter(outcome) {
+    let cls = 'text-danger';
+    if (outcome === 'Skipped') {
+        cls = 'text-warning';
+    }
+    else if (outcome === 'Passed') {
+        cls = 'text-success';
+    }
+    return `<p class="${cls}">${outcome}</p>`;
+}
+
 function runTableDataHandler(data) {
     my.data = data;
     let rows = data.results;
@@ -148,7 +159,7 @@ function runDetailTablePostEvent(data) {
             {title: 'Duration', field: 'duration', sortable: true},
             {title: 'Assigned To', field: 'assigned_to', sortable: true},
             {title: 'Client', field: 'test_client.name', sortable: true},
-            {title: 'Outcome', field: 'get_outcome_display', sortable: true}
+            {title: 'Outcome', field: 'get_outcome_display', formatter: outcomeFormatter, sortable: true}
         ],
         onPostBody: undefined
     });
@@ -160,19 +171,26 @@ function resultDetailTableDataHandler(data) {
     return [data];
 }
 
+
+function resultHistoryTableDataHandler(data) {
+    return data.results;
+}
+
 function resultDetailTablePostEvent(data) {
     if (data[0] === undefined) return;
     let result = data[0];
-    let stdout = "";
+    let stderr = "Nothing found.";
+    let stdout = "Nothing found.";
 
     if (result.error) {
-        stdout = result.error.message + '\n\n' + result.error.stacktrace;
-        stdout = stdout + '\n\n---------------------------------------\n\n'
+        stderr = result.error.message + '\n\n' + result.error.stacktrace;
     }
     if (result.stdout) {
+        stdout = "";
         stdout = stdout + result.stdout;
     }
 
+    $('#stderr').empty().append(stderr);
     $('#stdout').empty().append(stdout);
 
     if (result.test_run) {
@@ -182,5 +200,28 @@ function resultDetailTablePostEvent(data) {
     if (result.testcase) {
         let nav = `${result.id} - ${result.testcase.name}`;
         $('#result-nav').empty().append(nav);
+
+        $('#result-history').bootstrapTable({
+            url: `/api/cases/${result.testcase.id}/history/`,
+            responseHandler: resultHistoryTableDataHandler,
+            search: false,
+            pagination: false,
+            sortName: 'id',
+            sortOrder: 'desc',
+            sortable: false,
+            showFooter: false,
+            columns: [
+                {title: 'ID', field: 'id', formatter: resultIdFormatter,},
+                {title: 'TestCase', field: 'testcase_info.name'},
+                {title: 'Run On', field: 'run_info.start_time', formatter: timeFormatter},
+                {title: 'Duration', field: 'duration'},
+                {title: 'Error Message', field: 'error_message'},
+                {title: 'Client', field: 'test_client.name'},
+                {title: 'Outcome', field: 'get_outcome_display', formatter: outcomeFormatter}
+            ],
+            onPostBody: undefined
+        });
     }
+
+
 }

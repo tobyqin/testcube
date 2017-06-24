@@ -27,13 +27,22 @@ class TestResult(models.Model):
     created_on = models.DateTimeField(auto_now_add=True)
 
     def run_info(self):
-        return {'id': self.test_run.id, 'name': self.test_run.name}
+        return {'id': self.test_run.id,
+                'name': self.test_run.name,
+                'start_time': self.test_run.start_time}
 
     def testcase_info(self):
-        return {'id': self.testcase.id, 'name': self.testcase.name}
+        return {'id': self.testcase.id,
+                'name': self.testcase.name}
+
+    def error_message(self):
+        if self.error:
+            return self.error.message
+        else:
+            return None
 
     class Meta:
-        ordering = ['created_on']
+        ordering = ['-created_on']
 
     def __str__(self):
         return '{}'.format(self.id)

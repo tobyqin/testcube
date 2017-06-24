@@ -105,6 +105,12 @@ class TestCaseViewSet(viewsets.ModelViewSet):
     def recent(self, request):
         return recent_view(self, TestCase, TestCaseListSerializer)
 
+    @detail_route(methods=['get'])
+    def history(self, request, pk=None):
+        instance = self.get_object()
+        queryset = TestResult.objects.filter(testcase__id=instance.id)[:20]
+        return history_view(self, queryset, TestResultHistorySerializer)
+
 
 class TestResultViewSet(viewsets.ModelViewSet):
     queryset = TestResult.objects.all()
