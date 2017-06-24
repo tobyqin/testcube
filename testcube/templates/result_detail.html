@@ -1,7 +1,7 @@
 {% extends './base.html' %}
 {% load static %}
 
-{% block title %}Runs{% endblock %}
+{% block title %}Result Detail{% endblock %}
 {% block header %}
     <link href="{% static 'libs/bootstrap-table/bootstrap-table.min.css' %}" rel="stylesheet">
 {% endblock %}
@@ -62,9 +62,9 @@
                         <div class="form-group">
                             <label for="reason-select">Reason</label>
                             <select class="form-control" id="reason-select">
-                                <option>Product bug on it</option>
-                                <option>Test need to be fixed</option>
-                                <option>Environment not stable</option>
+                                <option>Product defect</option>
+                                <option>Testcase defect</option>
+                                <option>Environment issue</option>
                             </select>
                         </div>
                         <div class="form-group">
