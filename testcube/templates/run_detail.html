@@ -22,10 +22,10 @@
                 <div class="col-md-12">
                     <h2>Summary</h2>
                     <hr/>
-                    <div class="col-md-6">
+                    <div class="col-md-8">
                         <div id="detail-chart"></div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <div id="rate-chart"></div>
                     </div>
                     <table id="run-summary"></table>
@@ -52,8 +52,7 @@
 
     <script>
         $(function () {
-            runDetailSummaryTableRender('/api/runs/{{ run_id }}/info/');
-            runHistoryTableRender('/api/runs/{{ run_id }}/history/');
+            runDetailPageRender({{ run_id }});
         });
     </script>
 {% endblock %}

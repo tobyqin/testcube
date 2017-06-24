@@ -60,7 +60,6 @@ function outcomeFormatter(outcome) {
 }
 
 function runListTableDataHandler(data) {
-    my.data = data;
     let rows = data.results;
     for (let r of rows) {
         r.passing_rate = {
@@ -71,6 +70,7 @@ function runListTableDataHandler(data) {
         r.product_name = r.product.name;
         r.team_name = r.team.name;
     }
+    my.runList = data;
     return rows;
 }
 
@@ -170,9 +170,13 @@ function runListTableRender(url) {
 
 }
 
-function runDetailSummaryTableRender(url) {
+function runDetailPageRender(runId) {
+    runDetailSummaryTableRender(runId);
+}
+
+function runDetailSummaryTableRender(runId) {
     $('#run-summary').bootstrapTable({
-        url: url,
+        url: `/api/runs/${ runId }/info/`,
         responseHandler: runDetailSummaryDataHandler,
         search: false,
         pagination: false,
@@ -195,10 +199,10 @@ function runDetailSummaryTableRender(url) {
     });
 }
 
-function runHistoryTableRender(url) {
+function runHistoryTableRender(runId) {
     $('#run-history').bootstrapTable({
         sidePagination: 'client',
-        url: url,
+        url: `/api/runs/${ runId }/history/`,
         responseHandler: runListTableDataHandler,
         search: false,
         pagination: false,
@@ -220,12 +224,109 @@ function runHistoryTableRender(url) {
             },
             {title: 'State', field: 'get_state_display', sortable: true}
         ],
-        onPostBody: undefined
+        onPostBody: runDetailChartRender
+    });
+}
+
+function runDetailChartRender(data) {
+    if (my.runList === undefined) return;
+    if (my.runInfo.result_total == 0) return;
+
+    let x = ['x'];
+    let runIds = ['runId'];
+    let passed = ['Passed'];
+    let failed = ['Failed'];
+    let total = ['Total'];
+    let passRate = ['Pass Rate'];
+
+    for (let run of data.reverse()) {
+        runIds.push(run.id);
+        x.push(moment(run.start_time).format('YYYY-MM-DD'));
+        passed.push(run.result_passed);
+        failed.push(run.result_failed);
+        total.push(run.result_total);
+        passRate.push(((run.result_total - run.result_failed) / run.result_total).toFixed(2));
+    }
+
+    c3.generate({
+        bindto: '#detail-chart',
+        size: {
+            height: 240
+        },
+        data: {
+            x: 'runId',
+            columns: [
+                runIds,
+                total,
+                passRate,
+                passed,
+                failed,
+
+            ],
+            axes: {
+                passRate: 'y2'
+            }
+        },
+        axis: {
+            // x: {
+            //     type: 'timeseries',
+            //     tick: {
+            //         format: '%Y-%m-%d'
+            //     }
+            // },
+            y: {
+                show: true,
+                tick: {
+                    format: function (value) {
+                        return value.toFixed(0);
+                    },
+                    count: 5
+                },
+            },
+
+            y2: {
+                show: true,
+                tick: {
+                    format: d3.format('%'),
+                    count: 5
+                }
+            }
+        },
+        tooltip: {
+            format: {
+                title: function (d) {
+                    return 'Run ID:  ' + d;
+                },
+                value: function (value, ratio, id) {
+                    if (id === 'Pass Rate') {
+                        return d3.format('%')(value);
+                    }
+                    return value;
+                }
+            }
+        }
+    });
+
+    c3.generate({
+        bindto: '#rate-chart',
+
+        size: {
+            height: 240
+        },
+
+        data: {
+            columns: [
+                ['Skipped', my.runInfo.result_skipped],
+                ['Failed', my.runInfo.result_failed],
+                ['Passed', my.runInfo.result_passed],
+            ],
+            type: 'pie'
+        }
     });
 }
 
 function caseDetailSummaryDataHandler(data) {
-    my.data = data;
+    my.caseInfo = data;
     return [data];
 }
 
@@ -237,7 +338,7 @@ function caseDetailSummaryTablePostEvent(data) {
 }
 
 function runDetailSummaryDataHandler(data) {
-    my.data = data;
+    my.runInfo = data;
     return [data];
 }
 
@@ -248,7 +349,7 @@ function runDetailSummaryPostEvent(data) {
     $('#run-nav').empty().append(nav);
 
     $('#result-list').bootstrapTable({
-        data: my.data.results,
+        data: my.runInfo.results,
         search: true,
         pagination: true,
         pageSize: 100,
@@ -267,10 +368,12 @@ function runDetailSummaryPostEvent(data) {
         ],
         onPostBody: undefined
     });
+
+    runHistoryTableRender(run.id);
 }
 
 function resultDetailSummaryDataHandler(data) {
-    my.data = data;
+    my.resultInfo = data;
     return [data];
 }
 
@@ -328,33 +431,24 @@ function resultHistoryTableDataHandler(data) {
     return data.results;
 }
 
-function runDetailChartRendering() {
-    let chart = c3.generate({
-        bindto: '#detail-chart',
-        data: {
-            columns: [
-                ['data1', 30, 200, 100, 400, 150, 250],
-                ['data2', 50, 20, 10, 40, 15, 25]
-            ],
-            axes: {
-                data2: 'y2' // ADD
-            }
-        },
-        axis: {
-            y2: {
-                show: true // ADD
-            }
-        }
-    });
-
-    c3.generate({
-        bindto: '#rate-chart',
-        data: {
-            columns: [
-                ['data1', 30],
-                ['data2', 120],
-            ],
-            type: 'pie'
-        }
+function resultDetailPageRender(resultId) {
+    $('#table').bootstrapTable({
+        url: `/api/results/${ resultId }/info/`,
+        responseHandler: resultDetailSummaryDataHandler,
+        search: false,
+        pagination: false,
+        sortName: 'id',
+        sortOrder: 'desc',
+        sortable: true,
+        showFooter: false,
+        columns: [
+            {title: 'ID', field: 'id', sortable: true},
+            {title: 'TestCase', field: 'testcase.name', sortable: true},
+            {title: 'Duration', field: 'duration', sortable: true},
+            {title: 'Assigned To', field: 'assigned_to', sortable: true},
+            {title: 'Client', field: 'test_client.name', sortable: true},
+            {title: 'Outcome', field: 'get_outcome_display', formatter: outcomeFormatter, sortable: true}
+        ],
+        onPostBody: resultDetailSummaryPostEvent
     });
 }
