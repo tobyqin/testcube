@@ -16,7 +16,7 @@ def info_view(self, serializer_class):
 
 
 def recent_view(self, model_class, serializer_class, pagination_class=None):
-    recent_items = model_class.objects.all()
+    objects = model_class.objects.all()
     self.serializer_class = serializer_class
 
     if pagination_class:
@@ -24,12 +24,24 @@ def recent_view(self, model_class, serializer_class, pagination_class=None):
     else:
         self.pagination_class = LargeResultsSetPagination
 
-    page = self.paginate_queryset(recent_items)
+    page = self.paginate_queryset(objects)
     if page is not None:
         serializer = self.get_serializer(page, many=True)
         return self.get_paginated_response(serializer.data)
 
-    serializer = self.get_serializer(recent_items, many=True)
+    serializer = self.get_serializer(objects, many=True)
+    return Response(serializer.data)
+
+
+def history_view(self, queryset, serializer_class):
+    self.serializer_class = serializer_class
+
+    page = self.paginate_queryset(queryset)
+    if page is not None:
+        serializer = self.get_serializer(page, many=True)
+        return self.get_paginated_response(serializer.data)
+
+    serializer = self.get_serializer(queryset, many=True)
     return Response(serializer.data)
 
 
@@ -75,6 +87,12 @@ class TestRunViewSet(viewsets.ModelViewSet):
     @list_route()
     def recent(self, request):
         return recent_view(self, TestRun, TestRunListSerializer)
+
+    @detail_route(methods=['get'])
+    def history(self, request, pk=None):
+        instance = self.get_object()
+        queryset = TestRun.objects.filter(name=instance.name)[:20]
+        return history_view(self, queryset, TestRunListSerializer)
 
 
 class TestCaseViewSet(viewsets.ModelViewSet):
