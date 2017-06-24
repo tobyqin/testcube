@@ -64,13 +64,13 @@
                     {title: 'Total', field: 'result_total'},
                     {title: 'Status', field: 'get_status_display'}
                 ],
-                onPostBody: runDetailTablePostEvent
+                onPostBody: runDetailSummaryPostEvent
             });
 
             $('#run-history').bootstrapTable({
                 sidePagination: 'client',
                 url: '/api/runs/{{ run_id }}/history/',
-                responseHandler: runTableDataHandler,
+                responseHandler: runListTableDataHandler,
                 search: false,
                 pagination: false,
                 showFooter: false,

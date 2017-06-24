@@ -48,7 +48,7 @@
             $('#table').bootstrapTable({
                 sidePagination: 'client',
                 url: '/api/runs/recent/',
-                responseHandler: runTableDataHandler,
+                responseHandler: runListTableDataHandler,
                 toolbar: '#toolbar',
                 search: true,
                 pagination: true,
@@ -74,7 +74,7 @@
                     },
                     {title: 'State', field: 'get_state_display', sortable: true}
                 ],
-                onPostBody: runTablePostEvent,
+                onPostBody: runListTablePostEvent,
                 cookie: true,
                 cookieExpire: '1y',
                 cookieIdTable: 'runListTable'

@@ -59,7 +59,7 @@ function outcomeFormatter(outcome) {
     return `<p class="${cls}">${outcome}</p>`;
 }
 
-function runTableDataHandler(data) {
+function runListTableDataHandler(data) {
     my.data = data;
     let rows = data.results;
     for (let r of rows) {
@@ -74,7 +74,7 @@ function runTableDataHandler(data) {
     return rows;
 }
 
-function runListFilter() {
+function runListTableFilter() {
     $('#table').bootstrapTable('filterBy', my.runListFilter);
 }
 
@@ -89,7 +89,7 @@ function runListPickerChanged(e, index, newVal, oldVal) {
             delete my.runListFilter.team_name;
         }
 
-        runListFilter();
+        runListTableFilter();
     }
     if (e.target.id == 'product-picker') {
         let picker = $('#product-picker');
@@ -101,12 +101,12 @@ function runListPickerChanged(e, index, newVal, oldVal) {
             delete my.runListFilter.product_name;
         }
 
-        runListFilter();
+        runListTableFilter();
     }
 
 }
 
-function runTablePostEvent(data) {
+function runListTablePostEvent(data) {
     if (data[0] === undefined) return;
     $("[data-toggle='tooltip']").tooltip();
     if (my.setFilters) return;
@@ -132,26 +132,24 @@ function runTablePostEvent(data) {
     my.setFilters = true;
 }
 
-function runDetailSummaryDataHandler(data) {
-    my.data = data;
-    return [data];
-}
-
-
 function caseDetailSummaryDataHandler(data) {
     my.data = data;
     return [data];
 }
 
-
-function caseDetailTablePostEvent(data) {
+function caseDetailSummaryTablePostEvent(data) {
     if (data[0] === undefined) return;
     let testcase = data[0];
     let nav = `${testcase.id} - ${testcase.name}`;
     $('#case-nav').empty().append(nav);
 }
 
-function runDetailTablePostEvent(data) {
+function runDetailSummaryDataHandler(data) {
+    my.data = data;
+    return [data];
+}
+
+function runDetailSummaryPostEvent(data) {
     if (data[0] === undefined) return;
     let run = data[0];
     let nav = `${run.id} - ${run.name}`;
@@ -179,18 +177,12 @@ function runDetailTablePostEvent(data) {
     });
 }
 
-
-function resultDetailTableDataHandler(data) {
+function resultDetailSummaryDataHandler(data) {
     my.data = data;
     return [data];
 }
 
-
-function resultHistoryTableDataHandler(data) {
-    return data.results;
-}
-
-function resultDetailTablePostEvent(data) {
+function resultDetailSummaryPostEvent(data) {
     if (data[0] === undefined) return;
     let result = data[0];
     let stderr = "Nothing found.";
@@ -238,4 +230,8 @@ function resultDetailTablePostEvent(data) {
     }
 
 
+}
+
+function resultHistoryTableDataHandler(data) {
+    return data.results;
 }

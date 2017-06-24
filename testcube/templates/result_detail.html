@@ -32,7 +32,7 @@
                     <li class="active nav"><a href="#tab-error" data-toggle="tab">Error</a></li>
                     <li class="nav"><a href="#tab-stdout" data-toggle="tab">Output</a></li>
                     <li class="nav"><a href="#tab-history" data-toggle="tab">History</a></li>
-                    <li class="nav"><a href="#tab-issues" data-toggle="tab">Issues</a></li>
+                    <li class="nav"><a href="#tab-issues" data-toggle="tab">Analysis</a></li>
                 </ul>
 
                 <div class="tab-content">
@@ -53,7 +53,8 @@
                     </div>
                     <div class="tab-pane fade" id="tab-issues">
                         <div class="spacer20"></div>
-                        <div id="result-issues">Loading...</div>
+                        <table id="result-analysis">
+                        </table>
                     </div>
 
                     <h2>Analysis</h2>
@@ -97,7 +98,7 @@
         $(function () {
             $('#table').bootstrapTable({
                 url: '/api/results/{{ result_id }}/info/',
-                responseHandler: resultDetailTableDataHandler,
+                responseHandler: resultDetailSummaryDataHandler,
                 search: false,
                 pagination: false,
                 sortName: 'id',
@@ -112,7 +113,7 @@
                     {title: 'Client', field: 'test_client.name', sortable: true},
                     {title: 'Outcome', field: 'get_outcome_display', formatter: outcomeFormatter, sortable: true}
                 ],
-                onPostBody: resultDetailTablePostEvent
+                onPostBody: resultDetailSummaryPostEvent
             });
 
         });
