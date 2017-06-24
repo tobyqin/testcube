@@ -237,7 +237,7 @@ function runDetailChartRender(data) {
     let passed = ['Passed'];
     let failed = ['Failed'];
     let total = ['Total'];
-    let passRate = ['Pass Rate'];
+    let passRate = ['PassRate'];
 
     for (let run of data.reverse()) {
         runIds.push(run.id);
@@ -264,16 +264,15 @@ function runDetailChartRender(data) {
 
             ],
             axes: {
-                passRate: 'y2'
+                PassRate: 'y2'
+            },
+            types: {
+                Failed: 'area-spline',
+                Passed: 'spline',
+                Total: 'spline'
             }
         },
         axis: {
-            // x: {
-            //     type: 'timeseries',
-            //     tick: {
-            //         format: '%Y-%m-%d'
-            //     }
-            // },
             y: {
                 show: true,
                 tick: {
@@ -286,9 +285,11 @@ function runDetailChartRender(data) {
 
             y2: {
                 show: true,
+                max: 1.0,
+                min: 0.01,
                 tick: {
                     format: d3.format('%'),
-                    count: 5
+                    values: [0, 0.2, 0.4, 0.6, 0.8, 1.0]
                 }
             }
         },
@@ -298,7 +299,7 @@ function runDetailChartRender(data) {
                     return 'Run ID:  ' + d;
                 },
                 value: function (value, ratio, id) {
-                    if (id === 'Pass Rate') {
+                    if (id === 'PassRate') {
                         return d3.format('%')(value);
                     }
                     return value;
