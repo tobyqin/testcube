@@ -1,0 +1,90 @@
+{% extends './base.html' %}
+{% load static %}
+
+{% block title %}TestCase Detail{% endblock %}
+{% block header %}
+    <link href="{% static 'libs/bootstrap-table/bootstrap-table.min.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+
+        <ul class="breadcrumb">
+            <li><a href="/">Home</a></li>
+            <li><a href="{% url 'testcases' %}">TestCases</a></li>
+            <li id="case-nav" class="active"><a href="">{{ case_id }}</a></li>
+        </ul>
+
+        <div id="main-content">
+            <div class="row">
+
+                <div class="col-md-12">
+                    <h2>Summary</h2>
+                    <hr/>
+                    <table id="case-summary"></table>
+
+                    <h2>History</h2>
+                    <hr/>
+                    <table id="case-history"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+
+{% block scripts %}
+    <script src="{% static 'libs/bootstrap-table/bootstrap-table.min.js' %}"></script>
+    <script src="{% static 'table-utils.js' %}"></script>
+    <script src="https://cdn.bootcss.com/moment.js/2.18.1/moment.min.js"></script>
+
+    <script>
+
+        $(function () {
+            $('#case-summary').bootstrapTable({
+                url: '/api/cases/{{ case_id }}/info/',
+                responseHandler: caseDetailSummaryDataHandler,
+                search: false,
+                pagination: false,
+                sortable: true,
+                cardView: true,
+                showFooter: false,
+                columns: [
+                    {title: 'ID', field: 'id'},
+                    {title: 'Team', field: 'team.name'},
+                    {title: 'Product', field: 'product.name'},
+                    {title: 'Name', field: 'name'},
+                    {title: 'FullName', field: 'full_name'},
+                    {title: 'Keyword', field: 'keyword'},
+                    {title: 'Priority', field: 'priority'},
+                    {title: 'Description', field: 'description'},
+                    {title: 'Created On', field: 'created_on', formatter: timeFormatter},
+                    {title: 'Update On', field: 'updated_on', formatter: timeFormatter},
+                    {title: 'Created By', field: 'created_by'},
+                    {title: 'Owner', field: 'owner'}
+                ],
+                onPostBody: caseDetailTablePostEvent
+            });
+
+            $('#case-history').bootstrapTable({
+                sidePagination: 'client',
+                url: '/api/cases/{{ case_id }}/history/',
+                responseHandler: resultHistoryTableDataHandler,
+                search: false,
+                pagination: false,
+                showFooter: false,
+                columns: [
+                    {title: 'ID', field: 'id', formatter: resultIdFormatter,},
+                    {title: 'TestCase', field: 'testcase_info.name'},
+                    {title: 'Run On', field: 'run_info.start_time', formatter: timeFormatter},
+                    {title: 'Duration', field: 'duration'},
+                    {title: 'Error Message', field: 'error_message'},
+                    {title: 'Client', field: 'test_client.name'},
+                    {title: 'Outcome', field: 'get_outcome_display', formatter: outcomeFormatter}
+                ],
+                onPostBody: undefined
+            });
+        });
+    </script>
+{% endblock %}

@@ -80,7 +80,18 @@ class TestCaseListSerializer(serializers.ModelSerializer):
         fields = (
             'id', 'team', 'product', 'name', 'full_name', 'keyword',
             'priority', 'get_priority_display', 'owner',
-            'updated_on', 'created_on')
+            'updated_on', 'created_on', 'created_by')
+
+        depth = 1
+
+
+class TestCaseDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TestCase
+        fields = (
+            'id', 'team', 'product', 'name', 'full_name', 'keyword',
+            'priority', 'get_priority_display', 'owner',
+            'updated_on', 'created_on', 'created_by', 'description')
 
         depth = 1
 

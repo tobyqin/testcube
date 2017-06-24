@@ -120,6 +120,11 @@ class TestCaseViewSet(viewsets.ModelViewSet):
     filter_fields = ('name', 'keyword', 'priority', 'owner')
     search_fields = filter_fields
 
+    @detail_route(methods=['get'])
+    def info(self, request, pk=None):
+        """query result info, use for result detail page."""
+        return info_view(self, TestCaseDetailSerializer)
+
     @list_route()
     def recent(self, request):
         """get recent testcase, use for test case page."""

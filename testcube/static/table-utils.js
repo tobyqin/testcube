@@ -137,6 +137,20 @@ function runDetailSummaryDataHandler(data) {
     return [data];
 }
 
+
+function caseDetailSummaryDataHandler(data) {
+    my.data = data;
+    return [data];
+}
+
+
+function caseDetailTablePostEvent(data) {
+    if (data[0] === undefined) return;
+    let testcase = data[0];
+    let nav = `${testcase.id} - ${testcase.name}`;
+    $('#case-nav').empty().append(nav);
+}
+
 function runDetailTablePostEvent(data) {
     if (data[0] === undefined) return;
     let run = data[0];
