@@ -132,6 +132,98 @@ function runListTablePostEvent(data) {
     my.setFilters = true;
 }
 
+function runListTableRender(url) {
+    $('#table').bootstrapTable({
+        sidePagination: 'client',
+        url: url,
+        responseHandler: runListTableDataHandler,
+        toolbar: '#toolbar',
+        search: true,
+        pagination: true,
+        pageSize: 30,
+        pageList: [30, 50, 100],
+        showColumns: true,
+        sortable: true,
+        showFooter: false,
+        columns: [
+            {title: 'ID', field: 'id', formatter: runIdFormatter, sortable: true},
+            {title: 'Team', field: 'team.name', sortable: true},
+            {title: 'Product', field: 'product.name', sortable: true},
+            {title: 'Title', field: 'name', sortable: true},
+            {title: 'Start Time', field: 'start_time', formatter: timeHumanFormatter, sortable: true},
+            {title: 'Duration', field: 'duration', sortable: true, visible: false},
+            {title: 'Start By', field: 'start_by', sortable: true, visible: false},
+            {
+                title: 'Passing',
+                field: 'passing_rate',
+                formatter: rateFormatter,
+                sorter: rateSorter,
+                sortable: true
+            },
+            {title: 'State', field: 'get_state_display', sortable: true}
+        ],
+        onPostBody: runListTablePostEvent,
+        cookie: true,
+        cookieExpire: '1y',
+        cookieIdTable: 'runListTable'
+    });
+
+}
+
+function runDetailSummaryTableRender(url) {
+    $('#run-summary').bootstrapTable({
+        url: url,
+        responseHandler: runDetailSummaryDataHandler,
+        search: false,
+        pagination: false,
+        sortable: true,
+        showFooter: false,
+        columns: [
+            {title: 'ID', field: 'id'},
+            {title: 'Team', field: 'team.name'},
+            {title: 'Product', field: 'product.name'},
+            {title: 'Name', field: 'name'},
+            {title: 'Start Time', field: 'start_time', formatter: timeFormatter},
+            {title: 'Duration', field: 'duration'},
+            {title: 'Start By', field: 'start_by'},
+            {title: 'Passed', field: 'result_passed'},
+            {title: 'Failed', field: 'result_failed'},
+            {title: 'Total', field: 'result_total'},
+            {title: 'Status', field: 'get_status_display'}
+        ],
+        onPostBody: runDetailSummaryPostEvent
+    });
+}
+
+function runHistoryTableRender(url) {
+    $('#run-history').bootstrapTable({
+        sidePagination: 'client',
+        url: url,
+        responseHandler: runListTableDataHandler,
+        search: false,
+        pagination: false,
+        showFooter: false,
+        columns: [
+            {title: 'ID', field: 'id', formatter: runIdFormatter, sortable: true},
+            {title: 'Team', field: 'team.name', sortable: true},
+            {title: 'Product', field: 'product.name', sortable: true},
+            {title: 'Title', field: 'name', sortable: true},
+            {title: 'Start Time', field: 'start_time', formatter: timeHumanFormatter, sortable: true},
+            {title: 'Duration', field: 'duration', sortable: true},
+            {title: 'Start By', field: 'start_by', sortable: true},
+            {
+                title: 'Passing',
+                field: 'passing_rate',
+                formatter: rateFormatter,
+                sorter: rateSorter,
+                sortable: true
+            },
+            {title: 'State', field: 'get_state_display', sortable: true}
+        ],
+        onPostBody: undefined
+    });
+}
+
 function caseDetailSummaryDataHandler(data) {
     my.data = data;
     return [data];
@@ -234,4 +326,35 @@ function resultDetailSummaryPostEvent(data) {
 
 function resultHistoryTableDataHandler(data) {
     return data.results;
+}
+
+function runDetailChartRendering() {
+    let chart = c3.generate({
+        bindto: '#detail-chart',
+        data: {
+            columns: [
+                ['data1', 30, 200, 100, 400, 150, 250],
+                ['data2', 50, 20, 10, 40, 15, 25]
+            ],
+            axes: {
+                data2: 'y2' // ADD
+            }
+        },
+        axis: {
+            y2: {
+                show: true // ADD
+            }
+        }
+    });
+
+    c3.generate({
+        bindto: '#rate-chart',
+        data: {
+            columns: [
+                ['data1', 30],
+                ['data2', 120],
+            ],
+            type: 'pie'
+        }
+    });
 }

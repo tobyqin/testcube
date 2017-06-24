@@ -45,41 +45,7 @@
 
     <script>
         $(function () {
-            $('#table').bootstrapTable({
-                sidePagination: 'client',
-                url: '/api/runs/recent/',
-                responseHandler: runListTableDataHandler,
-                toolbar: '#toolbar',
-                search: true,
-                pagination: true,
-                pageSize: 30,
-                pageList: [30, 50, 100],
-                showColumns: true,
-                sortable: true,
-                showFooter: false,
-                columns: [
-                    {title: 'ID', field: 'id', formatter: runIdFormatter, sortable: true},
-                    {title: 'Team', field: 'team.name', sortable: true},
-                    {title: 'Product', field: 'product.name', sortable: true},
-                    {title: 'Title', field: 'name', sortable: true},
-                    {title: 'Start Time', field: 'start_time', formatter: timeHumanFormatter, sortable: true},
-                    {title: 'Duration', field: 'duration', sortable: true, visible: false},
-                    {title: 'Start By', field: 'start_by', sortable: true, visible: false},
-                    {
-                        title: 'Passing',
-                        field: 'passing_rate',
-                        formatter: rateFormatter,
-                        sorter: rateSorter,
-                        sortable: true
-                    },
-                    {title: 'State', field: 'get_state_display', sortable: true}
-                ],
-                onPostBody: runListTablePostEvent,
-                cookie: true,
-                cookieExpire: '1y',
-                cookieIdTable: 'runListTable'
-            });
-
+            runListTableRender('/api/runs/recent/');
             $.ajax('/api/runs/clear/')
         });
     </script>
