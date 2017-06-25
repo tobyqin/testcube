@@ -233,14 +233,14 @@ function runDetailChartRender(data) {
     if (my.runInfo.result_total == 0) return;
 
     let x = ['x'];
-    let runIds = ['runId'];
-    let passed = ['Passed'];
-    let failed = ['Failed'];
-    let total = ['Total'];
-    let passRate = ['PassRate'];
+    let runIds = [];
+    let passed = ['passed'];
+    let failed = ['failed'];
+    let total = ['total'];
+    let passRate = ['passRate'];
 
     for (let run of data.reverse()) {
-        runIds.push(run.id);
+        runIds.push('Run: ' + run.id);
         x.push(moment(run.start_time).format('YYYY-MM-DD'));
         passed.push(run.result_passed);
         failed.push(run.result_failed);
@@ -254,9 +254,7 @@ function runDetailChartRender(data) {
             height: 240
         },
         data: {
-            x: 'runId',
             columns: [
-                runIds,
                 total,
                 passRate,
                 passed,
@@ -264,15 +262,20 @@ function runDetailChartRender(data) {
 
             ],
             axes: {
-                PassRate: 'y2'
+                passRate: 'y2'
             },
             types: {
-                Failed: 'area-spline',
-                Passed: 'area-spline',
-                Total: 'spline'
+                failed: 'area-spline',
+                passed: 'area-spline',
+                total: 'area-spline',
+                passRate: 'spline'
             }
         },
         axis: {
+            x: {
+                type: 'category',
+                categories: runIds
+            },
             y: {
                 show: true,
                 tick: {
@@ -295,11 +298,8 @@ function runDetailChartRender(data) {
         },
         tooltip: {
             format: {
-                title: function (d) {
-                    return 'Run ID:  ' + d;
-                },
                 value: function (value, ratio, id) {
-                    if (id === 'PassRate') {
+                    if (id === 'passRate') {
                         return d3.format('%')(value);
                     }
                     return value;
