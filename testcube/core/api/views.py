@@ -37,12 +37,26 @@ class TeamViewSet(viewsets.ModelViewSet):
     filter_fields = ('name', 'owner')
     search_fields = filter_fields
 
+    @list_route()
+    def recent(self, request):
+        """get recent teams"""
+        self.queryset = Team.objects.order_by('name').all()
+        self.serializer_class = TeamListSerializer
+        return list_view(self)
+
 
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     filter_fields = ('name', 'owner', 'version')
     search_fields = filter_fields
+
+    @list_route()
+    def recent(self, request):
+        """get recent teams"""
+        self.queryset = Product.objects.order_by('name').all()
+        self.serializer_class = ProductListSerializer
+        return list_view(self)
 
 
 class ConfigurationViewSet(viewsets.ModelViewSet):

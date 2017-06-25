@@ -42,10 +42,13 @@
                     data.rows = data.results;
                     return data;
                 },
+                queryParams: caseListQueryParams,
                 search: true,
                 pagination: true,
                 pageSize: 20,
                 pageList: [20, 50, 100],
+                sortName: 'id',
+                sortOrder: 'desc',
                 columns: [
                     {title: 'ID', field: 'id', formatter: caseIdFormatter, sortable: true},
                     {title: 'Team', field: 'team.name', sortable: true},

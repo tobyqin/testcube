@@ -9,11 +9,22 @@ class TeamSerializer(serializers.HyperlinkedModelSerializer):
         fields = '__all__'
 
 
+class TeamListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Team
+        fields = ('id', 'name', 'owner')
+
+
 class ProductSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Product
         fields = '__all__'
 
+
+class ProductListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields = ('id', 'name', 'owner')
 
 class ConfigurationSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:

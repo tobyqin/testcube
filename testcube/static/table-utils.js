@@ -31,16 +31,6 @@ function rateFormatter(rate) {
                 >${percent}</a>`
 }
 
-function rateSorter(a, b) {
-    let x = (a.passed / a.total);
-    let y = (b.passed / b.total);
-    if (isNaN(x)) x = -1;
-    if (isNaN(y)) y = -1;
-    if (x > y) return 1;
-    if (x < y)return -1;
-    return 0;
-}
-
 function timeHumanFormatter(time) {
     return moment(time).fromNow();
 }
@@ -61,7 +51,41 @@ function outcomeFormatter(outcome) {
 }
 
 function runListQueryParams(params) {
-    console.log(params);
+    if (params.sort !== undefined) {
+        let re = /(\w+)(\..*)/; // e.g. product.name => product
+
+        params.ordering = params.sort.replace(re, '$1');
+        if (params.order !== 'asc') {
+            params.ordering = '-' + params.ordering;
+        }
+
+        delete params.sort;
+        delete params.order;
+    }
+
+    if (my.runListFilter.product) {
+        params.product = my.runListFilter.product;
+    }
+    if (my.runListFilter.team) {
+        params.team = my.runListFilter.team;
+    }
+
+    return params;
+}
+
+function caseListQueryParams(params) {
+    if (params.sort !== undefined) {
+        let re = /(\w+)(\..*)/; // e.g. product.name => product
+
+        params.ordering = params.sort.replace(re, '$1');
+        if (params.order !== 'asc') {
+            params.ordering = '-' + params.ordering;
+        }
+
+        delete params.sort;
+        delete params.order;
+    }
+
     return params;
 }
 
@@ -82,7 +106,7 @@ function runListTableDataHandler(data) {
 }
 
 function runListTableFilter() {
-    $('#table').bootstrapTable('filterBy', my.runListFilter);
+    $('#table').bootstrapTable('refresh');
 }
 
 function runListPickerChanged(e, index, newVal, oldVal) {
@@ -90,10 +114,10 @@ function runListPickerChanged(e, index, newVal, oldVal) {
         let picker = $('#team-picker');
         let value = picker.selectpicker('val');
         if (value) {
-            my.runListFilter.team_name = value;
+            my.runListFilter.team = value;
         }
         else {
-            delete my.runListFilter.team_name;
+            delete my.runListFilter.team;
         }
 
         runListTableFilter();
@@ -102,39 +126,37 @@ function runListPickerChanged(e, index, newVal, oldVal) {
         let picker = $('#product-picker');
         let value = picker.selectpicker('val');
         if (value) {
-            my.runListFilter.product_name = value;
+            my.runListFilter.product = value;
         }
         else {
-            delete my.runListFilter.product_name;
+            delete my.runListFilter.product;
         }
 
         runListTableFilter();
     }
 }
 
+function runListFilterRender() {
+    $.get('/api/products/recent/', function (data) {
+        for (let obj of data.results) {
+            $('#product-picker').append(`<option value="${obj.id}">${obj.name}</option>`);
+            $('.selectpicker').selectpicker('refresh');
+        }
+    });
+    $.get('/api/teams/recent/', function (data) {
+        for (let obj of data.results) {
+            $('#team-picker').append(`<option value="${obj.id}">${obj.name}</option>`);
+            $('.selectpicker').selectpicker('refresh');
+        }
+    });
+}
+
 function runListTablePostEvent(data) {
     if (data[0] === undefined) return;
     $("[data-toggle='tooltip']").tooltip();
     if (my.setFilters) return;
-
-    let products = [];
-    let teams = [];
-    for (let run of data) {
-        products.push(run.product.name);
-        teams.push(run.team.name);
-    }
-    products = [...new Set(products)];
-    teams = [...new Set(teams)];
-    for (let obj of products) {
-        $('#product-picker').append(`<option value="${obj}">${obj}</option>`);
-    }
-    for (let obj of teams) {
-        $('#team-picker').append(`<option value="${obj}">${obj}</option>`);
-    }
-
-    $('.selectpicker').selectpicker('refresh')
-        .on('changed.bs.select', runListPickerChanged);
-
+    runListFilterRender();
+    $('.selectpicker').on('changed.bs.select', runListPickerChanged);
     my.setFilters = true;
 }
 
@@ -164,10 +186,8 @@ function runListTableRender(url) {
                 title: 'Passing',
                 field: 'passing_rate',
                 formatter: rateFormatter,
-                sorter: rateSorter,
-                sortable: true
             },
-            {title: 'State', field: 'get_state_display', sortable: true}
+            {title: 'State', field: 'get_state_display'}
         ],
         onPostBody: runListTablePostEvent,
         cookie: true,
@@ -210,22 +230,21 @@ function runHistoryTableRender(runId) {
         search: false,
         pagination: false,
         showFooter: false,
+        sortable: false,
         columns: [
-            {title: 'ID', field: 'id', formatter: runIdFormatter, sortable: true},
-            {title: 'Team', field: 'team.name', sortable: true},
-            {title: 'Product', field: 'product.name', sortable: true},
-            {title: 'Title', field: 'name', sortable: true},
-            {title: 'Start Time', field: 'start_time', formatter: timeHumanFormatter, sortable: true},
-            {title: 'Duration', field: 'duration', sortable: true},
-            {title: 'Start By', field: 'start_by', sortable: true},
+            {title: 'ID', field: 'id', formatter: runIdFormatter},
+            {title: 'Team', field: 'team.name'},
+            {title: 'Product', field: 'product.name'},
+            {title: 'Title', field: 'name'},
+            {title: 'Start Time', field: 'start_time', formatter: timeHumanFormatter},
+            {title: 'Duration', field: 'duration'},
+            {title: 'Start By', field: 'start_by'},
             {
                 title: 'Passing',
                 field: 'passing_rate',
-                formatter: rateFormatter,
-                sorter: rateSorter,
-                sortable: true
+                formatter: rateFormatter
             },
-            {title: 'State', field: 'get_state_display', sortable: true}
+            {title: 'State', field: 'get_state_display'}
         ],
         onPostBody: runDetailChartRender
     });
@@ -480,15 +499,15 @@ function resultDetailPageRender(resultId) {
         pagination: false,
         sortName: 'id',
         sortOrder: 'desc',
-        sortable: true,
+        sortable: false,
         showFooter: false,
         columns: [
-            {title: 'ID', field: 'id', sortable: true},
-            {title: 'TestCase', field: 'testcase.name', sortable: true},
-            {title: 'Duration', field: 'duration', sortable: true},
-            {title: 'Assigned To', field: 'assigned_to', sortable: true},
-            {title: 'Client', field: 'test_client.name', sortable: true},
-            {title: 'Outcome', field: 'get_outcome_display', formatter: outcomeFormatter, sortable: true}
+            {title: 'ID', field: 'id'},
+            {title: 'TestCase', field: 'testcase.name'},
+            {title: 'Duration', field: 'duration'},
+            {title: 'Assigned To', field: 'assigned_to'},
+            {title: 'Client', field: 'test_client.name'},
+            {title: 'Outcome', field: 'get_outcome_display', formatter: outcomeFormatter}
         ],
         onPostBody: resultDetailSummaryPostEvent
     });
