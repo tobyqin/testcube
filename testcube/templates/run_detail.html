@@ -31,15 +31,28 @@
                     <table id="run-summary"></table>
                     <h2>Results</h2>
                     <hr/>
-                    <table id="result-list"></table>
-                    <h2>History</h2>
-                    <hr/>
-                    <table id="run-history"></table>
+                    <ul class="nav nav-pills ">
+                        <li class="active nav"><a href="#tab-failed" data-toggle="tab">Failed</a></li>
+                        <li class="nav"><a href="#tab-passed" data-toggle="tab">Passed</a></li>
+                    </ul>
+
+                    <div class="tab-content">
+                        <div class="tab-pane fade in active" id="tab-failed">
+                            <div class="spacer20"></div>
+                            <table id="result-failed-list"></table>
+                        </div>
+                        <div class="tab-pane fade" id="tab-passed">
+                            <div class="spacer20"></div>
+                            <table id="result-passed-list"></table>
+                        </div>
+                        <h2>History</h2>
+                        <hr/>
+                        <table id="run-history"></table>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-
 
 {% endblock %}
 

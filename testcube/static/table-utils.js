@@ -348,9 +348,39 @@ function runDetailSummaryPostEvent(data) {
     let run = data[0];
     let nav = `${run.id} - ${run.name}`;
     $('#run-nav').empty().append(nav);
+    let passed = [];
+    let failed = [];
+    for (let result of my.runInfo.results) {
+        if (result.get_outcome_display === 'Failed') {
+            failed.push(result);
+        } else {
+            passed.push(result);
+        }
+    }
 
-    $('#result-list').bootstrapTable({
-        data: my.runInfo.results,
+    $('#result-failed-list').bootstrapTable({
+        data: failed,
+        search: true,
+        pagination: true,
+        pageSize: 100,
+        pageList: [100, 200],
+        sortName: 'id',
+        sortOrder: 'desc',
+        sortable: true,
+        showFooter: false,
+        columns: [
+            {title: 'ID', field: 'id', formatter: resultIdFormatter, sortable: true},
+            {title: 'TestCase', field: 'testcase_info.name', sortable: true},
+            {title: 'Duration', field: 'duration', sortable: true},
+            {title: 'Assigned To', field: 'assigned_to', sortable: true},
+            {title: 'Client', field: 'test_client.name', sortable: true},
+            {title: 'Outcome', field: 'get_outcome_display', formatter: outcomeFormatter, sortable: true}
+        ],
+        onPostBody: undefined
+    });
+
+    $('#result-passed-list').bootstrapTable({
+        data: passed,
         search: true,
         pagination: true,
         pageSize: 100,
