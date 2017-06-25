@@ -35,11 +35,21 @@ class TestResult(models.Model):
         return {'id': self.testcase.id,
                 'name': self.testcase.name}
 
+    def testcase_exec_info(self):
+        return self.testcase.execution_info()
+
     def error_message(self):
         if self.error:
             return self.error.message
-        else:
-            return None
+
+    def reason(self):
+        if self.analysis:
+            return self.analysis.reason
+
+    def issue_id(self):
+        if self.analysis:
+            if self.analysis.issue:
+                return self.analysis.issue.name
 
     class Meta:
         ordering = ['-created_on']
