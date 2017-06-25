@@ -29,6 +29,7 @@
 
 {% block scripts %}
     <script src="{% static 'libs/bootstrap-table/bootstrap-table.min.js' %}"></script>
+    <script src="{% static 'table-config.js' %}"></script>
     <script src="{% static 'table-utils.js' %}"></script>
     <script src="https://cdn.bootcss.com/moment.js/2.18.1/moment.min.js"></script>
 
@@ -49,15 +50,7 @@
                 pageList: [20, 50, 100],
                 sortName: 'id',
                 sortOrder: 'desc',
-                columns: [
-                    {title: 'ID', field: 'id', formatter: caseIdFormatter, sortable: true},
-                    {title: 'Team', field: 'team.name', sortable: true},
-                    {title: 'Product', field: 'product.name', sortable: true},
-                    {title: 'Name', field: 'name', sortable: true},
-                    {title: 'Priority', field: 'priority', sortable: true},
-                    {title: 'Owner', field: 'owner', sortable: true},
-                    {title: 'Updated On', field: 'updated_on', formatter: timeFormatter, sortable: true}
-                ],
+                columns: my.caseListColumns,
             });
         });
     </script>

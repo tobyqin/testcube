@@ -1,8 +1,8 @@
 "use strict";
 
 function runDetailChartRender() {
-    if (my.runList === undefined) return;
-    if (my.runInfo.result_total == 0) return;
+    if (my.runList === undefined || my.summaryInfo == undefined) return;
+    if (my.summaryInfo.result_total == 0) return;
 
     let x = ['x'];
     let runIds = [];
@@ -96,9 +96,9 @@ function runDetailChartRender() {
 
         data: {
             columns: [
-                ['Skipped', my.runInfo.result_skipped],
-                ['Failed', my.runInfo.result_failed],
-                ['Passed', my.runInfo.result_passed],
+                ['Skipped', my.summaryInfo.result_skipped],
+                ['Failed', my.summaryInfo.result_failed],
+                ['Passed', my.summaryInfo.result_passed],
             ],
             type: 'pie'
         }

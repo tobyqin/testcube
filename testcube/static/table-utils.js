@@ -2,54 +2,6 @@
 
 my.runListFilter = {};
 
-function runIdFormatter(id) {
-    return `<a href="/runs/${id}">${id}</a>`;
-}
-
-function resultIdFormatter(id) {
-    return `<a href="/results/${id}">${id}</a>`;
-}
-
-function caseIdFormatter(id) {
-    return `<a href="/testcases/${id}">${id}</a>`;
-}
-
-function rateFormatter(rate) {
-    if (rate === undefined) return;
-    let percentNum = rate.passed / rate.total;
-    let percent = percentNum.toLocaleString('en', {style: "percent"});
-
-    if (isNaN(percentNum)) {
-        percentNum = 0;
-    }
-
-    let color = getColor(percentNum);
-    return `<a href="/runs/${rate.id}" 
-                data-toggle="tooltip" 
-                title="${rate.passed} / ${rate.total}"
-                style="color: ${color};text-decoration: none"
-                >${percent}</a>`
-}
-
-function timeHumanFormatter(time) {
-    return moment(time).fromNow();
-}
-
-function timeFormatter(time) {
-    return moment(time).calendar();
-}
-
-function outcomeFormatter(outcome) {
-    let cls = 'text-danger';
-    if (outcome === 'Skipped') {
-        cls = 'text-warning';
-    }
-    else if (outcome === 'Passed') {
-        cls = 'text-success';
-    }
-    return `<p class="${cls}">${outcome}</p>`;
-}
-
 function runListQueryParams(params) {
     if (params.sort !== undefined) {
         let re = /(\w+)(\..*)/; // e.g. product.name => product
@@ -161,65 +113,31 @@ function runListTablePostEvent(data) {
 }
 
 function runListTableRender(url) {
-    $('#table').bootstrapTable({
-        sidePagination: 'server',
+    $('#table').bootstrapTable($.extend(my.defaultTableOptions, {
         url: url,
         queryParams: runListQueryParams,
         responseHandler: runListTableDataHandler,
         toolbar: '#toolbar',
-        search: true,
-        pagination: true,
-        pageSize: 20,
-        pageList: [20, 30, 50, 100],
         showColumns: true,
-        sortable: true,
-        showFooter: false,
-        columns: [
-            {title: 'ID', field: 'id', formatter: runIdFormatter, sortable: true},
-            {title: 'Team', field: 'team.name', sortable: true},
-            {title: 'Product', field: 'product.name', sortable: true},
-            {title: 'Title', field: 'name', sortable: true},
-            {title: 'Start Time', field: 'start_time', formatter: timeHumanFormatter, sortable: true},
-            {title: 'Duration', field: 'duration', sortable: true, visible: false},
-            {title: 'Start By', field: 'start_by', sortable: true, visible: false},
-            {
-                title: 'Passing',
-                field: 'passing_rate',
-                formatter: rateFormatter,
-            },
-            {title: 'State', field: 'get_state_display'}
-        ],
+        columns: my.runListColumns,
         onPostBody: runListTablePostEvent,
         cookie: true,
         cookieExpire: '1y',
         cookieIdTable: 'runListTable'
-    });
-
+    }));
 }
 
 function runDetailPageRender(runId) {
-    $('#run-summary').bootstrapTable({
+    $('#run-summary').bootstrapTable($.extend(my.defaultTableOptions, {
         url: `/api/runs/${ runId }/info/`,
-        responseHandler: runDetailSummaryDataHandler,
+        responseHandler: summaryDataHandler,
+        sidePagination: 'client',
         search: false,
         pagination: false,
-        sortable: true,
-        showFooter: false,
-        columns: [
-            {title: 'ID', field: 'id'},
-            {title: 'Team', field: 'team.name'},
-            {title: 'Product', field: 'product.name'},
-            {title: 'Name', field: 'name'},
-            {title: 'Start Time', field: 'start_time', formatter: timeFormatter},
-            {title: 'Duration', field: 'duration'},
-            {title: 'Start By', field: 'start_by'},
-            {title: 'Passed', field: 'result_passed'},
-            {title: 'Failed', field: 'result_failed'},
-            {title: 'Total', field: 'result_total'},
-            {title: 'Status', field: 'get_status_display'}
-        ],
+        sortable: false,
+        columns: my.runDetailColumns,
         onPostBody: runDetailSummaryPostEvent
-    });
+    }));
 }
 
 function runHistoryTableRender(runId) {
@@ -231,21 +149,7 @@ function runHistoryTableRender(runId) {
         pagination: false,
         showFooter: false,
         sortable: false,
-        columns: [
-            {title: 'ID', field: 'id', formatter: runIdFormatter},
-            {title: 'Team', field: 'team.name'},
-            {title: 'Product', field: 'product.name'},
-            {title: 'Title', field: 'name'},
-            {title: 'Start Time', field: 'start_time', formatter: timeHumanFormatter},
-            {title: 'Duration', field: 'duration'},
-            {title: 'Start By', field: 'start_by'},
-            {
-                title: 'Passing',
-                field: 'passing_rate',
-                formatter: rateFormatter
-            },
-            {title: 'State', field: 'get_state_display'}
-        ],
+        columns: my.runHistoryColumns,
         onPostBody: runDetailChartRender
     });
 }
@@ -262,19 +166,16 @@ function caseDetailSummaryTablePostEvent(data) {
     $('#case-nav').empty().append(nav);
 }
 
-function runDetailSummaryDataHandler(data) {
-    my.runInfo = data;
-    return [data];
-}
-
 function runDetailSummaryPostEvent(data) {
     if (data[0] === undefined) return;
+
     let run = data[0];
     let nav = `${run.id} - ${run.name}`;
     $('#run-nav').empty().append(nav);
+
     let passed = [];
     let failed = [];
-    for (let result of my.runInfo.results) {
+    for (let result of my.summaryInfo.results) {
         if (result.get_outcome_display === 'Failed') {
             failed.push(result);
         } else {
@@ -288,18 +189,9 @@ function runDetailSummaryPostEvent(data) {
         pagination: true,
         pageSize: 100,
         pageList: [100, 200],
-        sortName: 'id',
-        sortOrder: 'desc',
         sortable: true,
         showFooter: false,
-        columns: [
-            {title: 'ID', field: 'id', formatter: resultIdFormatter, sortable: true},
-            {title: 'TestCase', field: 'testcase_info.name', sortable: true},
-            {title: 'Duration', field: 'duration', sortable: true},
-            {title: 'Assigned To', field: 'assigned_to', sortable: true},
-            {title: 'Client', field: 'test_client.name', sortable: true},
-            {title: 'Outcome', field: 'get_outcome_display', formatter: outcomeFormatter, sortable: true}
-        ],
+        columns: my.runFailedResultColumns,
         onPostBody: undefined
     });
 
@@ -309,27 +201,13 @@ function runDetailSummaryPostEvent(data) {
         pagination: true,
         pageSize: 100,
         pageList: [100, 200],
-        sortName: 'id',
-        sortOrder: 'desc',
         sortable: true,
         showFooter: false,
-        columns: [
-            {title: 'ID', field: 'id', formatter: resultIdFormatter, sortable: true},
-            {title: 'TestCase', field: 'testcase_info.name', sortable: true},
-            {title: 'Duration', field: 'duration', sortable: true},
-            {title: 'Assigned To', field: 'assigned_to', sortable: true},
-            {title: 'Client', field: 'test_client.name', sortable: true},
-            {title: 'Outcome', field: 'get_outcome_display', formatter: outcomeFormatter, sortable: true}
-        ],
+        columns: my.runPassedResultColumns,
         onPostBody: undefined
     });
 
     runHistoryTableRender(run.id);
-}
-
-function resultDetailSummaryDataHandler(data) {
-    my.resultInfo = data;
-    return [data];
 }
 
 function resultDetailSummaryPostEvent(data) {
@@ -362,24 +240,12 @@ function resultDetailSummaryPostEvent(data) {
             responseHandler: resultHistoryTableDataHandler,
             search: false,
             pagination: false,
-            sortName: 'id',
-            sortOrder: 'desc',
             sortable: false,
             showFooter: false,
-            columns: [
-                {title: 'ID', field: 'id', formatter: resultIdFormatter,},
-                {title: 'TestCase', field: 'testcase_info.name'},
-                {title: 'Run On', field: 'run_info.start_time', formatter: timeFormatter},
-                {title: 'Duration', field: 'duration'},
-                {title: 'Error Message', field: 'error_message'},
-                {title: 'Client', field: 'test_client.name'},
-                {title: 'Outcome', field: 'get_outcome_display', formatter: outcomeFormatter}
-            ],
+            columns: my.resultHistoryColumns,
             onPostBody: undefined
         });
     }
-
-
 }
 
 function resultHistoryTableDataHandler(data) {
@@ -389,21 +255,14 @@ function resultHistoryTableDataHandler(data) {
 function resultDetailPageRender(resultId) {
     $('#table').bootstrapTable({
         url: `/api/results/${ resultId }/info/`,
-        responseHandler: resultDetailSummaryDataHandler,
+        responseHandler: summaryDataHandler,
         search: false,
         pagination: false,
         sortName: 'id',
         sortOrder: 'desc',
         sortable: false,
         showFooter: false,
-        columns: [
-            {title: 'ID', field: 'id'},
-            {title: 'TestCase', field: 'testcase.name'},
-            {title: 'Duration', field: 'duration'},
-            {title: 'Assigned To', field: 'assigned_to'},
-            {title: 'Client', field: 'test_client.name'},
-            {title: 'Outcome', field: 'get_outcome_display', formatter: outcomeFormatter}
-        ],
+        columns: my.resultDetailColumns,
         onPostBody: resultDetailSummaryPostEvent
     });
 }

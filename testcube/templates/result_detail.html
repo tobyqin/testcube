@@ -22,6 +22,12 @@
                 <div class="col-md-12">
                     <h2>Summary</h2>
                     <hr/>
+                    <div class="col-md-8">
+                        <div id="detail-chart"></div>
+                    </div>
+                    <div class="col-md-4">
+                        <div id="rate-chart"></div>
+                    </div>
                     <table id="table">
                     </table>
 
@@ -91,6 +97,7 @@
 
 {% block scripts %}
     <script src="{% static 'libs/bootstrap-table/bootstrap-table.min.js' %}"></script>
+    <script src="{% static 'table-config.js' %}"></script>
     <script src="{% static 'table-utils.js' %}"></script>
     <script src="https://cdn.bootcss.com/moment.js/2.18.1/moment.min.js"></script>
 
