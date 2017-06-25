@@ -4,6 +4,7 @@
 {% block title %}Runs{% endblock %}
 {% block header %}
     <link href="{% static 'libs/bootstrap-table/bootstrap-table.min.css' %}" rel="stylesheet">
+    <link href="{% static 'libs/bootstrap-select/bootstrap-select.min.css' %}" rel="stylesheet">
 {% endblock %}
 
 {% block body %}
@@ -17,10 +18,17 @@
         <div id="main-content">
             <div class="row">
                 <div class="col-md-12">
-                    <div class="">
-                        <table id="table" class="table">
-                        </table>
+                    <div id="toolbar">
+                        <form>
+                            <select id="team-picker" class="selectpicker" data-live-search="true" data-width="auto">
+                                <option value="">Team</option>
+                            </select>
+                            <select id="product-picker" class="selectpicker" data-live-search="true" data-width="auto">
+                                <option value="">Product</option>
+                            </select>
+                        </form>
                     </div>
+                    <table id="table"></table>
                 </div>
             </div>
         </div>
@@ -30,42 +38,15 @@
 
 {% block scripts %}
     <script src="{% static 'libs/bootstrap-table/bootstrap-table.min.js' %}"></script>
+    <script src="{% static 'libs/bootstrap-table/bootstrap-table-cookie.js' %}"></script>
+    <script src= {% static 'libs/bootstrap-select/bootstrap-select.min.js' %}></script>
     <script src="{% static 'table-utils.js' %}"></script>
     <script src="https://cdn.bootcss.com/moment.js/2.18.1/moment.min.js"></script>
 
     <script>
         $(function () {
-            $('#table').bootstrapTable({
-                url: '/api/runs/recent/',
-                responseHandler: runTableDataHandler,
-                search: true,
-                pagination: true,
-                pageSize: 30,
-                pageList: [30, 50, 100],
-                showColumns: true,
-                sortable: true,
-                showFooter: false,
-                columns: [
-                    {title: 'ID', field: 'id', formatter: runIdFormatter, sortable: true},
-                    {title: 'Team', field: 'team.name', sortable: true},
-                    {title: 'Product', field: 'product.name', sortable: true},
-                    {title: 'Title', field: 'name', sortable: true},
-                    {title: 'Start Time', field: 'start_time', sortable: true},
-                    {title: 'Duration', field: 'duration', sortable: true},
-                    {title: 'Start By', field: 'start_by', sortable: true},
-                    {
-                        title: 'Passing',
-                        field: 'passing_rate',
-                        formatter: rateFormatter,
-                        sorter: rateSorter,
-                        sortable: true
-                    },
-                    {title: 'State', field: 'get_state_display', sortable: true}
-                ],
-                onPostBody: runTablePostEvent
-            });
-
-
+            runListTableRender('/api/runs/recent/');
+            $.ajax('/api/runs/clear/')
         });
     </script>
 {% endblock %}
