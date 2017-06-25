@@ -94,12 +94,12 @@ class TestRunViewSet(viewsets.ModelViewSet):
     @list_route()
     def clear(self, request):
         """clear dead runs, will be called async when user visit run list."""
-        pending_runs = TestRun.objects.filter(status__lt=2)  # not ready, starting, running
+        pending_runs = TestRun.objects.filter(state__lt=2)  # not ready, starting, running
         fixed = []
 
         for run in pending_runs:
             delta = datetime.now(timezone.utc) - run.start_time
-            if delta.days > 1:
+            if delta.days > 1 and run.state < 2:
                 run.state, run.status = 2, 1  # abort, failed
                 run.save()
                 fixed.append(run.id)
@@ -172,6 +172,6 @@ class ResultErrorViewSet(viewsets.ModelViewSet):
 
 
 class LargeResultsSetPagination(PageNumberPagination):
-    page_size = 5000
+    page_size = 30
     page_size_query_param = 'page_size'
     max_page_size = 1000

@@ -236,6 +236,7 @@ function runDetailChartRender(data) {
     let runIds = [];
     let passed = ['passed'];
     let failed = ['failed'];
+    let skipped = ['skipped'];
     let total = ['total'];
     let passRate = ['passRate'];
 
@@ -244,6 +245,7 @@ function runDetailChartRender(data) {
         x.push(moment(run.start_time).format('YYYY-MM-DD'));
         passed.push(run.result_passed);
         failed.push(run.result_failed);
+        skipped.push(run.result_skipped);
         total.push(run.result_total);
         passRate.push(((run.result_total - run.result_failed) / run.result_total).toFixed(2));
     }
@@ -255,7 +257,7 @@ function runDetailChartRender(data) {
         },
         data: {
             columns: [
-                total,
+                skipped,
                 passRate,
                 passed,
                 failed,
@@ -264,10 +266,13 @@ function runDetailChartRender(data) {
             axes: {
                 passRate: 'y2'
             },
+            groups: [
+                ['passed', 'failed', 'skipped']
+            ],
             types: {
-                failed: 'area-spline',
-                passed: 'area-spline',
-                total: 'area-spline',
+                failed: 'bar',
+                passed: 'bar',
+                skipped: 'bar',
                 passRate: 'spline'
             }
         },
