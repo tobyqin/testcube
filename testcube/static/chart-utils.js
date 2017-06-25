@@ -6,14 +6,14 @@ function runDetailChartRender() {
 
     let x = ['x'];
     let runIds = [];
-    let passed = ['passed'];
-    let failed = ['failed'];
-    let skipped = ['skipped'];
-    let total = ['total'];
-    let passRate = ['passRate'];
+    let passed = ['Passed'];
+    let failed = ['Failed'];
+    let skipped = ['Skipped'];
+    let total = ['Total'];
+    let passRate = ['PassRate'];
 
     // get last 10 will be okay
-    let latest = my.runList.results.slice(0, 10);
+    let latest = my.runList.results.slice(0, 9);
     for (let run of latest.reverse()) {
         runIds.push('Run: ' + run.id);
         x.push(moment(run.start_time).format('YYYY-MM-DD'));
@@ -38,16 +38,16 @@ function runDetailChartRender() {
 
             ],
             axes: {
-                passRate: 'y2'
+                Rate: 'y2'
             },
             groups: [
-                ['passed', 'failed', 'skipped']
+                ['Passed', 'Failed', 'Skipped']
             ],
             types: {
-                failed: 'bar',
-                passed: 'bar',
-                skipped: 'bar',
-                passRate: 'spline'
+                Failed: 'bar',
+                Passed: 'bar',
+                Skipped: 'bar',
+                PassRate: 'spline'
             }
         },
         axis: {
@@ -78,7 +78,7 @@ function runDetailChartRender() {
         tooltip: {
             format: {
                 value: function (value, ratio, id) {
-                    if (id === 'passRate') {
+                    if (id === 'PassRate') {
                         return d3.format('%')(value);
                     }
                     return value;
