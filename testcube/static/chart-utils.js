@@ -38,7 +38,7 @@ function runDetailChartRender() {
 
             ],
             axes: {
-                Rate: 'y2'
+                PassRate: 'y2'
             },
             groups: [
                 ['Passed', 'Failed', 'Skipped']
