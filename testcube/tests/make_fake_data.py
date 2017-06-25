@@ -87,8 +87,10 @@ def start_run(team, product):
 
 def finish_run(run, status='Failed'):
     status_code = 0 if status == 'Passed' else 1
+    delta = timedelta(seconds=fake.random.randint(200, 1000))
     run.state = 3
     run.status = status_code
+    run.end_time = run.start_time + delta
     run.save()
 
 
