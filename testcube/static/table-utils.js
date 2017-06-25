@@ -243,12 +243,13 @@ function resultDetailSummaryPostEvent(data) {
             sortable: false,
             showFooter: false,
             columns: my.resultHistoryColumns,
-            onPostBody: undefined
+            onPostBody: resultDetailChartRender
         });
     }
 }
 
 function resultHistoryTableDataHandler(data) {
+    my.resultHistory = data;
     return data.results;
 }
 

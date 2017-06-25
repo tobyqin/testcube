@@ -1,5 +1,10 @@
 "use strict";
 
+my.successColor = 'rgb(44, 160, 44)';
+my.failedColor = 'rgb(214, 39, 40)';
+my.warnColor = 'rgb(255, 127, 14)';
+my.infoColor = 'rgb(31, 119, 180)';
+
 function runDetailChartRender() {
     if (my.runList === undefined || my.summaryInfo == undefined) return;
     if (my.summaryInfo.result_total == 0) return;
@@ -8,7 +13,7 @@ function runDetailChartRender() {
     let runIds = [];
     let passed = ['Passed'];
     let failed = ['Failed'];
-    let skipped = ['Skipped'];
+    let skipped = ['Other'];
     let total = ['Total'];
     let passRate = ['PassRate'];
 
@@ -31,24 +36,29 @@ function runDetailChartRender() {
         },
         data: {
             columns: [
-                skipped,
-                passRate,
                 passed,
                 failed,
+                skipped,
+                passRate,
 
             ],
             axes: {
                 PassRate: 'y2'
             },
             groups: [
-                ['Passed', 'Failed', 'Skipped']
+                ['Passed', 'Failed', 'Other']
             ],
             types: {
                 Failed: 'bar',
                 Passed: 'bar',
-                Skipped: 'bar',
+                Other: 'bar',
                 PassRate: 'spline'
-            }
+            },
+            colors: {
+                Passed: my.successColor,
+                Failed: my.failedColor,
+                PassRate: my.warnColor
+            },
         },
         axis: {
             x: {
@@ -96,11 +106,102 @@ function runDetailChartRender() {
 
         data: {
             columns: [
-                ['Skipped', my.summaryInfo.result_skipped],
-                ['Failed', my.summaryInfo.result_failed],
                 ['Passed', my.summaryInfo.result_passed],
+                ['Failed', my.summaryInfo.result_failed],
+                ['Other', (my.summaryInfo.result_total
+                - my.summaryInfo.result_failed
+                - my.summaryInfo.result_passed)]
+
             ],
-            type: 'pie'
+            type: 'pie',
+            colors: {
+                Passed: my.successColor,
+                Failed: my.warnColor,
+                Other: my.infoColor
+            },
+        }
+    });
+}
+
+
+function resultDetailChartRender() {
+    if (my.resultHistory === undefined || my.summaryInfo == undefined) return;
+
+    let x = ['x'];
+    let runIds = [];
+    let passed = ['Passed'];
+    let failed = ['Failed'];
+    let duration = ['Duration'];
+
+    // get last 10 will be okay
+    let latest = my.resultHistory.results.slice(0, 20);
+    for (let result of latest.reverse()) {
+        runIds.push(result.run_info.id);
+        duration.push(result.duration);
+        if (result.get_outcome_display === 'Passed') {
+            passed.push(1);
+            failed.push(0);
+        }
+        else {
+            passed.push(0);
+            failed.push(1);
+        }
+    }
+
+    c3.generate({
+        bindto: '#detail-chart',
+        size: {
+            height: 240
+        },
+        data: {
+            columns: [
+                passed,
+                failed,
+
+            ],
+            groups: [
+                ['Passed', 'Failed']
+            ],
+            types: {
+                Failed: 'bar',
+                Passed: 'bar',
+            },
+            colors: {
+                Passed: my.successColor,
+                Failed: my.failedColor
+            },
+        },
+        axis: {
+            x: {
+                show: false,
+                type: 'category'
+            },
+            y: {
+                show: false,
+            },
+        }
+    })
+    ;
+
+    c3.generate({
+        bindto: '#rate-chart',
+
+        size: {
+            height: 240
+        },
+
+        data: {
+            columns: [
+                ['Passed', my.summaryInfo.testcase_exec_info.passed],
+                ['Failed', my.summaryInfo.testcase_exec_info.failed],
+                ['Other', my.summaryInfo.testcase_exec_info.other]
+            ],
+            type: 'pie',
+            colors: {
+                Passed: my.successColor,
+                Failed: my.warnColor,
+                Other: my.infoColor
+            },
         }
     });
 }
