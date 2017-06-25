@@ -35,14 +35,17 @@
     <script>
         $(function () {
             $('#table').bootstrapTable({
+                sidePagination: 'server',
                 url: '/api/cases/recent/',
                 responseHandler: function (data) {
-                    return data.results;
+                    data.total = data.count;
+                    data.rows = data.results;
+                    return data;
                 },
                 search: true,
                 pagination: true,
-                pageSize: 50,
-                pageList: [50, 100, 150],
+                pageSize: 20,
+                pageList: [20, 50, 100],
                 columns: [
                     {title: 'ID', field: 'id', formatter: caseIdFormatter, sortable: true},
                     {title: 'Team', field: 'team.name', sortable: true},

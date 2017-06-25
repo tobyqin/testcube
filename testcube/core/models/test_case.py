@@ -20,7 +20,7 @@ class TestCase(models.Model):
     updated_on = models.DateTimeField(auto_now=True)
 
     class Meta:
-        ordering = ['id']
+        ordering = ['-id']
 
     def __str__(self):
         return self.full_name if self.full_name else self.name

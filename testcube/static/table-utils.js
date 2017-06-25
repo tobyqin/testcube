@@ -15,6 +15,7 @@ function caseIdFormatter(id) {
 }
 
 function rateFormatter(rate) {
+    if (rate === undefined) return;
     let percentNum = rate.passed / rate.total;
     let percent = percentNum.toLocaleString('en', {style: "percent"});
 
@@ -59,9 +60,15 @@ function outcomeFormatter(outcome) {
     return `<p class="${cls}">${outcome}</p>`;
 }
 
+function runListQueryParams(params) {
+    console.log(params);
+    return params;
+}
+
 function runListTableDataHandler(data) {
-    let rows = data.results;
-    for (let r of rows) {
+    data.total = data.count;
+    data.rows = data.results;
+    for (let r of data.results) {
         r.passing_rate = {
             id: r.id,
             passed: r.result_total - r.result_failed,
@@ -71,7 +78,7 @@ function runListTableDataHandler(data) {
         r.team_name = r.team.name;
     }
     my.runList = data;
-    return rows;
+    return data;
 }
 
 function runListTableFilter() {
@@ -103,7 +110,6 @@ function runListPickerChanged(e, index, newVal, oldVal) {
 
         runListTableFilter();
     }
-
 }
 
 function runListTablePostEvent(data) {
@@ -134,14 +140,15 @@ function runListTablePostEvent(data) {
 
 function runListTableRender(url) {
     $('#table').bootstrapTable({
-        sidePagination: 'client',
+        sidePagination: 'server',
         url: url,
+        queryParams: runListQueryParams,
         responseHandler: runListTableDataHandler,
         toolbar: '#toolbar',
         search: true,
         pagination: true,
-        pageSize: 30,
-        pageList: [30, 50, 100],
+        pageSize: 20,
+        pageList: [20, 30, 50, 100],
         showColumns: true,
         sortable: true,
         showFooter: false,
@@ -171,10 +178,6 @@ function runListTableRender(url) {
 }
 
 function runDetailPageRender(runId) {
-    runDetailSummaryTableRender(runId);
-}
-
-function runDetailSummaryTableRender(runId) {
     $('#run-summary').bootstrapTable({
         url: `/api/runs/${ runId }/info/`,
         responseHandler: runDetailSummaryDataHandler,
@@ -201,7 +204,7 @@ function runDetailSummaryTableRender(runId) {
 
 function runHistoryTableRender(runId) {
     $('#run-history').bootstrapTable({
-        sidePagination: 'client',
+        sidePagination: 'server',
         url: `/api/runs/${ runId }/history/`,
         responseHandler: runListTableDataHandler,
         search: false,
@@ -240,7 +243,9 @@ function runDetailChartRender(data) {
     let total = ['total'];
     let passRate = ['passRate'];
 
-    for (let run of data.reverse()) {
+    // get last 10 will be okay
+    let latest = data.slice(0, 10);
+    for (let run of latest.reverse()) {
         runIds.push('Run: ' + run.id);
         x.push(moment(run.start_time).format('YYYY-MM-DD'));
         passed.push(run.result_passed);

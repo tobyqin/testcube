@@ -2,7 +2,7 @@ from datetime import datetime, timezone
 
 from rest_framework import viewsets
 from rest_framework.decorators import detail_route, list_route
-from rest_framework.pagination import PageNumberPagination
+from rest_framework.pagination import PageNumberPagination, LimitOffsetPagination
 from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
 
@@ -17,28 +17,12 @@ def info_view(self, serializer_class):
     return Response(serializer.data)
 
 
-def recent_view(self, model_class, serializer_class, pagination_class=None):
-    objects = model_class.objects.all()
-    self.serializer_class = serializer_class
+def list_view(self):
+    self.pagination_class = LimitOffsetPagination
 
-    if pagination_class:
-        self.pagination_class = pagination_class
-    else:
-        self.pagination_class = LargeResultsSetPagination
-
-    page = self.paginate_queryset(objects)
-    if page is not None:
-        serializer = self.get_serializer(page, many=True)
-        return self.get_paginated_response(serializer.data)
-
-    serializer = self.get_serializer(objects, many=True)
-    return Response(serializer.data)
-
-
-def history_view(self, queryset, serializer_class):
-    self.serializer_class = serializer_class
-
+    queryset = self.filter_queryset(self.get_queryset())
     page = self.paginate_queryset(queryset)
+
     if page is not None:
         serializer = self.get_serializer(page, many=True)
         return self.get_paginated_response(serializer.data)
@@ -79,7 +63,7 @@ class TestClientViewSet(viewsets.ModelViewSet):
 class TestRunViewSet(viewsets.ModelViewSet):
     queryset = TestRun.objects.all()
     serializer_class = TestRunSerializer
-    filter_fields = ('name', 'state', 'status', 'owner')
+    filter_fields = ('name', 'state', 'status', 'owner', 'team', 'product')
     search_fields = filter_fields
 
     @detail_route(methods=['get'])
@@ -89,7 +73,8 @@ class TestRunViewSet(viewsets.ModelViewSet):
     @list_route()
     def recent(self, request):
         """get recent runs, in run list view"""
-        return recent_view(self, TestRun, TestRunListSerializer)
+        self.serializer_class = TestRunListSerializer
+        return list_view(self)
 
     @list_route()
     def clear(self, request):
@@ -110,8 +95,10 @@ class TestRunViewSet(viewsets.ModelViewSet):
     def history(self, request, pk=None):
         """get run history, will be used in run detail page."""
         instance = self.get_object()
-        queryset = TestRun.objects.filter(name=instance.name)[:20]
-        return history_view(self, queryset, TestRunListSerializer)
+        self.filter_fields = ()
+        self.queryset = TestRun.objects.filter(name=instance.name)
+        self.serializer_class = TestRunListSerializer
+        return list_view(self)
 
 
 class TestCaseViewSet(viewsets.ModelViewSet):
@@ -128,14 +115,17 @@ class TestCaseViewSet(viewsets.ModelViewSet):
     @list_route()
     def recent(self, request):
         """get recent testcase, use for test case page."""
-        return recent_view(self, TestCase, TestCaseListSerializer)
+        self.serializer_class = TestCaseListSerializer
+        return list_view(self)
 
     @detail_route(methods=['get'])
     def history(self, request, pk=None):
         """get test case history, use in test case view or result detail view."""
         instance = self.get_object()
-        queryset = TestResult.objects.filter(testcase__id=instance.id)[:20]
-        return history_view(self, queryset, TestResultHistorySerializer)
+        self.filter_fields = ()
+        self.queryset = TestResult.objects.filter(testcase__id=instance.id)
+        self.serializer_class = TestResultHistorySerializer
+        return list_view(self)
 
 
 class TestResultViewSet(viewsets.ModelViewSet):
@@ -172,6 +162,6 @@ class ResultErrorViewSet(viewsets.ModelViewSet):
 
 
 class LargeResultsSetPagination(PageNumberPagination):
-    page_size = 30
+    page_size = 1000
     page_size_query_param = 'page_size'
     max_page_size = 1000
