@@ -94,7 +94,7 @@ class TestRunViewSet(viewsets.ModelViewSet):
     @list_route()
     def clear(self, request):
         """clear dead runs, will be called async when user visit run list."""
-        pending_runs = TestRun.objects.filter(status__lt=1)
+        pending_runs = TestRun.objects.filter(status__lt=2)  # not ready, starting, running
         fixed = []
 
         for run in pending_runs:
