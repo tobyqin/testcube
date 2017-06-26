@@ -51,4 +51,4 @@ class AnalysisForm(forms.Form):
 
 
         else:
-            self.add_error('reason', 'Bad result id: ' + result_id)
+            self.add_error('description', 'Bad result id: ' + result_id)

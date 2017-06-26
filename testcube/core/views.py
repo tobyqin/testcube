@@ -50,7 +50,7 @@ def result_detail(request, result_id):
             if request.user.is_authenticated():
                 form.save(result_id, request.user.username)
             else:
-                form.add_error('reason', 'Please login.')
+                form.add_error('description', 'Login required.')
 
 
     else:
