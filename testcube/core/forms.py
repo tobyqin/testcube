@@ -4,8 +4,8 @@ from .models import ResultAnalysis, Issue, TestResult
 
 
 class AnalysisForm(forms.Form):
-    reason = forms.CharField(label='Reason',
-                             widget=forms.Select(choices=ResultAnalysis.REASON_CHOICES))
+    reason = forms.IntegerField(label='Reason',
+                                widget=forms.Select(choices=ResultAnalysis.REASON_CHOICES))
 
     issue_id = forms.CharField(label='Issue ID', required=False)
 
@@ -14,11 +14,11 @@ class AnalysisForm(forms.Form):
 
     def load(self, result_id):
         result = TestResult.objects.get(id=result_id)
-        self.reason = 0
+        self.fields['reason'].initial = 0
         if result and result.analysis:
-            self.reason = result.analysis.reason
-            self.description = result.analysis.description
-            self.issue_id = result.issue_id()
+            self.fields['reason'].initial = result.analysis.reason
+            self.fields['description'].initial = result.analysis.description
+            self.fields['issue_id'].initial = result.issue_id()
 
     def save(self, result_id, username):
         result = TestResult.objects.get(id=result_id)
@@ -29,7 +29,7 @@ class AnalysisForm(forms.Form):
 
             issue = None
             if issue_id:
-                issue = Issue.objects.get_or_create(name=issue_id)
+                issue = Issue.objects.get_or_create(name=issue_id, summary=issue_id)[0]
 
             data = {'by': username,
                     'reason': reason,
@@ -39,8 +39,13 @@ class AnalysisForm(forms.Form):
             if not result.analysis:
                 analysis = ResultAnalysis.objects.create(**data)
                 analysis.save()
+                result.analysis = analysis
+                result.save()
             else:
-                result.analysis.objects.update(**data)
+                result.analysis.by = username
+                result.analysis.reason = reason
+                result.analysis.description = description
+                result.analysis.issue = issue
                 result.analysis.save()
 
 

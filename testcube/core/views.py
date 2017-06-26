@@ -45,7 +45,7 @@ def result_detail(request, result_id):
     result_id = int(result_id)
 
     if request.method == 'POST':
-        form = AnalysisForm()
+        form = AnalysisForm(data=request.POST)
         if form.is_valid():
             if request.user.is_authenticated():
                 form.save(result_id, request.user.username)
