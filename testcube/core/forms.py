@@ -41,14 +41,13 @@ class AnalysisForm(forms.Form):
                 analysis.save()
                 result.analysis = analysis
                 result.save()
+
             else:
                 result.analysis.by = username
                 result.analysis.reason = reason
                 result.analysis.description = description
                 result.analysis.issue = issue
                 result.analysis.save()
-
-
 
         else:
             self.add_error('description', 'Bad result id: ' + result_id)
