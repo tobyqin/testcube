@@ -19,8 +19,16 @@ class TestCase(models.Model):
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
 
+    def execution_info(self):
+        return {
+            'total': self.results.count(),
+            'passed': self.results.filter(outcome=0).count(),
+            'failed': self.results.filter(outcome=1).count(),
+            'other': self.results.filter(outcome__gt=1).count()
+        }
+
     class Meta:
-        ordering = ['id']
+        ordering = ['-id']
 
     def __str__(self):
         return self.full_name if self.full_name else self.name

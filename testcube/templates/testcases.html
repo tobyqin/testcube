@@ -29,29 +29,28 @@
 
 {% block scripts %}
     <script src="{% static 'libs/bootstrap-table/bootstrap-table.min.js' %}"></script>
+    <script src="{% static 'table-config.js' %}"></script>
     <script src="{% static 'table-utils.js' %}"></script>
     <script src="https://cdn.bootcss.com/moment.js/2.18.1/moment.min.js"></script>
 
     <script>
         $(function () {
             $('#table').bootstrapTable({
+                sidePagination: 'server',
                 url: '/api/cases/recent/',
                 responseHandler: function (data) {
-                    return data.results;
+                    data.total = data.count;
+                    data.rows = data.results;
+                    return data;
                 },
+                queryParams: caseListQueryParams,
                 search: true,
                 pagination: true,
-                pageSize: 50,
-                pageList: [50, 100, 150],
-                columns: [
-                    {title: 'ID', field: 'id', formatter: caseIdFormatter, sortable: true},
-                    {title: 'Team', field: 'team.name', sortable: true},
-                    {title: 'Product', field: 'product.name', sortable: true},
-                    {title: 'Name', field: 'name', sortable: true},
-                    {title: 'Priority', field: 'priority', sortable: true},
-                    {title: 'Owner', field: 'owner', sortable: true},
-                    {title: 'Updated On', field: 'updated_on', formatter: timeFormatter, sortable: true}
-                ],
+                pageSize: 20,
+                pageList: [20, 50, 100],
+                sortName: 'id',
+                sortOrder: 'desc',
+                columns: my.caseListColumns,
             });
         });
     </script>

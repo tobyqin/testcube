@@ -9,10 +9,22 @@ class TeamSerializer(serializers.HyperlinkedModelSerializer):
         fields = '__all__'
 
 
+class TeamListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Team
+        fields = ('id', 'name', 'owner')
+
+
 class ProductSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Product
         fields = '__all__'
+
+
+class ProductListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields = ('id', 'name', 'owner')
 
 
 class ConfigurationSerializer(serializers.HyperlinkedModelSerializer):
@@ -69,7 +81,7 @@ class TestRunListSerializer(serializers.ModelSerializer):
         fields = (
             'id', 'team', 'product', 'name', 'start_time', 'end_time',
             'start_by', 'get_status_display', 'get_state_display',
-            'result_total', 'result_passed', 'result_failed', 'duration')
+            'result_total', 'result_passed', 'result_failed', 'result_skipped', 'duration')
 
         depth = 1
 
@@ -91,7 +103,7 @@ class TestCaseDetailSerializer(serializers.ModelSerializer):
         fields = (
             'id', 'team', 'product', 'name', 'full_name', 'keyword',
             'priority', 'get_priority_display', 'owner',
-            'updated_on', 'created_on', 'created_by', 'description')
+            'updated_on', 'created_on', 'created_by', 'description', 'execution_info')
 
         depth = 1
 
@@ -101,7 +113,7 @@ class TestResultInfoSerializer(serializers.ModelSerializer):
         model = TestResult
         fields = (
             'id', 'run_info', 'testcase_info', 'get_outcome_display', 'duration', 'assigned_to',
-            'is_rerun', 'test_client', 'created_on')
+            'is_rerun', 'test_client', 'created_on', 'error_message', 'reason')
 
         depth = 1
 
@@ -111,7 +123,7 @@ class TestResultHistorySerializer(serializers.ModelSerializer):
         model = TestResult
         fields = (
             'id', 'run_info', 'testcase_info', 'get_outcome_display', 'duration', 'assigned_to',
-            'is_rerun', 'test_client', 'created_on', 'error_message')
+            'is_rerun', 'test_client', 'created_on', 'error_message', 'reason', 'issue_id')
 
         depth = 1
 
@@ -120,7 +132,7 @@ class TestResultDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = TestResult
         fields = (
-            'id', 'test_run', 'testcase', 'get_outcome_display', 'duration', 'assigned_to',
+            'id', 'test_run', 'testcase', 'testcase_exec_info', 'get_outcome_display', 'duration', 'assigned_to',
             'is_rerun', 'test_client', 'created_on', 'stdout', 'error', 'analysis')
 
         depth = 1
