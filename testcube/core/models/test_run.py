@@ -37,9 +37,7 @@ class TestRun(models.Model):
         return self.results.filter(outcome=3).count()
 
     def duration(self):
-        if not isinstance(self.end_time, datetime.datetime):
-            return None
-        else:
+        if isinstance(self.end_time, datetime.datetime):
             return str((self.end_time - self.start_time))
 
     class Meta:
