@@ -1,9 +1,11 @@
 {% extends './base.html' %}
 {% load static %}
+{% load bootstrap %}
 
 {% block title %}Result Detail{% endblock %}
 {% block header %}
     <link href="{% static 'libs/bootstrap-table/bootstrap-table.min.css' %}" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/c3/0.4.13/c3.min.css" rel="stylesheet">
 {% endblock %}
 
 {% block body %}
@@ -65,26 +67,11 @@
 
                         <h2>Analysis</h2>
                         <hr/>
-                        <form>
-                            <div class="form-group">
-                                <label for="reason-select">Reason</label>
-                                <select class="form-control" id="reason-select">
-                                    <option>Product defect</option>
-                                    <option>Testcase defect</option>
-                                    <option>Environment issue</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="issue-id">Link Issue</label>
-                                <input class="form-control" id="issue-id"
-                                       placeholder="Enter Issue ID">
-                            </div>
-                            <div class="form-group">
-                                <label for="comment">Description</label>
-                                <textarea class="form-control" id="comment" rows="3"></textarea>
-                            </div>
-
-                            <button type="submit" class="btn btn-primary">Submit</button>
+                        <form role="form" method="post">
+                            {% csrf_token %}
+                            {{ form | bootstrap }}
+                            <button class="btn btn-primary" data-vivaldi-spatnav-clickable="1" type="submit">Submit
+                            </button>
                         </form>
                     </div>
                 </div>

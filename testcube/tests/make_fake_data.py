@@ -87,7 +87,7 @@ def start_run(team, product):
 
 def finish_run(run, status='Failed'):
     status_code = 0 if status == 'Passed' else 1
-    delta = timedelta(seconds=fake.random.randint(200, 1000))
+    delta = timedelta(seconds=fake.random_number(6) / 100)
     run.state = 3
     run.status = status_code
     run.end_time = run.start_time + delta
@@ -100,7 +100,7 @@ def create_passed_result(run):
         'testcase': get_or_create_tc(run.team, run.product),
         'outcome': 0,
         'stdout': '\n'.join(fake.sentences(10)),
-        'duration': timedelta(seconds=fake.random.randint(50, 200)),
+        'duration': timedelta(seconds=fake.random_number(5) / 100),
         'assigned_to': run.product.owner,
         'test_client': get_one_client()}
     return TestResult.objects.create(**args)
@@ -123,7 +123,7 @@ def create_failed_result(run):
         'outcome': 1,
         'error': create_result_error(),
         'stdout': '\n'.join(fake.sentences(10)),
-        'duration': timedelta(seconds=fake.random.randint(50, 200)),
+        'duration': timedelta(seconds=fake.random_number(5) / 100),
         'assigned_to': run.product.owner,
         'test_client': get_one_client()}
     return TestResult.objects.create(**args)
@@ -153,7 +153,7 @@ def generate_failed_run():
 
 
 def main():
-    for i in range(100):
+    for i in range(10):
         if fake.boolean(70):
             generate_failed_run()
         else:

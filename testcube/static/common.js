@@ -26,3 +26,16 @@ function getColor(value) {
     let hue = (value * 120).toString(10);
     return ["hsl(", hue, ",100%,35%)"].join("");
 }
+
+function hmsToSeconds(str) {
+    // e.g. '02:04:33' to seconds
+    let p = str.split(':'),
+        s = 0, m = 1;
+
+    while (p.length > 0) {
+        s += m * parseInt(p.pop(), 10);
+        m *= 60;
+    }
+
+    return s;
+}

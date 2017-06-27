@@ -136,8 +136,8 @@ function resultDetailChartRender() {
     // get last 10 will be okay
     let latest = my.resultHistory.results.slice(0, 20);
     for (let result of latest.reverse()) {
-        runIds.push(result.run_info.id);
-        duration.push(result.duration);
+        runIds.push('Run: ' + result.run_info.id);
+        duration.push(hmsToSeconds(result.duration));
         if (result.get_outcome_display === 'Passed') {
             passed.push(1);
             failed.push(0);
@@ -157,6 +157,7 @@ function resultDetailChartRender() {
             columns: [
                 passed,
                 failed,
+                duration,
 
             ],
             groups: [
@@ -165,23 +166,43 @@ function resultDetailChartRender() {
             types: {
                 Failed: 'bar',
                 Passed: 'bar',
+                Duration: 'spline'
+            },
+            axes: {
+                Duration: 'y2'
             },
             colors: {
                 Passed: my.successColor,
-                Failed: my.failedColor
+                Failed: my.failedColor,
+                Duration: my.warnColor
             },
         },
         axis: {
             x: {
                 show: false,
-                type: 'category'
+                type: 'category',
+                categories: runIds
             },
             y: {
                 show: false,
             },
+        },
+        tooltip: {
+            format: {
+                value: function (value, ratio, id) {
+                    if (id === 'Duration') {
+                        return value + 's';
+                    }
+                    if (id === 'Passed' && value) {
+                        return 'true';
+                    }
+                    if (id === 'Failed' && value) {
+                        return 'true';
+                    }
+                }
+            }
         }
-    })
-    ;
+    });
 
     c3.generate({
         bindto: '#rate-chart',

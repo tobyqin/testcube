@@ -37,6 +37,14 @@ function timeFormatter(time) {
     return moment(time).calendar();
 }
 
+function durationFormatter(duration) {
+    if (duration) {
+        return duration.replace(/(.*)\.(.*)/, '$1')
+    } else {
+        return '--';
+    }
+}
+
 function outcomeFormatter(outcome) {
     let cls = 'text-danger';
     if (outcome === 'Skipped') {
@@ -69,7 +77,7 @@ my.runListColumns = [
     {title: 'Product', field: 'product.name', sortable: true},
     {title: 'Title', field: 'name', sortable: true},
     {title: 'Start Time', field: 'start_time', formatter: timeHumanFormatter, sortable: true},
-    {title: 'Duration', field: 'duration', sortable: true, visible: false},
+    {title: 'Duration', field: 'duration', formatter: durationFormatter, sortable: true, visible: false},
     {title: 'Start By', field: 'start_by', sortable: true, visible: false},
     {
         title: 'Passing',
@@ -85,7 +93,7 @@ my.runDetailColumns = [
     {title: 'Product', field: 'product.name'},
     {title: 'Name', field: 'name'},
     {title: 'Start Time', field: 'start_time', formatter: timeFormatter},
-    {title: 'Duration', field: 'duration'},
+    {title: 'Duration', field: 'duration', formatter: durationFormatter},
     {title: 'Start By', field: 'start_by'},
     {title: 'Passed', field: 'result_passed'},
     {title: 'Failed', field: 'result_failed'},
@@ -96,7 +104,7 @@ my.runDetailColumns = [
 my.runFailedResultColumns = [
     {title: 'ID', field: 'id', formatter: resultIdFormatter, sortable: true},
     {title: 'TestCase', field: 'testcase_info.name', sortable: true},
-    {title: 'Duration', field: 'duration', sortable: true},
+    {title: 'Duration', field: 'duration', formatter: durationFormatter, sortable: true},
     {title: 'Error Message', field: 'error_message', sortable: true},
     {title: 'Reason', field: 'reason', sortable: true},
     {title: 'Outcome', field: 'get_outcome_display', formatter: outcomeFormatter, sortable: true}
@@ -105,7 +113,7 @@ my.runFailedResultColumns = [
 my.runPassedResultColumns = [
     {title: 'ID', field: 'id', formatter: resultIdFormatter, sortable: true},
     {title: 'TestCase', field: 'testcase_info.name', sortable: true},
-    {title: 'Duration', field: 'duration', sortable: true},
+    {title: 'Duration', field: 'duration', formatter: durationFormatter, sortable: true},
     {title: 'Assigned To', field: 'assigned_to', sortable: true},
     {title: 'Client', field: 'test_client.name', sortable: true},
     {title: 'Outcome', field: 'get_outcome_display', formatter: outcomeFormatter, sortable: true}
@@ -117,7 +125,7 @@ my.runHistoryColumns = [
     {title: 'Product', field: 'product.name'},
     {title: 'Title', field: 'name'},
     {title: 'Start Time', field: 'start_time', formatter: timeHumanFormatter},
-    {title: 'Duration', field: 'duration'},
+    {title: 'Duration', field: 'duration', formatter: durationFormatter},
     {title: 'Start By', field: 'start_by'},
     {
         title: 'Passing',
@@ -130,7 +138,7 @@ my.runHistoryColumns = [
 my.resultDetailColumns = [
     {title: 'ID', field: 'id'},
     {title: 'TestCase', field: 'testcase.name'},
-    {title: 'Duration', field: 'duration'},
+    {title: 'Duration', field: 'duration', formatter: durationFormatter},
     {title: 'Passed Times', field: 'testcase_exec_info.passed'},
     {title: 'Failed Times', field: 'testcase_exec_info.failed'},
     {title: 'Total Execution', field: 'testcase_exec_info.total'},
@@ -142,7 +150,7 @@ my.resultDetailColumns = [
 my.resultHistoryColumns = [
     {title: 'ID', field: 'id', formatter: resultIdFormatter,},
     {title: 'Run On', field: 'run_info.start_time', formatter: timeFormatter},
-    {title: 'Duration', field: 'duration'},
+    {title: 'Duration', field: 'duration', formatter: durationFormatter},
     {title: 'Error Message', field: 'error_message'},
     {title: 'Reason', field: 'reason'},
     {title: 'Issue', field: 'issue_id'},
@@ -179,7 +187,7 @@ my.caseHistoryColumns = [
     {title: 'ID', field: 'id', formatter: resultIdFormatter,},
     {title: 'TestCase', field: 'testcase_info.name'},
     {title: 'Run On', field: 'run_info.start_time', formatter: timeFormatter},
-    {title: 'Duration', field: 'duration'},
+    {title: 'Duration', field: 'duration', formatter: durationFormatter},
     {title: 'Error Message', field: 'error_message'},
     {title: 'Client', field: 'test_client.name'},
     {title: 'Outcome', field: 'get_outcome_display', formatter: outcomeFormatter}

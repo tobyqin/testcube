@@ -44,7 +44,7 @@ class TestResult(models.Model):
 
     def reason(self):
         if self.analysis:
-            return self.analysis.reason
+            return self.analysis.get_reason_display()
 
     def issue_id(self):
         if self.analysis:
