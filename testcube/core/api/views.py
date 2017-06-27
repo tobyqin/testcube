@@ -6,6 +6,7 @@ from rest_framework.pagination import PageNumberPagination, LimitOffsetPaginatio
 from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
 
+from testcube.settings import logger
 from .serializers import *
 from ..models import *
 
@@ -99,13 +100,15 @@ class TestRunViewSet(viewsets.ModelViewSet):
         for run in pending_runs:
             delta = datetime.now(timezone.utc) - run.start_time
             if delta.days > 1 and run.state < 2:
+                logger.info('abort run: {}'.format(run.id))
                 run.state, run.status = 2, 1  # abort, failed
                 run.save()
                 fixed.append(run.id)
 
         bad_runs = TestRun.objects.filter(results=None)  # run without results > 2 days
         for run in bad_runs:
-            if (datetime.utcnow() - run.start_time).days >= 2:
+            if (datetime.now(tz=timezone.utc) - run.start_time).days >= 2:
+                logger.info('delete run: {}'.format(run.id))
                 fixed.append(run.id)
                 run.delete()
 

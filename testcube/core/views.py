@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, resolve_url
 
+from testcube.settings import logger
 from .forms import AnalysisForm
 from .models import TestRun
 from ..utils import read_document
@@ -13,6 +14,7 @@ def index(request):
 
 
 def welcome(request):
+    logger.debug('visit welcome view.')
     return render(request, 'welcome.html')
 
 

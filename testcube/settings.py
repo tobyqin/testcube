@@ -10,9 +10,13 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
+import logging
 import os
+import sys
 from os import environ
 from os.path import join, dirname, abspath
+
+from testcube.utils import setup_logger
 
 SETTINGS_DIR = dirname(abspath(__file__))
 BASE_DIR = dirname(SETTINGS_DIR)
@@ -34,6 +38,7 @@ DB_ENGINE = environ.get('TESTCUBE_DB_ENGINE') or 'django.db.backends.sqlite3'
 DB_NAME = environ.get('TESTCUBE_DB_NAME') or 'db.sqlite3'
 STATIC_URL = environ.get('TESTCUBE_STATIC_URL') or '/static/'
 STATIC_ROOT = environ.get('TESTCUBE_STATIC_ROOT') or join(BASE_DIR, 'dist')
+LOG_ROOT = environ.get('TESTCUBE_LOG_ROOT') or BASE_DIR
 
 # Application definition
 
@@ -143,3 +148,5 @@ REST_FRAMEWORK = {
     ),
     'PAGE_SIZE': 20
 }
+
+logger = setup_logger(debug=DEBUG, log_dir=LOG_ROOT)
