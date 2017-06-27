@@ -103,6 +103,12 @@ class TestRunViewSet(viewsets.ModelViewSet):
                 run.save()
                 fixed.append(run.id)
 
+        bad_runs = TestRun.objects.filter(results=None)  # run without results > 2 days
+        for run in bad_runs:
+            if (datetime.utcnow() - run.start_time).days >= 2:
+                fixed.append(run.id)
+                run.delete()
+
         return Response(data=fixed)
 
     @detail_route(methods=['get'])
