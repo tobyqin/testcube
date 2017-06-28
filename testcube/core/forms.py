@@ -7,10 +7,16 @@ class AnalysisForm(forms.Form):
     reason = forms.IntegerField(label='Reason',
                                 widget=forms.Select(choices=ResultAnalysis.REASON_CHOICES))
 
-    issue_id = forms.CharField(label='Issue ID', required=False)
+    issue_id = forms.CharField(label='Issue ID',
+                               required=False,
+                               widget=forms.TextInput(
+                                   attrs={'placeholder': '(Optional) Example: Issue-12345'}))
 
     description = forms.CharField(label='Description',
-                                  widget=forms.Textarea, required=True)
+                                  required=True,
+                                  widget=forms.Textarea(
+                                      attrs={'rows': 4,
+                                             'placeholder': 'Why the test failed?'}))
 
     def load(self, result_id):
         result = TestResult.objects.get(id=result_id)
