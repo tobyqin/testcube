@@ -23,6 +23,7 @@ class AnalysisForm(forms.Form):
         self.fields['reason'].initial = 0
         if result and result.analysis:
             self.result = result
+            self.need_analysis = result.outcome != 0
 
             self.fields['reason'].initial = result.analysis.reason
             self.fields['description'].initial = result.analysis.description
