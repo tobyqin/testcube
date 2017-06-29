@@ -267,3 +267,10 @@ function resultDetailPageRender(resultId) {
         onPostBody: resultDetailSummaryPostEvent
     });
 }
+
+function lastStep() {
+    if (my.showAnalysisForm) {
+        $('.nav a:last').tab('show');
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+}

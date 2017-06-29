@@ -22,6 +22,8 @@ class AnalysisForm(forms.Form):
         result = TestResult.objects.get(id=result_id)
         self.fields['reason'].initial = 0
         if result and result.analysis:
+            self.result = result
+
             self.fields['reason'].initial = result.analysis.reason
             self.fields['description'].initial = result.analysis.description
             self.fields['issue_id'].initial = result.issue_id()
@@ -54,6 +56,8 @@ class AnalysisForm(forms.Form):
                 result.analysis.description = description
                 result.analysis.issue = issue
                 result.analysis.save()
+
+            self.result = result
 
         else:
             self.add_error('description', 'Bad result id: ' + result_id)

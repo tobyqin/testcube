@@ -1,6 +1,7 @@
 {% extends './base.html' %}
 {% load static %}
 {% load bootstrap %}
+{% load humanize %}
 
 {% block title %}Result Detail{% endblock %}
 {% block header %}
@@ -40,7 +41,7 @@
                         <li class="active nav"><a href="#tab-error" data-toggle="tab">Error</a></li>
                         <li class="nav"><a href="#tab-stdout" data-toggle="tab">Output</a></li>
                         <li class="nav"><a href="#tab-history" data-toggle="tab">History</a></li>
-                        <li class="nav"><a href="#tab-issues" data-toggle="tab">Analysis</a></li>
+                        <li class="nav"><a href="#tab-analysis" data-toggle="tab">Analysis</a></li>
                     </ul>
 
                     <div class="tab-content">
@@ -59,19 +60,46 @@
                             <table id="result-history">
                             </table>
                         </div>
-                        <div class="tab-pane fade" id="tab-issues">
+                        <div class="tab-pane fade" id="tab-analysis">
                             <div class="spacer20"></div>
                             <table id="result-analysis">
                             </table>
                         </div>
 
-                        <h2>Analysis</h2>
                         <hr/>
                         <form role="form" method="post">
                             {% csrf_token %}
                             {{ form | bootstrap }}
-                            <button class="btn btn-primary" data-vivaldi-spatnav-clickable="1" type="submit">Submit
-                            </button>
+                            <div class="row">
+                                {% if user.is_authenticated %}
+                                    <div class="col-md-1">
+                                        <button class="btn btn-primary" data-vivaldi-spatnav-clickable="1"
+                                                type="submit">Submit
+                                        </button>
+                                    </div>
+
+                                    {% if form.result.analysis %}
+                                        <div class="col-md-8">
+                                        <p class="text-success" style="margin-top: 8px">Analyzed
+                                            by {{ form.result.analysis.by }}
+                                            on {{ form.result.analysis.updated_on | naturaltime }}.</p>
+                                    {% else %}
+                                        <div class="col-md-6">
+                                        <p class="text-danger" style="margin-top: 8px">Analysis Required.</p>
+                                    {% endif %}
+                                </div>
+
+                                {% else %}
+                                    <div class="col-md-1">
+                                        <button class="btn btn-primary disabled" data-vivaldi-spatnav-clickable="1"
+                                                type="submit">Submit
+                                        </button>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p class="text-danger" style="margin-top: 8px">Login Required.</p>
+                                    </div>
+                                {% endif %}
+                                </div>
                         </form>
                     </div>
                 </div>
@@ -95,5 +123,9 @@
         $(function () {
             resultDetailPageRender({{ result_id }});
         });
+
+        {% if form.by_post %}
+            my.showAnalysisForm = true;
+        {% endif %}
     </script>
 {% endblock %}

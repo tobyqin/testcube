@@ -133,7 +133,6 @@ function resultDetailChartRender() {
     let failed = ['Failed'];
     let duration = ['Duration'];
 
-    // get last 10 will be okay
     let latest = my.resultHistory.results.slice(0, 20);
     for (let result of latest.reverse()) {
         runIds.push('Run: ' + result.run_info.id);
@@ -225,4 +224,6 @@ function resultDetailChartRender() {
             },
         }
     });
+
+    lastStep();
 }
