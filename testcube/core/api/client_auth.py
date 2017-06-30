@@ -6,11 +6,13 @@ import re
 import uuid
 
 from django.contrib.auth.models import User
-from django.http import JsonResponse, HttpResponseBadRequest
+from django.http import JsonResponse, HttpResponseBadRequest, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from ipware.ip import get_ip
 
 from testcube.core.models import TestClient
+
+version = '1.0'
 
 
 @csrf_exempt
@@ -50,5 +52,8 @@ def register(request):
                     {'client': user.username,
                      'token': token,
                      'first_time_register': created})
+
+    else:
+        return HttpResponse(content=version)
 
     return HttpResponseBadRequest('Failed to register testcube!')
