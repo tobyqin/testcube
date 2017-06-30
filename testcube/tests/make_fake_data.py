@@ -46,12 +46,14 @@ def get_one_client():
 
 def get_one_team():
     team = fake.random.choice(team_list).capitalize()
-    return Team.objects.get_or_create(name=team, defaults={'owner': fake.name()})[0]
+    return Team.objects.get_or_create(name=team,
+                                      defaults={'owner': fake.name()})[0]
 
 
-def get_one_product():
+def get_one_product(team):
     product = fake.random.choice(product_list).capitalize()
-    return Product.objects.get_or_create(name=product, defaults={'owner': fake.name()})[0]
+    return Product.objects.get_or_create(name=product,
+                                         defaults={'owner': fake.name(), 'team': team})[0]
 
 
 def get_run_name(product_name):
@@ -130,8 +132,8 @@ def create_failed_result(run):
 
 
 def generate_passed_run():
-    product = get_one_product()
     team = get_one_team()
+    product = get_one_product(team)
     run = start_run(team, product)
     for i in range(fake.random.randint(80, 100)):
         create_passed_result(run)
@@ -140,8 +142,8 @@ def generate_passed_run():
 
 
 def generate_failed_run():
-    product = get_one_product()
     team = get_one_team()
+    product = get_one_product(team)
     run = start_run(team, product)
     for i in range(fake.random.randint(90, 100)):
         if fake.boolean(70):
