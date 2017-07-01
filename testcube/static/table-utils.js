@@ -62,7 +62,7 @@ function runListTableFilter() {
 }
 
 function runListPickerChanged(e, index, newVal, oldVal) {
-    if (e.target.id == 'team-picker') {
+    if (e.target.id === 'team-picker') {
         let picker = $('#team-picker');
         let value = picker.selectpicker('val');
         if (value) {
@@ -74,7 +74,7 @@ function runListPickerChanged(e, index, newVal, oldVal) {
 
         runListTableFilter();
     }
-    if (e.target.id == 'product-picker') {
+    if (e.target.id === 'product-picker') {
         let picker = $('#product-picker');
         let value = picker.selectpicker('val');
         if (value) {
