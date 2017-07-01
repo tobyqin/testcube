@@ -65,42 +65,44 @@
                             <table id="result-analysis">
                             </table>
                         </div>
+                        {% if form.need_analysis %}
+                            <hr/>
+                            <form role="form" method="post">
+                                {% csrf_token %}
+                                {{ form | bootstrap }}
+                                <div class="row">
+                                    {% if user.is_authenticated %}
+                                        <div class="col-md-1">
+                                            <button class="btn btn-primary" data-vivaldi-spatnav-clickable="1"
+                                                    type="submit">Submit
+                                            </button>
+                                        </div>
 
-                        <hr/>
-                        <form role="form" method="post">
-                            {% csrf_token %}
-                            {{ form | bootstrap }}
-                            <div class="row">
-                                {% if user.is_authenticated %}
-                                    <div class="col-md-1">
-                                        <button class="btn btn-primary" data-vivaldi-spatnav-clickable="1"
-                                                type="submit">Submit
-                                        </button>
-                                    </div>
+                                        {% if form.result.analysis %}
+                                            <div class="col-md-8">
+                                                <p class="text-success" style="margin-top: 8px">Analyzed
+                                                    by {{ form.result.analysis.by }}
+                                                    on {{ form.result.analysis.updated_on | naturaltime }}.</p>
+                                            </div>
+                                        {% else %}
+                                            <div class="col-md-6">
+                                                <p class="text-danger" style="margin-top: 8px">Analysis Required.</p>
+                                            </div>
+                                        {% endif %}
 
-                                    {% if form.result.analysis %}
-                                        <div class="col-md-8">
-                                        <p class="text-success" style="margin-top: 8px">Analyzed
-                                            by {{ form.result.analysis.by }}
-                                            on {{ form.result.analysis.updated_on | naturaltime }}.</p>
                                     {% else %}
+                                        <div class="col-md-1">
+                                            <button class="btn btn-primary disabled" data-vivaldi-spatnav-clickable="1"
+                                                    type="submit">Submit
+                                            </button>
+                                        </div>
                                         <div class="col-md-6">
-                                        <p class="text-danger" style="margin-top: 8px">Analysis Required.</p>
+                                            <p class="text-danger" style="margin-top: 8px">Login Required.</p>
+                                        </div>
                                     {% endif %}
                                 </div>
-
-                                {% else %}
-                                    <div class="col-md-1">
-                                        <button class="btn btn-primary disabled" data-vivaldi-spatnav-clickable="1"
-                                                type="submit">Submit
-                                        </button>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <p class="text-danger" style="margin-top: 8px">Login Required.</p>
-                                    </div>
-                                {% endif %}
-                                </div>
-                        </form>
+                            </form>
+                        {% endif %}
                     </div>
                 </div>
             </div>

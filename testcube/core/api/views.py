@@ -49,8 +49,8 @@ class TeamViewSet(viewsets.ModelViewSet):
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    filter_fields = ('name', 'owner', 'version')
-    search_fields = filter_fields
+    filter_fields = ('name', 'owner', 'version', 'team')
+    search_fields = ('name', 'owner', 'version')
 
     @list_route()
     def recent(self, request):
@@ -79,7 +79,7 @@ class TestRunViewSet(viewsets.ModelViewSet):
     queryset = TestRun.objects.all()
     serializer_class = TestRunSerializer
     filter_fields = ('name', 'state', 'status', 'owner', 'team', 'product')
-    search_fields = filter_fields
+    search_fields = ('name', 'state', 'status', 'owner')
 
     @detail_route(methods=['get'])
     def info(self, request, pk=None):
@@ -127,8 +127,8 @@ class TestRunViewSet(viewsets.ModelViewSet):
 class TestCaseViewSet(viewsets.ModelViewSet):
     queryset = TestCase.objects.all()
     serializer_class = TestCaseSerializer
-    filter_fields = ('name', 'keyword', 'priority', 'owner')
-    search_fields = filter_fields
+    filter_fields = ('name', 'full_name', 'keyword', 'priority', 'owner', 'team', 'product')
+    search_fields = ('name', 'full_name', 'keyword')
 
     @detail_route(methods=['get'])
     def info(self, request, pk=None):
