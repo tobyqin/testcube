@@ -4,8 +4,7 @@ from .issue import Issue
 
 
 class ResultAnalysis(models.Model):
-    REASON_CHOICES = ((0, 'Product defect'), (1, 'Testcase defect'),
-                      (2, 'Environment issue'), (3, 'Other'))
+    REASON_CHOICES = ((0, 'Product defect'), (1, 'Testcase defect'), (2, 'Environment issue'))
 
     by = models.CharField(max_length=50)
     reason = models.IntegerField(default=0, choices=REASON_CHOICES)
