@@ -31,6 +31,9 @@ def cases(request):
     return render(request, 'testcases.html')
 
 
+def results(request):
+    return render(request, 'results.html')
+
 def run_detail(request, run_id):
     if request.method == 'GET':
         outcome = request.GET.get('outcome', default='')

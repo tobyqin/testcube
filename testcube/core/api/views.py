@@ -162,6 +162,12 @@ class TestResultViewSet(viewsets.ModelViewSet):
         """query result info, use for result detail page."""
         return info_view(self, TestResultDetailSerializer)
 
+    @list_route()
+    def recent(self, request):
+        """get recent runs, in run list view"""
+        self.serializer_class = TestResultListSerializer
+        return list_view(self)
+
 
 class IssueViewSet(viewsets.ModelViewSet):
     queryset = Issue.objects.all()
