@@ -20,10 +20,10 @@ class AnalysisForm(forms.Form):
 
     def load(self, result_id):
         result = TestResult.objects.get(id=result_id)
+        self.need_analysis = result.outcome != 0
         self.fields['reason'].initial = 0
         if result and result.analysis:
             self.result = result
-            self.need_analysis = result.outcome != 0
 
             self.fields['reason'].initial = result.analysis.reason
             self.fields['description'].initial = result.analysis.description
