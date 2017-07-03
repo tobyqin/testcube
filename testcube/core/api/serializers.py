@@ -110,6 +110,17 @@ class TestCaseDetailSerializer(serializers.ModelSerializer):
         depth = 1
 
 
+class TestResultListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TestResult
+        fields = (
+            'id', 'testcase_name', 'get_outcome_display',
+            'duration', 'assigned_to', 'error_message', 'is_rerun',
+            'created_on')
+
+        depth = 1
+
+
 class TestResultInfoSerializer(serializers.ModelSerializer):
     class Meta:
         model = TestResult

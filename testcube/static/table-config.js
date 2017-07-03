@@ -192,3 +192,12 @@ my.caseHistoryColumns = [
     {title: 'Client', field: 'test_client.name'},
     {title: 'Outcome', field: 'get_outcome_display', formatter: outcomeFormatter}
 ];
+
+
+my.resultListColumns = [
+    {title: 'ID', field: 'id', formatter: resultIdFormatter, sortable: true},
+    {title: 'TestCase', field: 'testcase_name'},
+    {title: 'Message', field: 'error_message'},
+    {title: 'Created On', field: 'created_on', formatter: timeFormatter},
+    {title: 'Duration', field: 'duration', formatter: durationFormatter}
+];

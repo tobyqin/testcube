@@ -1,0 +1,57 @@
+{% extends './base.html' %}
+{% load static %}
+
+{% block title %}Results{% endblock %}
+{% block header %}
+    <link href="{% static 'libs/bootstrap-table/bootstrap-table.min.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+
+        <ul class="breadcrumb">
+            <li><a href="/">Home</a></li>
+            <li class="active">Results</li>
+        </ul>
+
+        <div id="main-content">
+            <div class="row">
+
+                <div class="col-md-12">
+                    <table id="table">
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block scripts %}
+    <script src="{% static 'libs/bootstrap-table/bootstrap-table.min.js' %}"></script>
+    <script src="{% static 'table-config.js' %}"></script>
+    <script src="{% static 'table-utils.js' %}"></script>
+    <script src="https://cdn.bootcss.com/moment.js/2.18.1/moment.min.js"></script>
+
+    <script>
+        $(function () {
+            $('#table').bootstrapTable({
+                sidePagination: 'server',
+                url: '/api/results/recent/',
+                responseHandler: function (data) {
+                    data.total = data.count;
+                    data.rows = data.results;
+                    return data;
+                },
+                queryParams: caseListQueryParams,
+                search: true,
+                pagination: true,
+                pageSize: 20,
+                pageList: [20, 50, 100],
+                sortName: 'id',
+                sortOrder: 'desc',
+                columns: my.resultListColumns,
+            });
+        });
+    </script>
+{% endblock %}

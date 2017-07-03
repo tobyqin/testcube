@@ -5,12 +5,13 @@ warning: will re-create database
 
 import os
 from os import environ, chdir, remove, listdir
-from os.path import dirname, exists, join, isfile
+from os.path import dirname, exists, join, isfile, abspath
 
-project_root = dirname(dirname(__file__))
+project_root = abspath(dirname(dirname(__file__)))
 db_file = environ.get('TESTCUBE_DB_NAME') or 'db.sqlite3'
 migrate_dirs = [join(project_root, 'testcube/core/migrations')]
 
+print('Project root:' + project_root)
 chdir(project_root)
 
 print('1. delete db: {}'.format(db_file))

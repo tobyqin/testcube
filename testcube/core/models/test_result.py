@@ -35,6 +35,9 @@ class TestResult(models.Model):
         return {'id': self.testcase.id,
                 'name': self.testcase.name}
 
+    def testcase_name(self):
+        return self.testcase.name
+
     def testcase_exec_info(self):
         return self.testcase.execution_info()
 
