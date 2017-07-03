@@ -198,6 +198,6 @@ my.resultListColumns = [
     {title: 'ID', field: 'id', formatter: resultIdFormatter, sortable: true},
     {title: 'TestCase', field: 'testcase_name'},
     {title: 'Message', field: 'error_message'},
-    {title: 'Time', field: 'created_on', formatter: timeFormatter},
+    {title: 'Created On', field: 'created_on', formatter: timeFormatter},
     {title: 'Duration', field: 'duration', formatter: durationFormatter}
 ];
