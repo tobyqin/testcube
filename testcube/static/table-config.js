@@ -196,10 +196,8 @@ my.caseHistoryColumns = [
 
 my.resultListColumns = [
     {title: 'ID', field: 'id', formatter: resultIdFormatter, sortable: true},
-    {title: 'Run ID', field: 'run_info.id', formatter: runIdFormatter},
-    {title: 'TestCase', field: 'testcase_info.name'},
-    {title: 'Time', field: 'run_info.start_time', formatter: timeFormatter},
-    {title: 'Duration', field: 'duration', formatter: durationFormatter},
-    {title: 'Client', field: 'test_client.name'},
-    {title: 'Assigned', field: 'assigned_to'},
+    {title: 'TestCase', field: 'testcase_name'},
+    {title: 'Message', field: 'error_message'},
+    {title: 'Time', field: 'created_on', formatter: timeFormatter},
+    {title: 'Duration', field: 'duration', formatter: durationFormatter}
 ];

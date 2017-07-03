@@ -114,8 +114,8 @@ class TestResultListSerializer(serializers.ModelSerializer):
     class Meta:
         model = TestResult
         fields = (
-            'id', 'run_info', 'testcase_info', 'get_outcome_display',
-            'duration', 'assigned_to', 'is_rerun', 'test_client',
+            'id', 'testcase_name', 'get_outcome_display',
+            'duration', 'assigned_to', 'error_message', 'is_rerun',
             'created_on')
 
         depth = 1

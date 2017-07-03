@@ -1,5 +1,6 @@
 from datetime import datetime, timezone
 
+from django.db.models import Q
 from rest_framework import viewsets
 from rest_framework.decorators import detail_route, list_route
 from rest_framework.pagination import PageNumberPagination, LimitOffsetPagination
@@ -166,6 +167,13 @@ class TestResultViewSet(viewsets.ModelViewSet):
     def recent(self, request):
         """get recent runs, in run list view"""
         self.serializer_class = TestResultListSerializer
+
+        keyword = request.GET.get('search', None)
+        if keyword:
+            self.queryset = TestResult.objects.filter(Q(testcase__name__icontains=keyword) |
+                                                      Q(error__message__icontains=keyword))
+
+        self.search_fields = ()
         return list_view(self)
 
 
