@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, resolve_url
 
 from testcube.settings import logger
 from .forms import AnalysisForm
-from .models import TestRun
+from .models import TestRun, RunSource
 from ..utils import read_document
 
 
@@ -34,11 +34,14 @@ def cases(request):
 def results(request):
     return render(request, 'results.html')
 
+
 def run_detail(request, run_id):
     if request.method == 'GET':
         outcome = request.GET.get('outcome', default='')
+        source = RunSource.objects.filter(run__id=run_id).first()
         return render(request, 'run_detail.html', {'run_id': run_id,
-                                                   'outcome': outcome})
+                                                   'outcome': outcome,
+                                                   'source': source})
 
 
 def case_detail(request, case_id):

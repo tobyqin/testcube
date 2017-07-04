@@ -14,7 +14,9 @@
             <li><a href="/">Home</a></li>
             <li><a href="{% url 'runs' %}">Runs</a></li>
             <li id="run-nav" class="active"><a href="">{{ run_id }}</a></li>
-            <li class="pull-right"><a href="">via Jenkins</a></li>
+            {% if source %}
+                <li class="pull-right"><a href="{{ source.link }}">via {{ source.name }}</a></li>
+            {% endif %}
         </ul>
 
         <div id="main-content">
