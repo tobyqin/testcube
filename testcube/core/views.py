@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, resolve_url
 
 from testcube.settings import logger
 from .forms import AnalysisForm
-from .models import TestRun, RunSource
+from .models import TestRun, ObjectSource
 from ..utils import read_document
 
 
@@ -38,7 +38,7 @@ def results(request):
 def run_detail(request, run_id):
     if request.method == 'GET':
         outcome = request.GET.get('outcome', default='')
-        source = RunSource.objects.filter(run__id=run_id).first()
+        source = ObjectSource.objects.filter(testrun__id=run_id).first()
         return render(request, 'run_detail.html', {'run_id': run_id,
                                                    'outcome': outcome,
                                                    'source': source})
