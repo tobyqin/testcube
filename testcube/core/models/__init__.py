@@ -3,6 +3,8 @@ from .issue import Issue
 from .product import Product
 from .result_analysis import ResultAnalysis
 from .result_error import ResultError
+from .result_file import ResultFile
+from .run_source import RunSource
 from .team import Team
 from .test_case import TestCase
 from .test_client import TestClient

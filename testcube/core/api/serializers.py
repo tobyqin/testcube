@@ -75,6 +75,18 @@ class ResultErrorSerializer(serializers.HyperlinkedModelSerializer):
         fields = '__all__'
 
 
+class RunSourceSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = RunSource
+        fields = '__all__'
+
+
+class ResultFileSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = RunSource
+        fields = '__all__'
+
+
 class TestRunListSerializer(serializers.ModelSerializer):
     class Meta:
         model = TestRun

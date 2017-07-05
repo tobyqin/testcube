@@ -198,6 +198,20 @@ class ResultErrorViewSet(viewsets.ModelViewSet):
     search_fields = filter_fields
 
 
+class RunSourceViewSet(viewsets.ModelViewSet):
+    queryset = RunSource.objects.all()
+    serializer_class = RunSourceSerializer
+    filter_fields = ()
+    search_fields = filter_fields
+
+
+class ResultFileViewSet(viewsets.ModelViewSet):
+    queryset = ResultFile.objects.all()
+    serializer_class = ResultFileSerializer
+    filter_fields = ()
+    search_fields = filter_fields
+
+
 class LargeResultsSetPagination(PageNumberPagination):
     page_size = 1000
     page_size_query_param = 'page_size'
