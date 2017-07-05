@@ -75,15 +75,15 @@ class ResultErrorSerializer(serializers.HyperlinkedModelSerializer):
         fields = '__all__'
 
 
-class RunSourceSerializer(serializers.HyperlinkedModelSerializer):
+class ObjectSourceSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = RunSource
+        model = ObjectSource
         fields = '__all__'
 
 
 class ResultFileSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = RunSource
+        model = ResultFile
         fields = '__all__'
 
 

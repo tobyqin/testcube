@@ -198,9 +198,9 @@ class ResultErrorViewSet(viewsets.ModelViewSet):
     search_fields = filter_fields
 
 
-class RunSourceViewSet(viewsets.ModelViewSet):
-    queryset = RunSource.objects.all()
-    serializer_class = RunSourceSerializer
+class ObjectSourceViewSet(viewsets.ModelViewSet):
+    queryset = ObjectSource.objects.all()
+    serializer_class = ObjectSourceSerializer
     filter_fields = ()
     search_fields = filter_fields
 
