@@ -79,7 +79,7 @@ class TestClientViewSet(viewsets.ModelViewSet):
 class TestRunViewSet(viewsets.ModelViewSet):
     queryset = TestRun.objects.all()
     serializer_class = TestRunSerializer
-    filter_fields = ('name', 'state', 'status', 'owner', 'team', 'product')
+    filter_fields = ('name', 'state', 'status', 'owner', 'product')
     search_fields = ('name', 'state', 'status', 'owner')
 
     @detail_route(methods=['get'])
@@ -128,7 +128,7 @@ class TestRunViewSet(viewsets.ModelViewSet):
 class TestCaseViewSet(viewsets.ModelViewSet):
     queryset = TestCase.objects.all()
     serializer_class = TestCaseSerializer
-    filter_fields = ('name', 'full_name', 'keyword', 'priority', 'owner', 'team', 'product')
+    filter_fields = ('name', 'full_name', 'keyword', 'priority', 'owner', 'product')
     search_fields = ('name', 'full_name', 'keyword')
 
     @detail_route(methods=['get'])

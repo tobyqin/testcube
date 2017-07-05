@@ -22,6 +22,9 @@ class TestRun(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='runs')
     source = models.OneToOneField(ObjectSource, on_delete=models.SET_NULL, default=None, null=True)
 
+    def team(self):
+        return self.product.team
+
     def result_total(self):
         return self.results.count()
 
