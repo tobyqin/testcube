@@ -19,7 +19,7 @@ function runListQueryParams(params) {
         params.product = my.runListFilter.product;
     }
     if (my.runListFilter.team) {
-        params.team = my.runListFilter.team;
+        params.product__team = my.runListFilter.team;
     }
 
     return params;

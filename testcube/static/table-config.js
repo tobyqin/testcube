@@ -199,5 +199,6 @@ my.resultListColumns = [
     {title: 'TestCase', field: 'testcase_name'},
     {title: 'Message', field: 'error_message'},
     {title: 'Created On', field: 'created_on', formatter: timeFormatter},
-    {title: 'Duration', field: 'duration', formatter: durationFormatter}
+    {title: 'Duration', field: 'duration', formatter: durationFormatter},
+    {title: 'Outcome', field: 'get_outcome_display', formatter: outcomeFormatter}
 ];

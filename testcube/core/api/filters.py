@@ -25,6 +25,14 @@ class TestRunFilter(filters.FilterSet):
         fields = {'id': ['exact']}
 
 
+class TestCaseFilter(filters.FilterSet):
+    product = filters.RelatedFilter(ProductFilter, name='product', queryset=Product.objects.all())
+
+    class Meta:
+        model = TestCase
+        fields = {'id': ['exact']}
+
+
 class ResultFilter(filters.FilterSet):
     run = filters.RelatedFilter(TestRunFilter, name='test_run', queryset=TestRun.objects.all())
 
