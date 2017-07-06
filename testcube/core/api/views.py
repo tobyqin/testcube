@@ -8,8 +8,8 @@ from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
 
 from testcube.settings import logger
+from .filters import *
 from .serializers import *
-from ..models import *
 
 
 def info_view(self, serializer_class):
@@ -80,7 +80,7 @@ class TestRunViewSet(viewsets.ModelViewSet):
     queryset = TestRun.objects.all()
     serializer_class = TestRunSerializer
     filter_fields = ('name', 'state', 'status', 'owner', 'product')
-    search_fields = ('name', 'state', 'status', 'owner')
+    search_fields = ('name', 'owner')
 
     @detail_route(methods=['get'])
     def info(self, request, pk=None):
@@ -90,6 +90,7 @@ class TestRunViewSet(viewsets.ModelViewSet):
     def recent(self, request):
         """get recent runs, in run list view"""
         self.serializer_class = TestRunListSerializer
+        self.filter_class = TestRunFilter
         return list_view(self)
 
     @list_route()
