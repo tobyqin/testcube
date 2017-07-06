@@ -18,6 +18,12 @@ class TestCase(models.Model):
 
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='cases')
 
+    def product_name(self):
+        return self.product.name
+
+    def team_name(self):
+        return self.product.team.name
+
     def execution_info(self):
         return {
             'total': self.results.count(),

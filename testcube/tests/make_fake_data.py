@@ -71,20 +71,19 @@ def get_tc_name(product_name):
     return 'test {} {}'.format(product_name, w)
 
 
-def get_or_create_tc(team, product):
+def get_or_create_tc(product):
     name = get_tc_name(product.name)
     return TestCase.objects.get_or_create(name=name,
-                                          defaults={'team': team,
-                                                    'product': product,
+                                          defaults={'product': product,
                                                     'owner': product.owner})[0]
 
 
-def start_run(team, product):
+def start_run(product):
     name = get_run_name(product.name)
     start_time = fake.date_time_between(start_date="-1y", end_date="-7d", tzinfo=timezone.get_current_timezone())
-    return TestRun.objects.create(team=team, product=product, name=name,
+    return TestRun.objects.create(product=product, name=name,
                                   owner=product.owner, start_time=start_time,
-                                  start_by=team.owner)
+                                  start_by=product.owner)
 
 
 def finish_run(run, status='Failed'):
@@ -99,7 +98,7 @@ def finish_run(run, status='Failed'):
 def create_passed_result(run):
     args = {
         'test_run': run,
-        'testcase': get_or_create_tc(run.team, run.product),
+        'testcase': get_or_create_tc(run.product),
         'outcome': 0,
         'stdout': '\n'.join(fake.sentences(10)),
         'duration': timedelta(seconds=fake.random_number(5) / 100),
@@ -121,7 +120,7 @@ def create_result_error():
 def create_failed_result(run):
     args = {
         'test_run': run,
-        'testcase': get_or_create_tc(run.team, run.product),
+        'testcase': get_or_create_tc(run.product),
         'outcome': 1,
         'error': create_result_error(),
         'stdout': '\n'.join(fake.sentences(10)),
@@ -134,7 +133,7 @@ def create_failed_result(run):
 def generate_passed_run():
     team = get_one_team()
     product = get_one_product(team)
-    run = start_run(team, product)
+    run = start_run(product)
     for i in range(fake.random.randint(80, 100)):
         create_passed_result(run)
 
@@ -144,7 +143,7 @@ def generate_passed_run():
 def generate_failed_run():
     team = get_one_team()
     product = get_one_product(team)
-    run = start_run(team, product)
+    run = start_run(product)
     for i in range(fake.random.randint(90, 100)):
         if fake.boolean(70):
             create_passed_result(run)

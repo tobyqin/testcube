@@ -50,8 +50,6 @@ function runListTableDataHandler(data) {
             passed: r.result_total - r.result_failed,
             total: r.result_total
         };
-        r.product_name = r.product.name;
-        r.team_name = r.team.name;
     }
     my.runList = data;
     return data;
