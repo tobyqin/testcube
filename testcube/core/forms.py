@@ -31,6 +31,7 @@ class AnalysisForm(forms.Form):
 
     def save(self, result_id, username):
         result = TestResult.objects.get(id=result_id)
+        self.need_analysis = result.outcome != 0
         if result:
             reason = self.cleaned_data.get('reason')
             description = self.cleaned_data.get('description')

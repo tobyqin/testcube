@@ -19,7 +19,7 @@ function runListQueryParams(params) {
         params.product = my.runListFilter.product;
     }
     if (my.runListFilter.team) {
-        params.team = my.runListFilter.team;
+        params.product__team = my.runListFilter.team;
     }
 
     return params;
@@ -50,8 +50,6 @@ function runListTableDataHandler(data) {
             passed: r.result_total - r.result_failed,
             total: r.result_total
         };
-        r.product_name = r.product.name;
-        r.team_name = r.team.name;
     }
     my.runList = data;
     return data;

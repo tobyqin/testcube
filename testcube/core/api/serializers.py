@@ -75,15 +75,15 @@ class ResultErrorSerializer(serializers.HyperlinkedModelSerializer):
         fields = '__all__'
 
 
-class RunSourceSerializer(serializers.HyperlinkedModelSerializer):
+class ObjectSourceSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = RunSource
+        model = ObjectSource
         fields = '__all__'
 
 
 class ResultFileSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = RunSource
+        model = ResultFile
         fields = '__all__'
 
 
@@ -91,7 +91,7 @@ class TestRunListSerializer(serializers.ModelSerializer):
     class Meta:
         model = TestRun
         fields = (
-            'id', 'team', 'product', 'name', 'start_time', 'end_time',
+            'id', 'team_name', 'product_name', 'name', 'start_time', 'end_time',
             'start_by', 'get_status_display', 'get_state_display',
             'result_total', 'result_passed', 'result_failed',
             'result_skipped', 'duration')
@@ -103,7 +103,7 @@ class TestCaseListSerializer(serializers.ModelSerializer):
     class Meta:
         model = TestCase
         fields = (
-            'id', 'team', 'product', 'name', 'full_name',
+            'id', 'team_name', 'product_name', 'name', 'full_name',
             'keyword', 'priority', 'get_priority_display',
             'owner', 'updated_on', 'created_on', 'created_by')
 
@@ -173,7 +173,7 @@ class TestRunDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = TestRun
         fields = (
-            'id', 'team', 'product', 'name', 'start_time', 'end_time',
+            'id', 'team_name', 'product_name', 'name', 'start_time', 'end_time',
             'start_by', 'get_status_display', 'get_state_display',
             'result_total', 'result_passed', 'result_failed',
             'result_skipped', 'duration', 'results')

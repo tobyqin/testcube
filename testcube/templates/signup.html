@@ -2,6 +2,7 @@
 {% block title %}Sign Up{% endblock %}
 
 {% load bootstrap %}
+{% load static %}
 
 {% block body %}
     <div class="container">
@@ -19,7 +20,8 @@
             </div>
         </div>
     </div>
+{% endblock %}
 
-    {% load static %}
+{% block scripts %}
     <script src="{% static 'signup.js' %}"></script>
 {% endblock %}

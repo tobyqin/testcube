@@ -73,8 +73,8 @@ my.defaultTableOptions = {
 
 my.runListColumns = [
     {title: 'ID', field: 'id', formatter: runIdFormatter, sortable: true},
-    {title: 'Team', field: 'team.name', sortable: true},
-    {title: 'Product', field: 'product.name', sortable: true},
+    {title: 'Team', field: 'team_name'},
+    {title: 'Product', field: 'product_name'},
     {title: 'Title', field: 'name', sortable: true},
     {title: 'Start Time', field: 'start_time', formatter: timeHumanFormatter, sortable: true},
     {title: 'Duration', field: 'duration', formatter: durationFormatter, sortable: true, visible: false},
@@ -89,8 +89,8 @@ my.runListColumns = [
 
 my.runDetailColumns = [
     {title: 'ID', field: 'id'},
-    {title: 'Team', field: 'team.name'},
-    {title: 'Product', field: 'product.name'},
+    {title: 'Team', field: 'team_name'},
+    {title: 'Product', field: 'product_name'},
     {title: 'Name', field: 'name'},
     {title: 'Start Time', field: 'start_time', formatter: timeFormatter},
     {title: 'Duration', field: 'duration', formatter: durationFormatter},
@@ -121,8 +121,8 @@ my.runPassedResultColumns = [
 
 my.runHistoryColumns = [
     {title: 'ID', field: 'id', formatter: runIdFormatter},
-    {title: 'Team', field: 'team.name'},
-    {title: 'Product', field: 'product.name'},
+    {title: 'Team', field: 'team_name'},
+    {title: 'Product', field: 'product_name'},
     {title: 'Title', field: 'name'},
     {title: 'Start Time', field: 'start_time', formatter: timeHumanFormatter},
     {title: 'Duration', field: 'duration', formatter: durationFormatter},
@@ -160,8 +160,8 @@ my.resultHistoryColumns = [
 
 my.caseListColumns = [
     {title: 'ID', field: 'id', formatter: caseIdFormatter, sortable: true},
-    {title: 'Team', field: 'team.name', sortable: true},
-    {title: 'Product', field: 'product.name', sortable: true},
+    {title: 'Team', field: 'team_name'},
+    {title: 'Product', field: 'product_name'},
     {title: 'Name', field: 'name', sortable: true},
     {title: 'Priority', field: 'priority', sortable: true},
     {title: 'Owner', field: 'owner', sortable: true},
@@ -199,5 +199,6 @@ my.resultListColumns = [
     {title: 'TestCase', field: 'testcase_name'},
     {title: 'Message', field: 'error_message'},
     {title: 'Created On', field: 'created_on', formatter: timeFormatter},
-    {title: 'Duration', field: 'duration', formatter: durationFormatter}
+    {title: 'Duration', field: 'duration', formatter: durationFormatter},
+    {title: 'Outcome', field: 'get_outcome_display', formatter: outcomeFormatter}
 ];

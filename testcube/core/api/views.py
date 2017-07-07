@@ -8,8 +8,8 @@ from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
 
 from testcube.settings import logger
+from .filters import *
 from .serializers import *
-from ..models import *
 
 
 def info_view(self, serializer_class):
@@ -79,8 +79,8 @@ class TestClientViewSet(viewsets.ModelViewSet):
 class TestRunViewSet(viewsets.ModelViewSet):
     queryset = TestRun.objects.all()
     serializer_class = TestRunSerializer
-    filter_fields = ('name', 'state', 'status', 'owner', 'team', 'product')
-    search_fields = ('name', 'state', 'status', 'owner')
+    filter_fields = ('name', 'state', 'status', 'owner', 'product')
+    search_fields = ('name', 'owner')
 
     @detail_route(methods=['get'])
     def info(self, request, pk=None):
@@ -90,6 +90,7 @@ class TestRunViewSet(viewsets.ModelViewSet):
     def recent(self, request):
         """get recent runs, in run list view"""
         self.serializer_class = TestRunListSerializer
+        self.filter_class = TestRunFilter
         return list_view(self)
 
     @list_route()
@@ -128,7 +129,7 @@ class TestRunViewSet(viewsets.ModelViewSet):
 class TestCaseViewSet(viewsets.ModelViewSet):
     queryset = TestCase.objects.all()
     serializer_class = TestCaseSerializer
-    filter_fields = ('name', 'full_name', 'keyword', 'priority', 'owner', 'team', 'product')
+    filter_fields = ('name', 'full_name', 'keyword', 'priority', 'owner', 'product')
     search_fields = ('name', 'full_name', 'keyword')
 
     @detail_route(methods=['get'])
@@ -198,9 +199,9 @@ class ResultErrorViewSet(viewsets.ModelViewSet):
     search_fields = filter_fields
 
 
-class RunSourceViewSet(viewsets.ModelViewSet):
-    queryset = RunSource.objects.all()
-    serializer_class = RunSourceSerializer
+class ObjectSourceViewSet(viewsets.ModelViewSet):
+    queryset = ObjectSource.objects.all()
+    serializer_class = ObjectSourceSerializer
     filter_fields = ()
     search_fields = filter_fields
 

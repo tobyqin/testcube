@@ -11,6 +11,7 @@ class ResultAnalysis(models.Model):
     description = models.TextField(blank=True)
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
+
     issue = models.ForeignKey(Issue,
                               on_delete=models.PROTECT,
                               null=True,
