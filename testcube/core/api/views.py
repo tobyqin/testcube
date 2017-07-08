@@ -141,6 +141,7 @@ class TestCaseViewSet(viewsets.ModelViewSet):
     def recent(self, request):
         """get recent testcase, use for test case page."""
         self.serializer_class = TestCaseListSerializer
+        self.filter_class = TestCaseFilter
         return list_view(self)
 
     @detail_route(methods=['get'])

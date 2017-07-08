@@ -1,45 +1,33 @@
 "use strict";
 
-my.runListFilter = {};
+my.toolbarFilter = {};
 
-function runListQueryParams(params) {
+function refineQueryParams(params) {
+    // update params to django style:
     if (params.sort !== undefined) {
         let re = /(\w+)(\..*)/; // e.g. product.name => product
-
         params.ordering = params.sort.replace(re, '$1');
+
+        // sort=id&order=desc => ordering=id or ordering=-id
         if (params.order !== 'asc') {
             params.ordering = '-' + params.ordering;
         }
 
+        // remove unsupported params
         delete params.sort;
         delete params.order;
     }
 
-    if (my.runListFilter.product) {
-        params.product = my.runListFilter.product;
+    if (my.toolbarFilter.product) {
+        params.product = my.toolbarFilter.product;
     }
-    if (my.runListFilter.team) {
-        params.product__team = my.runListFilter.team;
+    if (my.toolbarFilter.team) {
+        params.product__team = my.toolbarFilter.team;
     }
 
     return params;
 }
 
-function caseListQueryParams(params) {
-    if (params.sort !== undefined) {
-        let re = /(\w+)(\..*)/; // e.g. product.name => product
-
-        params.ordering = params.sort.replace(re, '$1');
-        if (params.order !== 'asc') {
-            params.ordering = '-' + params.ordering;
-        }
-
-        delete params.sort;
-        delete params.order;
-    }
-
-    return params;
-}
 
 function runListTableDataHandler(data) {
     data.total = data.count;
@@ -55,38 +43,38 @@ function runListTableDataHandler(data) {
     return data;
 }
 
-function runListTableFilter() {
+function refreshTableByFilter() {
     $('#table').bootstrapTable('refresh');
 }
 
-function runListPickerChanged(e, index, newVal, oldVal) {
+function toolbarPickerChanged(e, index, newVal, oldVal) {
     if (e.target.id === 'team-picker') {
         let picker = $('#team-picker');
         let value = picker.selectpicker('val');
         if (value) {
-            my.runListFilter.team = value;
+            my.toolbarFilter.team = value;
         }
         else {
-            delete my.runListFilter.team;
+            delete my.toolbarFilter.team;
         }
 
-        runListTableFilter();
+        refreshTableByFilter();
     }
     if (e.target.id === 'product-picker') {
         let picker = $('#product-picker');
         let value = picker.selectpicker('val');
         if (value) {
-            my.runListFilter.product = value;
+            my.toolbarFilter.product = value;
         }
         else {
-            delete my.runListFilter.product;
+            delete my.toolbarFilter.product;
         }
 
-        runListTableFilter();
+        refreshTableByFilter();
     }
 }
 
-function runListFilterRender() {
+function toolbarFilterRender() {
     $.get('/api/products/recent/', function (data) {
         for (let obj of data.results) {
             $('#product-picker').append(`<option value="${obj.id}">${obj.name}</option>`);
@@ -103,17 +91,24 @@ function runListFilterRender() {
 
 function runListTablePostEvent(data) {
     if (data[0] === undefined) return;
+    toolbarTablePostEvent(data);
     $("[data-toggle='tooltip']").tooltip();
+}
+
+
+function toolbarTablePostEvent(data) {
+    if (data[0] === undefined) return;
     if (my.setFilters) return;
-    runListFilterRender();
-    $('.selectpicker').on('changed.bs.select', runListPickerChanged);
+    toolbarFilterRender();
+    $('.selectpicker').on('changed.bs.select', toolbarPickerChanged);
     my.setFilters = true;
 }
+
 
 function runListTableRender(url) {
     $('#table').bootstrapTable($.extend(my.defaultTableOptions, {
         url: url,
-        queryParams: runListQueryParams,
+        queryParams: refineQueryParams,
         responseHandler: runListTableDataHandler,
         toolbar: '#toolbar',
         showColumns: true,
@@ -263,6 +258,53 @@ function resultDetailPageRender(resultId) {
         showFooter: false,
         columns: my.resultDetailColumns,
         onPostBody: resultDetailSummaryPostEvent
+    });
+}
+
+function caseListTableRender(url) {
+    $('#table').bootstrapTable({
+        sidePagination: 'server',
+        url: url,
+        responseHandler: function (data) {
+            data.total = data.count;
+            data.rows = data.results;
+            return data;
+        },
+        queryParams: refineQueryParams,
+        toolbar: '#toolbar',
+        search: true,
+        pagination: true,
+        pageSize: 20,
+        pageList: [20, 50, 100],
+        sortName: 'id',
+        sortOrder: 'desc',
+        columns: my.caseListColumns,
+        onPostBody: toolbarTablePostEvent,
+    });
+}
+
+function caseDetailTableRender(caseId) {
+    $('#case-summary').bootstrapTable({
+        url: `/api/cases/${caseId}/info/`,
+        responseHandler: caseDetailSummaryDataHandler,
+        search: false,
+        pagination: false,
+        sortable: true,
+        cardView: true,
+        showFooter: false,
+        columns: my.caseDetailColumns,
+        onPostBody: caseDetailSummaryTablePostEvent
+    });
+
+    $('#case-history').bootstrapTable({
+        sidePagination: 'client',
+        url: `/api/cases/${caseId}/history/`,
+        responseHandler: resultHistoryTableDataHandler,
+        search: false,
+        pagination: false,
+        showFooter: false,
+        columns: my.caseHistoryColumns,
+        onPostBody: undefined
     });
 }
 
