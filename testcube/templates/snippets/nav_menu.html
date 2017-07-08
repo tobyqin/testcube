@@ -13,18 +13,17 @@
 
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li><a href="{% url 'runs' %}" data-vivaldi-spatnav-clickable="1" style="">Test Run</a></li>
-                <li><a href="{% url 'testcases' %}" data-vivaldi-spatnav-clickable="1" style="">Test Case</a></li>
-                <li><a href="{% url 'results' %}" data-vivaldi-spatnav-clickable="1" style="">Test Results</a></li>
-                <li><a href="{% url 'docs' 'faq' %}" data-vivaldi-spatnav-clickable="1" style="">FAQ</a></li>
+                <li><a href="{% url 'runs' %}">Test Run</a></li>
+                <li><a href="{% url 'testcases' %}">Test Case</a></li>
+                <li><a href="{% url 'results' %}">Test Results</a></li>
+                <li><a href="{% url 'docs' 'faq' %}">FAQ</a></li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                       aria-expanded="false"
-                       data-vivaldi-spatnav-clickable="1" style="">More <span class="caret"></span></a>
+                       aria-expanded="false">More <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="#" data-vivaldi-spatnav-clickable="1">TestLink</a></li>
-                        <li><a href="#" data-vivaldi-spatnav-clickable="1">Jenkins</a></li>
-                        <li><a href="#" data-vivaldi-spatnav-clickable="1">TeamCity</a></li>
+                        <li><a href="#">TestLink</a></li>
+                        <li><a href="#">Jenkins</a></li>
+                        <li><a href="#">TeamCity</a></li>
                     </ul>
                 </li>
             </ul>
@@ -36,14 +35,13 @@
                             <b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="{% url 'signout' %}">Sign Out</a></li>
+                            <li><a href="{% url 'signout' %}?next={{ request.path }}">Sign Out</a></li>
                         </ul>
                     </li>
                 {% else %}
-                    <li><a href="{% url 'signin' %}?next={{ request.path }}" data-vivaldi-spatnav-clickable="1"
-                           style="">Sign In</a>
+                    <li><a href="{% url 'signin' %}?next={{ request.path }}">Sign In</a>
                     </li>
-                    <li><a href="{% url 'signup' %}" data-vivaldi-spatnav-clickable="1" style="">Sign Up</a>
+                    <li><a href="{% url 'signup' %}?next={{ request.path }}">Sign Up</a>
                     </li>
                 {% endif %}
 
