@@ -51,7 +51,7 @@ You might want to update: `SECRET_KEY`, `ALLOWED_HOSTS`, `DATABASES`, `STATIC_RO
 
 ### 3. Follow setup steps
 
-To start a Django website, you have to do  things like below:
+To start a Django website, you have to do things like below:
 
 - Install requirements.
 - Create database scheme.
@@ -76,16 +76,13 @@ pip install -r requriements.txt
 # step 2. Create database
 python manage.py migrate
 
-# step 3. Load default data (optional)
-python manage.py loaddata configuration
-
-# step 4. create super user
+# step 3. create super user
 python manage.py createsuperuser
 
-# step 5. collect static files (optional, for deployment)
+# step 4. collect static files (optional, for deployment)
 python manage.py collectstatic
 
-# step 6. start the web server (for site preview or development)
+# step 5. start the web server (for site preview or development)
 python manage.py runserver
 ```
 
