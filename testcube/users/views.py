@@ -6,6 +6,11 @@ from .forms import SignUpForm
 from ..utils import get_domain
 
 
+def to_next_page(request):
+    next_page = request.GET.get('next', '/')
+    return redirect(next_page)
+
+
 def signup(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
@@ -15,15 +20,13 @@ def signup(request):
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
             login(request, user)
-            return redirect('/')
+            return to_next_page(request)
     else:
         form = SignUpForm()
     return render(request, 'signup.html', {'form': form, 'domain': get_domain()})
 
 
 def signin(request):
-    next_page = request.GET.get('next', '/')
-
     if request.method == 'POST':
         form = AuthenticationForm(data=request.POST)
         if form.is_valid():
@@ -32,7 +35,7 @@ def signin(request):
             user = authenticate(username=username, password=raw_password)
             if user:
                 login(request, user)
-                return redirect(next_page)
+                return to_next_page(request)
             else:
                 form.add_error('username', 'Invalid username or password!')
     else:
@@ -42,7 +45,7 @@ def signin(request):
 
 def signout(request):
     logout(request)
-    return redirect('/')
+    return to_next_page(request)
 
 
 def reset_password(request):

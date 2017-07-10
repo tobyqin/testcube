@@ -42,30 +42,8 @@
     <script src="https://cdn.bootcss.com/moment.js/2.18.1/moment.min.js"></script>
 
     <script>
-
         $(function () {
-            $('#case-summary').bootstrapTable({
-                url: '/api/cases/{{ case_id }}/info/',
-                responseHandler: caseDetailSummaryDataHandler,
-                search: false,
-                pagination: false,
-                sortable: true,
-                cardView: true,
-                showFooter: false,
-                columns: my.caseDetailColumns,
-                onPostBody: caseDetailSummaryTablePostEvent
-            });
-
-            $('#case-history').bootstrapTable({
-                sidePagination: 'client',
-                url: '/api/cases/{{ case_id }}/history/',
-                responseHandler: resultHistoryTableDataHandler,
-                search: false,
-                pagination: false,
-                showFooter: false,
-                columns: my.caseHistoryColumns,
-                onPostBody: undefined
-            });
+            caseDetailTableRender({{ case_id }})
         });
     </script>
 {% endblock %}
