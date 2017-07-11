@@ -10,7 +10,9 @@ class ModelsTestCase(TC):
 
     def test_get_domain(self):
         assert get_domain() == 'company.com'
-        Configuration.objects.create(key='domain', value='my.com')
+        config = Configuration.objects.get(key='domain')
+        config.value = 'my.com'
+        config.save()
         assert get_domain() == 'my.com'
 
     def test_read_document(self):

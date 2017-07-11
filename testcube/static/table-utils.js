@@ -308,6 +308,26 @@ function caseDetailTableRender(caseId) {
     });
 }
 
+function resultListTableRender(url) {
+    $('#table').bootstrapTable({
+        sidePagination: 'server',
+        url: url,
+        responseHandler: function (data) {
+            data.total = data.count;
+            data.rows = data.results;
+            return data;
+        },
+        queryParams: refineQueryParams,
+        search: true,
+        pagination: true,
+        pageSize: 20,
+        pageList: [20, 50, 100],
+        sortName: 'id',
+        sortOrder: 'desc',
+        columns: my.resultListColumns,
+    });
+}
+
 function lastStep() {
     if (my.showAnalysisForm) {
         $('.nav a:last').tab('show');

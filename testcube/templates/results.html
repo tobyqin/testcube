@@ -35,23 +35,7 @@
 
     <script>
         $(function () {
-            $('#table').bootstrapTable({
-                sidePagination: 'server',
-                url: '/api/results/recent/',
-                responseHandler: function (data) {
-                    data.total = data.count;
-                    data.rows = data.results;
-                    return data;
-                },
-                queryParams: caseListQueryParams,
-                search: true,
-                pagination: true,
-                pageSize: 20,
-                pageList: [20, 50, 100],
-                sortName: 'id',
-                sortOrder: 'desc',
-                columns: my.resultListColumns,
-            });
+            resultListTableRender('/api/results/recent/');
         });
     </script>
 {% endblock %}
