@@ -279,7 +279,7 @@ function caseListTableRender(url) {
         sortName: 'id',
         sortOrder: 'desc',
         columns: my.caseListColumns,
-        onPostBody: toolbarTablePostEvent,
+        onPostBody: toolbarTablePostEvent
     });
 }
 
@@ -324,7 +324,7 @@ function resultListTableRender(url) {
         pageList: [20, 50, 100],
         sortName: 'id',
         sortOrder: 'desc',
-        columns: my.resultListColumns,
+        columns: my.resultListColumns
     });
 }
 

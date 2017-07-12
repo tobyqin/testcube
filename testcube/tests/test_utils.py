@@ -18,3 +18,8 @@ class ModelsTestCase(TC):
     def test_read_document(self):
         content = read_document('faq')
         assert 'what' in content.lower()
+
+    def test_get_menu_links(self):
+        links = get_menu_links()
+        print(links)
+        assert len(links) > 0

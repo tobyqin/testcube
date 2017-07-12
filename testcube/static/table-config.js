@@ -68,7 +68,7 @@ my.defaultTableOptions = {
     pageSize: 20,
     pageList: [20, 30, 50, 100],
     sortable: true,
-    showFooter: false,
+    showFooter: false
 };
 
 my.runListColumns = [
@@ -82,7 +82,7 @@ my.runListColumns = [
     {
         title: 'Passing',
         field: 'passing_rate',
-        formatter: rateFormatter,
+        formatter: rateFormatter
     },
     {title: 'State', field: 'get_state_display'}
 ];
@@ -148,7 +148,7 @@ my.resultDetailColumns = [
 ];
 
 my.resultHistoryColumns = [
-    {title: 'ID', field: 'id', formatter: resultIdFormatter,},
+    {title: 'ID', field: 'id', formatter: resultIdFormatter},
     {title: 'Run On', field: 'run_info.start_time', formatter: timeFormatter},
     {title: 'Duration', field: 'duration', formatter: durationFormatter},
     {title: 'Error Message', field: 'error_message'},
@@ -184,7 +184,7 @@ my.caseDetailColumns = [
 ];
 
 my.caseHistoryColumns = [
-    {title: 'ID', field: 'id', formatter: resultIdFormatter,},
+    {title: 'ID', field: 'id', formatter: resultIdFormatter},
     {title: 'TestCase', field: 'testcase_info.name'},
     {title: 'Run On', field: 'run_info.start_time', formatter: timeFormatter},
     {title: 'Duration', field: 'duration', formatter: durationFormatter},

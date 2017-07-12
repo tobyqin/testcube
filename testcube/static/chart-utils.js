@@ -6,8 +6,8 @@ my.warnColor = 'rgb(255, 127, 14)';
 my.infoColor = 'rgb(31, 119, 180)';
 
 function runDetailChartRender() {
-    if (my.runList === undefined || my.summaryInfo == undefined) return;
-    if (my.summaryInfo.result_total == 0) return;
+    if (my.runList === undefined || my.summaryInfo === undefined) return;
+    if (my.summaryInfo.result_total === 0) return;
 
     let x = ['x'];
     let runIds = [];
@@ -39,8 +39,7 @@ function runDetailChartRender() {
                 passed,
                 failed,
                 skipped,
-                passRate,
-
+                passRate
             ],
             axes: {
                 PassRate: 'y2'
@@ -58,7 +57,7 @@ function runDetailChartRender() {
                 Passed: my.successColor,
                 Failed: my.failedColor,
                 PassRate: my.warnColor
-            },
+            }
         },
         axis: {
             x: {
@@ -72,7 +71,7 @@ function runDetailChartRender() {
                         return value.toFixed(0);
                     },
                     count: 5
-                },
+                }
             },
 
             y2: {
@@ -118,14 +117,14 @@ function runDetailChartRender() {
                 Passed: my.successColor,
                 Failed: my.warnColor,
                 Other: my.infoColor
-            },
+            }
         }
     });
 }
 
 
 function resultDetailChartRender() {
-    if (my.resultHistory === undefined || my.summaryInfo == undefined) return;
+    if (my.resultHistory === undefined || my.summaryInfo === undefined) return;
 
     let x = ['x'];
     let runIds = [];
@@ -174,7 +173,7 @@ function resultDetailChartRender() {
                 Passed: my.successColor,
                 Failed: my.failedColor,
                 Duration: my.warnColor
-            },
+            }
         },
         axis: {
             x: {
@@ -184,7 +183,7 @@ function resultDetailChartRender() {
             },
             y: {
                 show: false,
-            },
+            }
         },
         tooltip: {
             format: {
@@ -221,7 +220,7 @@ function resultDetailChartRender() {
                 Passed: my.successColor,
                 Failed: my.warnColor,
                 Other: my.infoColor
-            },
+            }
         }
     });
 

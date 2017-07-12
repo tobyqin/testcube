@@ -1,3 +1,5 @@
+{% load common_functions %}
+
 <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
@@ -17,15 +19,7 @@
                 <li><a href="{% url 'testcases' %}">Test Case</a></li>
                 <li><a href="{% url 'results' %}">Test Results</a></li>
                 <li><a href="{% url 'docs' 'faq' %}">FAQ</a></li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                       aria-expanded="false">More <span class="caret"></span></a>
-                    <ul class="dropdown-menu" role="menu">
-                        <li><a href="#">TestLink</a></li>
-                        <li><a href="#">Jenkins</a></li>
-                        <li><a href="#">TeamCity</a></li>
-                    </ul>
-                </li>
+                {% more_menu_links %}
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 {% if user.is_authenticated %}
