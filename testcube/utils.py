@@ -9,6 +9,11 @@ def get_domain():
     return Configuration.get('domain', 'company.com')
 
 
+def get_menu_links():
+    from .core.models import Configuration
+    return [link for link in Configuration.menu_links()]
+
+
 def read_document(name):
     from .settings import SETTINGS_DIR
     doc_path = join(SETTINGS_DIR, 'static/docs', name + '.md')

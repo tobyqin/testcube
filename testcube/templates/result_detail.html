@@ -6,7 +6,7 @@
 {% block title %}Result Detail{% endblock %}
 {% block header %}
     <link href="{% static 'libs/bootstrap-table/bootstrap-table.min.css' %}" rel="stylesheet">
-    <link href="https://cdn.bootcss.com/c3/0.4.13/c3.min.css" rel="stylesheet">
+    <link href="{% static 'libs/c3.min.css' %}" rel="stylesheet">
 {% endblock %}
 
 {% block body %}
@@ -117,9 +117,9 @@
     <script src="{% static 'chart-utils.js' %}"></script>
     <script src="{% static 'table-config.js' %}"></script>
     <script src="{% static 'table-utils.js' %}"></script>
-    <script src="https://cdn.bootcss.com/moment.js/2.18.1/moment.min.js"></script>
-    <script src="https://cdn.bootcss.com/d3/3.5.17/d3.min.js"></script>
-    <script src="https://cdn.bootcss.com/c3/0.4.13/c3.min.js"></script>
+    <script src="{% static 'libs/moment.min.js' %}"></script>
+    <script src="{% static 'libs/d3.min.js' %}"></script>
+    <script src="{% static 'libs/c3.min.js' %}"></script>
 
     <script>
         $(function () {

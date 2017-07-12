@@ -9,7 +9,7 @@ from testcube.core.models import Configuration
 class ModelsTestCase(TC):
     def setUp(self):
         self.client = Client()
-        self.admin = User.objects.create_superuser('admin', 'admin@test', 'admin')
+        self.admin = User.objects.create_superuser('test', 'admin@test', 'test')
         Configuration.objects.create(key='test', value='unit')
 
     def test_visit_config(self):
