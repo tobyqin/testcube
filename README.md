@@ -73,10 +73,10 @@ cd /path/to/testcube
 # step 1. Install requirements
 pip install -r requriements.txt
 
-# step 2. Create database
+# step 2. Create database (will create a default super user: admin/admin)
 python manage.py migrate
 
-# step 3. create super user
+# step 3. create super user (optional, see step 2)
 python manage.py createsuperuser
 
 # step 4. collect static files (optional, for deployment)
