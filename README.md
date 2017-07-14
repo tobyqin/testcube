@@ -6,18 +6,18 @@
 
 ## TestCube
 
-TestCube is a platform to manage and monitor automation test results, it provides a friendly web interface which is build with Python and Django.
+TestCube is a platform to manage and monitor automation test run and results, it provides a friendly web interface which is build with Python and Django.
 
-Let me use 1 minute to describe TestCube...
+Let me take 1 minute to describe TestCube...
 
 **Why ?** - To manage and analyze automation test results efficiently.
 
 **What ?** - It is web portal to deal with stuff like test runs, test cases, test results and test reports.
 
-**How ?** - Your automation tests must generate [xunit](http://reflex.gforge.inria.fr/xunit.html#xunitReport) or 
-[junit](http://llg.cubic.org/docs/junit/) xmls, TestCube will provide client or API to let you upload such xml files.
+**How ?** - Your automation tests should generate [xunit](http://reflex.gforge.inria.fr/xunit.html#xunitReport) or 
+[junit](http://llg.cubic.org/docs/junit/) xml files, then TestCube will provide client or API to let you upload such xml files.
 
-So you have to learn about its API and client before using it.
+So you have to learn about its client or API later.
 
 
 ## Get Started
@@ -26,9 +26,9 @@ Basically, there are 3 steps to run TestCube:
 
 1. Deploy a TestCube server.
 2. Install TestCube client to upload test results files. (*.xml)
-3. View and analyze runs from TestCube website.
+3. Review and analyze results from TestCube website.
 
-TestCube is built on Python, but it does not limit clients and users are must on Python.
+TestCube is built on Python, but it does not limit clients and users are Python-required.
 
 ### Project Links
 
