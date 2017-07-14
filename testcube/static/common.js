@@ -39,3 +39,15 @@ function hmsToSeconds(str) {
 
     return s;
 }
+
+function startLogHighlight() {
+    $(function () {
+        $.getScript('/static/libs/rainbow/rainbow.min.js', function () {
+            $.getScript('/static/libs/rainbow/language/generic.js', function () {
+                $.getScript('/static/libs/rainbow/language/python.js', function () {
+                    Rainbow.color();
+                });
+            });
+        });
+    });
+}

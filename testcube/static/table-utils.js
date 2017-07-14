@@ -217,8 +217,9 @@ function resultDetailSummaryPostEvent(data) {
         stdout = stdout + result.stdout;
     }
 
-    $('#stderr').empty().append(stderr);
-    $('#stdout').empty().append(stdout);
+    $('#stderr').empty().append(stderr.trim());
+    $('#stdout').empty().append(stdout.trim());
+    startLogHighlight();
 
     if (result.test_run) {
         let nav = `<a href="/runs/${result.test_run.id}">${result.test_run.id} - ${result.test_run.name}</a>`;
