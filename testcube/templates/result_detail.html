@@ -7,7 +7,7 @@
 {% block header %}
     <link href="{% static 'libs/bootstrap-table/bootstrap-table.min.css' %}" rel="stylesheet">
     <link href="{% static 'libs/c3.min.css' %}" rel="stylesheet">
-    <link href="{% static 'libs/rainbow/css/obsidian.css' %}" rel="stylesheet">
+    <link href="{% static 'libs/rainbow/css/monokai.css' %}" rel="stylesheet">
 {% endblock %}
 
 {% block body %}
@@ -49,12 +49,12 @@
                         <div class="tab-pane fade in active" id="tab-error">
                             <div class="spacer20"></div>
                             <pre style="white-space: pre-wrap;word-wrap: break-word;line-height: 180%">
-                                <code id="stderr" data-language="python">Loading</code></pre>
+                                <code id="stderr" data-language="log">Loading</code></pre>
                         </div>
                         <div class="tab-pane fade" id="tab-stdout">
                             <div class="spacer20"></div>
                             <pre style="white-space: pre-wrap;word-wrap: break-word;line-height: 180%">
-                                <code id="stdout" data-language="python">Loading...</code></pre>
+                                <code id="stdout" data-language="log">Loading...</code></pre>
                         </div>
                         <div class="tab-pane fade" id="tab-history">
                             <div class="spacer20"></div>
