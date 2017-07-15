@@ -1,5 +1,5 @@
 /**
- * Log output patterns for monokai.css
+ * Log output patterns for zenburnesque.css
  *
  * @author Toby Qin
  */
@@ -12,19 +12,19 @@ Rainbow.extend('log', [
 
     // info level
     {
-        name: 'support.tag',
+        name: 'info',
         pattern: /([^ ]*info).*/gi
     },
 
     // warn level
     {
-        name: 'string',
+        name: 'entity',
         pattern: /([^ ]*warn).*/gi
     },
 
     // error level
     {
-        name: 'keyword',
+        name: 'string',
         pattern: /([^ ]*error[^(]).*|([^ ]*fatal).*|([^ ]*failure).*|([^ ]*failed).*|([^ ]*exception[^(]).*/gi
     },
 

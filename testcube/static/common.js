@@ -40,12 +40,15 @@ function hmsToSeconds(str) {
     return s;
 }
 
-function startLogHighlight() {
+function startLogHighlight(callback) {
     $(function () {
         $.getScript('/static/libs/rainbow/rainbow.min.js', function () {
             $.getScript('/static/libs/rainbow/language/generic.js', function () {
-                $.getScript('/static/libs/rainbow/language/log.js', function () {
-                    Rainbow.color();
+                $.getScript('/static/libs/rainbow/language/python.js', function () {
+                    $.getScript('/static/libs/rainbow/language/log-zen.js', function () {
+                        Rainbow.color();
+                        if (callback) callback();
+                    });
                 });
             });
         });
