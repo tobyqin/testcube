@@ -47,7 +47,7 @@ function startLogHighlight(callback) {
                 $.getScript('/static/libs/rainbow/language/python.js', function () {
                     $.getScript('/static/libs/rainbow/language/log-zen.js', function () {
                         Rainbow.color();
-                        if (callback) callback();
+                        if (callback) return callback();
                     });
                 });
             });
