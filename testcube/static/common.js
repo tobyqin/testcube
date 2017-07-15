@@ -39,3 +39,18 @@ function hmsToSeconds(str) {
 
     return s;
 }
+
+function startLogHighlight(callback) {
+    $(function () {
+        $.getScript('/static/libs/rainbow/rainbow.min.js', function () {
+            $.getScript('/static/libs/rainbow/language/generic.js', function () {
+                $.getScript('/static/libs/rainbow/language/python.js', function () {
+                    $.getScript('/static/libs/rainbow/language/log-zen.js', function () {
+                        Rainbow.color();
+                        if (callback) return callback();
+                    });
+                });
+            });
+        });
+    });
+}
