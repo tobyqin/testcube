@@ -39,9 +39,14 @@
 {% endblock %}
 
 {#always load these scripts#}
-<script data-main="/static/main" src="{% static 'require.js' %}" defer async="true"></script>
+<script src="{% static 'require.js' %}"></script>
 
 {% block scripts %}
+    <script>
+        require(['static/require-config'], function () {
+            console.log('require config loaded.')
+        });
+    </script>
 {% endblock %}
 
 
