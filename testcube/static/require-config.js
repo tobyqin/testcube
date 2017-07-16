@@ -17,6 +17,11 @@ requirejs.config({
         marked: 'marked.min',
         moment: 'moment.min',
         mustache: 'mustache.min',
+        common: '../common',
+        table_config: '../table-config',
+        table_func: '../table-func',
+        signup: '../signup',
+        chart_func: '../chart-func'
     }
 });
 
