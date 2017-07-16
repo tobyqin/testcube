@@ -1,7 +1,6 @@
 define([], function () {
 
     "use strict";
-    window.config = {};
 
     function disableConsoleLog() {
         window.config.logMethod = console.log;
@@ -35,56 +34,13 @@ define([], function () {
         return s;
     }
 
-    function evalInContext(js, context) {
-        //# Return the results of the in-line anonymous function we .call with the passed context
-        return function () {
-            return eval(js);
-        }.call(context);
-    }
-
     function startLogHighlight() {
         require(['jquery', 'rainbow'], function ($, Rainbow) {
             window.Rainbow = Rainbow;
             require(['rainbow_log'], function () {
                 Rainbow.color();
             });
-            // let context = {'Rainbow': Rainbow};
-            // $(function () {
-            //     $.get('/static/libs/rainbow/language/generic.js', function (data) {
-            //         evalInContext(data, context);
-            //         Rainbow.color();
-            //     })
-            // });
-
-            // $.get('/static/libs/rainbow/language/generic.js', function (data) {
-            //     eval(data);
-            //     $.get('/static/libs/rainbow/language/python.js', function (data) {
-            //         eval(data);
-            //         $.get('/static/libs/rainbow/language/log-zen.js', function (data) {
-            //             eval(data);
-            //             Rainbow.color();
-            //         });
-            //     });
-            // });
-            // require(['rainbow_log'],function () {
-            //     $(function () {
-            //         Rainbow.color();
-            //     });
-            // });
-
         });
-        // $(function () {
-        //     $.getScript('/static/libs/rainbow/rainbow.min.js', function () {
-        //         $.getScript('/static/libs/rainbow/language/generic.js', function () {
-        //             $.getScript('/static/libs/rainbow/language/python.js', function () {
-        //                 $.getScript('/static/libs/rainbow/language/log-zen.js', function () {
-        //                     Rainbow.color();
-        //                     if (callback) return callback();
-        //                 });
-        //             });
-        //         });
-        //     });
-        // });
     }
 
     return {
