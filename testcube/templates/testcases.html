@@ -37,15 +37,11 @@
 {% endblock %}
 
 {% block scripts %}
-    <script src="{% static 'libs/bootstrap-table/bootstrap-table.min.js' %}"></script>
-    <script src= {% static 'libs/bootstrap-select/bootstrap-select.min.js' %}></script>
-    <script src="{% static 'table-config.js' %}"></script>
-    <script src="{% static 'table-utils.js' %}"></script>
-    <script src="{% static 'libs/moment.min.js' %}"></script>
-
     <script>
-        $(function () {
-            caseListTableRender('/api/cases/recent/');
+        require(['/static/require-config.js'], function () {
+            require(['table-func', 'jquery'], function (func, $) {
+                func.caseListTableRender('/api/cases/recent/');
+            })
         });
     </script>
 {% endblock %}

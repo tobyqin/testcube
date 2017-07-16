@@ -28,14 +28,13 @@
 {% endblock %}
 
 {% block scripts %}
-    <script src="{% static 'libs/bootstrap-table/bootstrap-table.min.js' %}"></script>
-    <script src="{% static 'table-config.js' %}"></script>
-    <script src="{% static 'table-utils.js' %}"></script>
-    <script src="{% static 'libs/moment.min.js' %}"></script>
-
     <script>
-        $(function () {
-            resultListTableRender('/api/results/recent/');
+        require(['/static/require-config.js'], function () {
+            require(['table-func', 'jquery'], function (func, $) {
+                $(function () {
+                    func.resultListTableRender('/api/results/recent/');
+                });
+            });
         });
     </script>
 {% endblock %}

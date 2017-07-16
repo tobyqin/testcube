@@ -114,21 +114,17 @@
 {% endblock %}
 
 {% block scripts %}
-    <script src="{% static 'libs/bootstrap-table/bootstrap-table.min.js' %}"></script>
-    <script src="{% static 'chart-utils.js' %}"></script>
-    <script src="{% static 'table-config.js' %}"></script>
-    <script src="{% static 'table-utils.js' %}"></script>
-    <script src="{% static 'libs/moment.min.js' %}"></script>
-    <script src="{% static 'libs/d3.min.js' %}"></script>
-    <script src="{% static 'libs/c3.min.js' %}"></script>
-
     <script>
-        $(function () {
-            resultDetailPageRender({{ result_id }});
-        });
+        require(['/static/require-config.js'], function () {
+            require(['table-func', 'jquery'], function (func, $) {
+                $(function () {
+                    func.resultDetailPageRender({{ result_id }});
 
-        {% if form.by_post %}
-            my.showAnalysisForm = true;
-        {% endif %}
+                    {% if form.by_post %}
+                        window.showAnalysisForm = true;
+                    {% endif %}
+                });
+            });
+        });
     </script>
 {% endblock %}
