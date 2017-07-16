@@ -26,8 +26,9 @@ for d in migrate_dirs:
     files = [join(d, f) for f in listdir(d) if f != '__init__.py']
     files = [f for f in files if isfile(f)]
     for f in files:
-        print('delete: {}'.format(join(d, f)))
-        remove(f)
+        if 'load_data' not in f:
+            print('delete: {}'.format(join(d, f)))
+            remove(f)
 
 print('\n3. make migrations')
 os.system('python manage.py makemigrations')
