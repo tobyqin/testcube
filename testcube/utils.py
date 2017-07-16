@@ -1,7 +1,7 @@
 import logging
 import sys
 from logging.handlers import RotatingFileHandler
-from os.path import join
+from os.path import join, exists
 
 
 def get_domain():
@@ -17,8 +17,11 @@ def get_menu_links():
 def read_document(name):
     from .settings import SETTINGS_DIR
     doc_path = join(SETTINGS_DIR, 'static/docs', name + '.md')
-    with open(doc_path) as f:
-        return f.read()
+    if exists(doc_path):
+        with open(doc_path) as f:
+            return f.read()
+    else:
+        return 'not found.'
 
 
 def setup_logger(log_dir=None, debug=False):
