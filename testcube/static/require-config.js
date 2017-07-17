@@ -58,4 +58,3 @@ requirejs.config({
 });
 
 window.app = {};
-window.config={};

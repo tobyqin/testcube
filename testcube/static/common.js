@@ -2,18 +2,21 @@ define([], function () {
 
     "use strict";
 
+    // diable console.log message
     function disableConsoleLog() {
-        window.config.logMethod = console.log;
+        window.app.logMethod = console.log;
         console.log = function () {
         }
     }
 
+    // enable console.log message
     function enableConsoleLog() {
-        console.log = window.config.logMethod;
+        console.log = window.app.logMethod;
     }
 
+    // get a color value from 0 to 1 => red to green
+    // e.g. smaller value is not good, then it will be red
     function getColor(value) {
-        // value from 0 to 1 => red to green, if value is not good, let it red
         if (value < 0.9) {
             value -= 0.3;
         }
@@ -21,8 +24,9 @@ define([], function () {
         return ["hsl(", hue, ",100%,35%)"].join("");
     }
 
+    // convert hms kind of time string to seconds
+    // e.g. '02:04:33' to seconds
     function hmsToSeconds(str) {
-        // e.g. '02:04:33' to seconds
         let p = str.split(':'),
             s = 0, m = 1;
 
@@ -34,6 +38,7 @@ define([], function () {
         return s;
     }
 
+    // start high log output in the page
     function startLogHighlight() {
         require(['jquery', 'rainbow'], function ($, Rainbow) {
             window.Rainbow = Rainbow;
