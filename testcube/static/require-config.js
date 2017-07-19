@@ -52,7 +52,7 @@ requirejs.config({
         rainbow: 'rainbow/rainbow',
         rainbow_generic: 'rainbow/language/generic',
         rainbow_python: 'rainbow/language/python',
-        rainbow_log: 'rainbow/language/log-zen'
+        rainbow_log: 'rainbow/language/log'
     },
     deps: ['bootstrap']
 });
