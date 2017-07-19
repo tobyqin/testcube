@@ -158,8 +158,7 @@ define(['moment', 'c3', 'd3', 'common'], function (moment, c3, d3, common) {
                 columns: [
                     passed,
                     failed,
-                    duration,
-
+                    duration
                 ],
                 groups: [
                     ['Passed', 'Failed']
@@ -185,7 +184,7 @@ define(['moment', 'c3', 'd3', 'common'], function (moment, c3, d3, common) {
                     categories: runIds
                 },
                 y: {
-                    show: false,
+                    show: false
                 }
             },
             tooltip: {

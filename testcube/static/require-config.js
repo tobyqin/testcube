@@ -28,7 +28,7 @@ requirejs.config({
         },
         rainbow_log: {
             deps: ['rainbow_python']
-        },
+        }
     },
     paths: {
         bootstrap: 'bootstrap/js/bootstrap.min',
@@ -54,7 +54,7 @@ requirejs.config({
         rainbow_python: 'rainbow/language/python',
         rainbow_log: 'rainbow/language/log-zen'
     },
-    deps: ['bootstrap'],
+    deps: ['bootstrap']
 });
 
 window.app = {};
