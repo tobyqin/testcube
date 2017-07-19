@@ -71,7 +71,7 @@ cd /path/to/testcube
 # https://virtualenv.pypa.io/en/stable/userguide/
 
 # step 1. Install requirements
-pip install -r requriements.txt
+pip install -r requirements.txt
 
 # step 2. Create database (will create a default super user: admin/admin)
 python manage.py migrate
@@ -101,7 +101,7 @@ This project is still under development, welcome to fork and send pull request.
 
 ### Unit tests
 
-Before send pull requests, please add relevent unit tests and make them passed.
+Before send pull requests, please add relevant unit tests and make them passed.
 
 ```
 python manage.py test

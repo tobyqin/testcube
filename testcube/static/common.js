@@ -2,7 +2,7 @@ define([], function () {
 
     "use strict";
 
-    // diable console.log message
+    // disable console.log message
     function disableConsoleLog() {
         window.app.logMethod = console.log;
         console.log = function () {
