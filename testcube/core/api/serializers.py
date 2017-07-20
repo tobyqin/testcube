@@ -114,7 +114,7 @@ class TestCaseDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = TestCase
         fields = (
-            'id', 'team', 'product', 'name', 'full_name',
+            'id', 'team_name', 'product', 'name', 'full_name',
             'keyword', 'priority', 'get_priority_display',
             'owner', 'updated_on', 'created_on', 'created_by',
             'description', 'execution_info')

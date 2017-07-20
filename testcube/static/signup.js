@@ -1,19 +1,23 @@
-function updateUserNameAndEmail() {
-    $(
-        function () {
-            usernameInput = $('input[name="username"]');
-            emailInput = $('input[name="email"]');
-            domain = emailInput.attr('data-text');
-            domain = domain ? domain : 'company.com';
-            username = usernameInput.val();
+define(['jquery'], function ($) {
+    return function () {
 
-            email = username + '@' + domain;
-            emailInput.val(email.toLowerCase());
+        function updateUserNameAndEmail() {
+            $(function () {
+                    usernameInput = $('input[name="username"]');
+                    emailInput = $('input[name="email"]');
+                    domain = emailInput.attr('data-text');
+                    domain = domain ? domain : 'company.com';
+                    username = usernameInput.val();
+
+                    email = username + '@' + domain;
+                    emailInput.val(email.toLowerCase());
+                }
+            );
         }
-    );
-}
 
-// when page ready
-jQuery(function () {
-    $('input[name="username"]').keyup(updateUserNameAndEmail);
+        // when page ready
+        $(function () {
+            $('input[name="username"]').keyup(updateUserNameAndEmail);
+        });
+    }
 });

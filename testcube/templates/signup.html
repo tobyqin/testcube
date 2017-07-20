@@ -23,5 +23,11 @@
 {% endblock %}
 
 {% block scripts %}
-    <script src="{% static 'signup.js' %}"></script>
+    <script>
+        require(['static/require-config'], function () {
+            require(['signup'], function (signup) {
+                signup();
+            })
+        });
+    </script>
 {% endblock %}

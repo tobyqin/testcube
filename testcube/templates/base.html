@@ -39,17 +39,15 @@
 {% endblock %}
 
 {#always load these scripts#}
-<script src="{% static 'libs/jquery-3.2.1.min.js' %}"></script>
-<script src="{% static 'libs/bootstrap/js/bootstrap.min.js' %}"></script>
-<script src="{% static 'libs/bootstrap/js/ie10-viewport-bug-workaround.js' %}"></script>
-<script src="{% static 'common.js' %}"></script>
+<script src="{% static 'require.js' %}"></script>
 
 {% block scripts %}
-    <script src="{% static 'libs/moment.min.js' %}"></script>
-    <script src="{% static 'libs/mustache.min.js' %}"></script>
-    <script src="{% static 'libs/lodash.min.js' %}"></script>
+    <script>
+        require(['static/require-config'], function () {
+            console.log('require config loaded.')
+        });
+    </script>
 {% endblock %}
-
 
 {% block body-end %}
 {% endblock %}

@@ -21,14 +21,17 @@
 {% endblock %}
 
 {% block scripts %}
-    <script src="{% static 'libs/marked.min.js' %}"></script>
     <script>
-        $(function () {
-            let contentDiv = $('#content');
-            let raw = contentDiv.children().first().text().trim();
-            let converted = marked(raw);
-            contentDiv.attr('data-text', raw);
-            contentDiv.empty().append(converted);
-        })
+        require(['/static/require-config.js'], function () {
+            require(['jquery', 'marked'], function ($, marked) {
+                $(function () {
+                    let contentDiv = $('#content');
+                    let raw = contentDiv.children().first().text().trim();
+                    let converted = marked(raw);
+                    contentDiv.attr('data-text', raw);
+                    contentDiv.empty().append(converted);
+                })
+            });
+        });
     </script>
 {% endblock %}

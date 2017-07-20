@@ -1,56 +1,58 @@
-"use strict";
-let my = {};
-my.defaultToolTip = "Loading ...";
-my.debugLog = true;
+define([], function () {
 
-function disableConsoleLog() {
-    my.logMethod = console.log;
-    console.log = function () {
+    "use strict";
 
+    // disable console.log message
+    function disableConsoleLog() {
+        window.app.logMethod = console.log;
+        console.log = function () {
+        }
     }
-}
 
-function enableConsoleLog() {
-    console.log = my.logMethod;
-}
-
-
-function doSetup() {
-}
-
-function getColor(value) {
-    // value from 0 to 1 => red to green, if value is not good, let it red
-    if (value < 0.9) {
-        value -= 0.3;
+    // enable console.log message
+    function enableConsoleLog() {
+        console.log = window.app.logMethod;
     }
-    let hue = (value * 120).toString(10);
-    return ["hsl(", hue, ",100%,35%)"].join("");
-}
 
-function hmsToSeconds(str) {
+    // get a color value from 0 to 1 => red to green
+    // e.g. smaller value is not good, then it will be red
+    function getColor(value) {
+        if (value < 0.9) {
+            value -= 0.3;
+        }
+        let hue = (value * 120).toString(10);
+        return ["hsl(", hue, ",100%,35%)"].join("");
+    }
+
+    // convert hms kind of time string to seconds
     // e.g. '02:04:33' to seconds
-    let p = str.split(':'),
-        s = 0, m = 1;
+    function hmsToSeconds(str) {
+        let p = str.split(':'),
+            s = 0, m = 1;
 
-    while (p.length > 0) {
-        s += m * parseInt(p.pop(), 10);
-        m *= 60;
+        while (p.length > 0) {
+            s += m * parseInt(p.pop(), 10);
+            m *= 60;
+        }
+
+        return s;
     }
 
-    return s;
-}
-
-function startLogHighlight(callback) {
-    $(function () {
-        $.getScript('/static/libs/rainbow/rainbow.min.js', function () {
-            $.getScript('/static/libs/rainbow/language/generic.js', function () {
-                $.getScript('/static/libs/rainbow/language/python.js', function () {
-                    $.getScript('/static/libs/rainbow/language/log-zen.js', function () {
-                        Rainbow.color();
-                        if (callback) return callback();
-                    });
-                });
+    // start high log output in the page
+    function startLogHighlight() {
+        require(['jquery', 'rainbow'], function ($, Rainbow) {
+            window.Rainbow = Rainbow;
+            require(['rainbow_log'], function () {
+                Rainbow.color();
             });
         });
-    });
-}
+    }
+
+    return {
+        'disableConsoleLog': disableConsoleLog,
+        'enableConsoleLog': enableConsoleLog,
+        'getColor': getColor,
+        'hmsToSeconds': hmsToSeconds,
+        'startLogHighlight': startLogHighlight
+    };
+});

@@ -36,18 +36,15 @@
 
 {% endblock %}
 
-{% block scripts %}
-    <script src="{% static 'libs/bootstrap-table/bootstrap-table.min.js' %}"></script>
-    <script src="{% static 'libs/bootstrap-table/bootstrap-table-cookie.js' %}"></script>
-    <script src= {% static 'libs/bootstrap-select/bootstrap-select.min.js' %}></script>
-    <script src="{% static 'table-config.js' %}"></script>
-    <script src="{% static 'table-utils.js' %}"></script>
-    <script src="{% static 'libs/moment.min.js' %}"></script>
 
+{% block scripts %}
     <script>
-        $(function () {
-            runListTableRender('/api/runs/recent/');
-            $.ajax('/api/runs/clear/')
+        require(['/static/require-config.js'], function () {
+            require(['table-func', 'jquery'], function (func, $) {
+                func.runListTableRender('/api/runs/recent/');
+                $.ajax('/api/runs/clear/')
+            })
         });
     </script>
 {% endblock %}
+
