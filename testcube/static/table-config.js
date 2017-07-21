@@ -102,9 +102,9 @@ define(['moment', 'common'], function (moment, common) {
     config.runFailedResultColumns = [
         {title: 'ID', field: 'id', formatter: resultIdFormatter, sortable: true},
         {title: 'TestCase', field: 'testcase_info.name', sortable: true},
-        {title: 'Duration', field: 'duration', formatter: durationFormatter, sortable: true},
         {title: 'Error Message', field: 'error_message', sortable: true},
         {title: 'Reason', field: 'reason', sortable: true},
+        {title: 'Duration', field: 'duration', formatter: durationFormatter, sortable: true},
         {title: 'Outcome', field: 'get_outcome_display', formatter: outcomeFormatter, sortable: true}
     ];
 
