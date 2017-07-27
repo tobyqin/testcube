@@ -12,6 +12,9 @@ def to_next_page(request):
 
 
 def signup(request):
+    if request.user.is_authenticated():
+        return to_next_page(request)
+
     if request.method == 'POST':
         form = SignUpForm(request.POST)
         if form.is_valid():
