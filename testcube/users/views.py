@@ -30,6 +30,9 @@ def signup(request):
 
 
 def signin(request):
+    if request.user.is_authenticated():
+        return to_next_page(request)
+
     if request.method == 'POST':
         form = AuthenticationForm(data=request.POST)
         if form.is_valid():
