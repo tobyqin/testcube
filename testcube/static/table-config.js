@@ -172,6 +172,7 @@ define(['moment', 'common'], function (moment, common) {
         {title: 'Product', field: 'product.name'},
         {title: 'Name', field: 'name'},
         {title: 'FullName', field: 'full_name'},
+        {title: 'Tags', field: 'tags_list'},
         {title: 'Keyword', field: 'keyword'},
         {title: 'Priority', field: 'priority'},
         {title: 'Description', field: 'description'},

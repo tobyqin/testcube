@@ -117,7 +117,7 @@ class TestCaseDetailSerializer(serializers.ModelSerializer):
             'id', 'team_name', 'product', 'name', 'full_name',
             'keyword', 'priority', 'get_priority_display',
             'owner', 'updated_on', 'created_on', 'created_by',
-            'description', 'execution_info')
+            'description', 'execution_info', 'tags_list')
 
         depth = 1
 
