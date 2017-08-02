@@ -54,7 +54,8 @@ INSTALLED_APPS = [
     'django_filters',
     'bootstrapform',
     'testcube.core',
-    'testcube.users'
+    'testcube.users',
+    'tagging'
 ]
 
 MIDDLEWARE = [
@@ -151,3 +152,6 @@ REST_FRAMEWORK = {
 }
 
 logger = setup_logger(debug=DEBUG, log_dir=LOG_ROOT)
+
+# tagging
+FORCE_LOWERCASE_TAGS = True
