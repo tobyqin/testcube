@@ -13,6 +13,10 @@ requirejs.config({
             deps: ['bootstrap'],
             exports: '$.fn.selectpicker'
         },
+        bootstrapTagsInput: {
+            deps: ['bootstrap'],
+            exports: '$.fn.tagsinput'
+        },
         bootstrapTableCookie: {
             deps: ['bootstrapTable'],
             exports: '$.fn.bootstrapTable.defaults'
@@ -35,6 +39,7 @@ requirejs.config({
         bootstrap_fix: 'bootstrap/js/ie10-viewport-bug-workaround',
         bootstrapTable: 'bootstrap-table/bootstrap-table.min',
         bootstrapSelect: 'bootstrap-select/bootstrap-select.min',
+        bootstrapTagsInput: 'bootstrap-tagsinput/bootstrap-tagsinput.min',
         bootstrapCookie: 'bootstrap-table/bootstrap-table-cookie',
         c3: 'c3.min',
         d3: 'd3.min',

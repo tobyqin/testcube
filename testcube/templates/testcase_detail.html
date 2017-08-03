@@ -4,6 +4,7 @@
 {% block title %}TestCase Detail{% endblock %}
 {% block header %}
     <link href="{% static 'libs/bootstrap-table/bootstrap-table.min.css' %}" rel="stylesheet">
+    <link href="{% static 'libs/bootstrap-tagsinput/bootstrap-tagsinput.css' %}" rel="stylesheet">
 {% endblock %}
 
 {% block body %}
@@ -21,6 +22,15 @@
                 <div class="col-md-12">
                     <h2>Summary</h2>
                     <hr/>
+                    <form class="form-inline">
+                        <div class="form-group">
+                            <label for="tc-tags">Tags: </label>
+                            <input type="text" id="tc-tags"
+                                   value="Amsterdam,Washington,Sydney,Beijing,Cairo"
+                                   data-role="tagsinput"/>
+                        </div>
+                    </form>
+                    <br>
                     <table id="case-summary"></table>
 
                     <h2>History</h2>
@@ -40,6 +50,10 @@
         require(['/static/require-config.js'], function () {
             require(['table-func'], function (func) {
                 func.caseDetailTableRender({{ case_id }});
+            });
+
+            require(['jquery', 'bootstrapTagsInput'], function ($) {
+                console.log($('input').tagsinput('items'));
             })
         });
     </script>
