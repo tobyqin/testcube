@@ -33,7 +33,7 @@ class TestCase(models.Model):
         }
 
     def tags_list(self):
-        return ' '.join([t.name for t in getattr(self, 'tags')])
+        return ':'.join([t.name for t in getattr(self, 'tags')])
 
     class Meta:
         ordering = ['-id']

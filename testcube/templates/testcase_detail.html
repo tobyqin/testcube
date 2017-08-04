@@ -18,7 +18,6 @@
 
         <div id="main-content">
             <div class="row">
-
                 <div class="col-md-12">
                     <h2>Summary</h2>
                     <hr/>
@@ -26,7 +25,6 @@
                         <div class="form-group">
                             <label for="tc-tags">Tags: </label>
                             <input type="text" id="tc-tags"
-                                   value="Amsterdam,Washington,Sydney,Beijing,Cairo"
                                    data-role="tagsinput"/>
                         </div>
                     </form>
@@ -48,13 +46,9 @@
 {% block scripts %}
     <script>
         require(['/static/require-config.js'], function () {
-            require(['table-func'], function (func) {
+            require(['table-func', 'bootstrapTagsInput'], function (func) {
                 func.caseDetailTableRender({{ case_id }});
             });
-
-            require(['jquery', 'bootstrapTagsInput'], function ($) {
-                console.log($('input').tagsinput('items'));
-            })
         });
     </script>
 {% endblock %}

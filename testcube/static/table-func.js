@@ -166,6 +166,10 @@ define(['jquery', 'table-config', 'common', 'bootstrapTable', 'bootstrapSelect']
             let testcase = data[0];
             let nav = `${testcase.id} - ${testcase.name}`;
             $('#case-nav').empty().append(nav);
+
+            for (let tags of testcase.tags_list.split(':')) {
+                $('#tc-tags').tagsinput('add', tags);
+            }
         }
 
         function runDetailSummaryPostEvent(data) {
