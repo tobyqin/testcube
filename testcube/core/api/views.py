@@ -1,3 +1,4 @@
+import re
 from datetime import datetime, timezone
 
 from django.db.models import Q
@@ -136,6 +137,49 @@ class TestCaseViewSet(viewsets.ModelViewSet):
     def info(self, request, pk=None):
         """query result info, use for result detail page."""
         return info_view(self, TestCaseDetailSerializer)
+
+    @detail_route(methods=['get', 'post'])
+    def tags(self, request, pk=None):
+        """query result tags"""
+        from tagging.models import Tag
+        instance = self.get_object()
+
+        if request.method == 'POST':
+            method = request.POST.get('method', 'add')
+            tag_name = request.POST.get('tags', '').lower()
+
+            if not bool(re.fullmatch('[ _\w-]+', tag_name)):
+                return Response({'error': 'bad tag name!'}, status=400)
+
+            if method == 'add':
+                Tag.objects.add_tag(instance, tag_name)
+
+            elif method == 'remove':
+                tags = [t.name for t in instance.tags if t.name != tag_name]
+                instance.tags = ','.join(tags)
+
+        tags = [t.name for t in instance.tags]
+        return Response(data=tags)
+
+        pending_runs = TestRun.objects.filter(state__lt=2)  # not ready, starting, running
+        fixed = []
+
+        for run in pending_runs:
+            delta = datetime.now(timezone.utc) - run.start_time
+            if delta.days > 1 and run.state < 2:
+                logger.info('abort run: {}'.format(run.id))
+                run.state, run.status = 2, 1  # abort, failed
+                run.save()
+                fixed.append(run.id)
+
+        bad_runs = TestRun.objects.filter(results=None)  # run without results > 2 days
+        for run in bad_runs:
+            if (datetime.now(tz=timezone.utc) - run.start_time).days >= 2:
+                logger.info('delete run: {}'.format(run.id))
+                fixed.append(run.id)
+                run.delete()
+
+        return Response(data=fixed)
 
     @list_route()
     def recent(self, request):

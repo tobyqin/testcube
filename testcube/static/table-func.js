@@ -170,6 +170,16 @@ define(['jquery', 'table-config', 'common', 'bootstrapTable', 'bootstrapSelect']
             for (let tags of testcase.tags_list.split(':')) {
                 $('#tc-tags').tagsinput('add', tags);
             }
+
+            caseTagsEvent();
+        }
+
+        function caseTagsEvent() {
+            $('#tc-tags').on('beforeItemAdd', function (event) {
+
+            }).on('beforeItemRemove', function (event) {
+
+            });
         }
 
         function runDetailSummaryPostEvent(data) {
