@@ -161,26 +161,6 @@ class TestCaseViewSet(viewsets.ModelViewSet):
         tags = [t.name for t in instance.tags]
         return Response(data=tags)
 
-        pending_runs = TestRun.objects.filter(state__lt=2)  # not ready, starting, running
-        fixed = []
-
-        for run in pending_runs:
-            delta = datetime.now(timezone.utc) - run.start_time
-            if delta.days > 1 and run.state < 2:
-                logger.info('abort run: {}'.format(run.id))
-                run.state, run.status = 2, 1  # abort, failed
-                run.save()
-                fixed.append(run.id)
-
-        bad_runs = TestRun.objects.filter(results=None)  # run without results > 2 days
-        for run in bad_runs:
-            if (datetime.now(tz=timezone.utc) - run.start_time).days >= 2:
-                logger.info('delete run: {}'.format(run.id))
-                fixed.append(run.id)
-                run.delete()
-
-        return Response(data=fixed)
-
     @list_route()
     def recent(self, request):
         """get recent testcase, use for test case page."""
