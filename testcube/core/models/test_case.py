@@ -32,6 +32,9 @@ class TestCase(models.Model):
             'other': self.results.filter(outcome__gt=1).count()
         }
 
+    def tags_list(self):
+        return ':'.join([t.name for t in getattr(self, 'tags')])
+
     class Meta:
         ordering = ['-id']
 

@@ -1,3 +1,5 @@
+from tagging.registry import register
+
 from .configuration import Configuration
 from .issue import Issue
 from .object_source import ObjectSource
@@ -10,3 +12,5 @@ from .test_case import TestCase
 from .test_client import TestClient
 from .test_result import TestResult
 from .test_run import TestRun
+
+register(TestCase)
