@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, resolve_url
+from django.shortcuts import render, redirect, resolve_url, HttpResponse
 
 from testcube.settings import logger
 from .forms import AnalysisForm
@@ -62,6 +62,12 @@ def result_detail(request, result_id):
             else:
                 form.add_error('description', 'Login required.')
 
+        if form.errors:
+            errors = [m[0] for e, m in form.errors.items()]
+            message = ', '.join(errors)
+            return HttpResponse(content=message, status=400)
+        else:
+            return HttpResponse(content='Analyzed just now.')
 
     else:
         form = AnalysisForm()

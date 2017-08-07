@@ -81,13 +81,15 @@
 
                                         {% if form.result.analysis %}
                                             <div class="col-md-8">
-                                                <p class="text-success" style="margin-top: 8px">Analyzed
+                                                <p id="form-message" class="text-success" style="margin-top: 8px">
+                                                    Analyzed
                                                     by {{ form.result.analysis.by }}
                                                     on {{ form.result.analysis.updated_on | naturaltime }}.</p>
                                             </div>
                                         {% else %}
                                             <div class="col-md-6">
-                                                <p class="text-danger" style="margin-top: 8px">Analysis Required.</p>
+                                                <p id="form-message" class="text-danger" style="margin-top: 8px">
+                                                    Analysis Required.</p>
                                             </div>
                                         {% endif %}
 
@@ -97,9 +99,19 @@
                                                     type="submit">Submit
                                             </button>
                                         </div>
-                                        <div class="col-md-6">
-                                            <p class="text-danger" style="margin-top: 8px">Login Required.</p>
-                                        </div>
+                                        {% if form.result.analysis %}
+                                            <div class="col-md-8">
+                                                <p id="form-message" class="text-success" style="margin-top: 8px">
+                                                    Analyzed
+                                                    by {{ form.result.analysis.by }}
+                                                    on {{ form.result.analysis.updated_on | naturaltime }}.</p>
+                                            </div>
+                                        {% else %}
+                                            <div class="col-md-6">
+                                                <p id="form-message" class="text-danger" style="margin-top: 8px">Login
+                                                    Required.</p>
+                                            </div>
+                                        {% endif %}
                                     {% endif %}
                                 </div>
                             </form>
@@ -119,7 +131,27 @@
             require(['table-func', 'jquery'], function (func, $) {
                 $(function () {
                     func.resultDetailPageRender({{ result_id }});
-
+                    $('form').submit(function (event) {
+                        $.ajax({
+                            url: '',
+                            type: 'post',
+                            dataType: 'application/json',
+                            data: $('form').serialize(),
+                            async: true,
+                            complete: function (xhr) {
+                                let message = xhr.responseText;
+                                let messageCls = 'text-danger';
+                                if (xhr.status === 200) {
+                                    messageCls = 'text-success';
+                                }
+                                $('#form-message').empty()
+                                    .append(xhr.responseText)
+                                    .removeClass().addClass(messageCls);
+                            }
+                        });
+                        event.preventDefault();
+                        return false;
+                    });
                     {% if form.by_post %}
                         window.showAnalysisForm = true;
                     {% endif %}
