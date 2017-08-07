@@ -21,11 +21,15 @@
                 <div class="col-md-12">
                     <h2>Summary</h2>
                     <hr/>
+                    <form>
+                        {% csrf_token %}
                         <div class="form-group">
                             <label for="tc-tags">Tags: </label>
                             <input type="text" id="tc-tags"
+                                   class="form-control"
                                    data-role="tagsinput"/>
                         </div>
+                    </form>
                     <table id="case-summary"></table>
 
                     <h2>History</h2>

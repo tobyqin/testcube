@@ -171,14 +171,36 @@ define(['jquery', 'table-config', 'common', 'bootstrapTable', 'bootstrapSelect']
                 $('#tc-tags').tagsinput('add', tags);
             }
 
-            caseTagsEvent();
+            caseTagsEvent(testcase.id);
         }
 
-        function caseTagsEvent() {
+        function caseTagsEvent(id) {
+            function tagsAction(event, data) {
+                $.ajax({
+                    url: '/api/cases/' + id + '/tags/',
+                    type: 'post',
+                    dataType: 'application/json',
+                    data: data,
+                    async: false,
+                    complete: function (xhr) {
+                        if (!xhr.status === 200) {
+                            console.error(xhr.responseText);
+                            event.cancel = true;
+                        }
+                    }
+                });
+            }
+
+            let data = $('form').serialize();
             $('#tc-tags').on('beforeItemAdd', function (event) {
+                let tagName = event.item;
+                data += "&method=add&tags=" + tagName;
+                tagsAction(event, data);
 
             }).on('beforeItemRemove', function (event) {
-
+                let tagName = event.item;
+                data += "&method=remove&tags=" + tagName;
+                tagsAction(event, data);
             });
         }
 
