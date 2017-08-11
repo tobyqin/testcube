@@ -3,7 +3,7 @@ import json
 from django.contrib.auth.models import User
 from django.test import TestCase as TC, Client
 
-from testcube.core.models import Configuration, TestCase, Team, Product
+from testcube.core.models import Configuration, TestCase, Team, Product, TestResult, TestRun, TestClient
 
 
 class ModelsTestCase(TC):
@@ -14,6 +14,7 @@ class ModelsTestCase(TC):
         self.team = Team.objects.create(name='test-team')
         self.product = Product.objects.create(name='test-product', team=self.team)
         self.testcase = TestCase.objects.create(name='testcase1', created_by='test', product=self.product)
+        self.test_client = TestClient.objects.create(name='test', ip='1.1.1.1', platform='test', owner='test')
 
     def test_visit_config(self):
         self.client.login(username='admin', password='admin')
@@ -88,14 +89,25 @@ class ModelsTestCase(TC):
         self.client.login(username='admin', password='admin')
         testcase2 = TestCase.objects.create(name='testcase2', created_by='test', product=self.product)
         testcase3 = TestCase.objects.create(name='testcase2', created_by='test', product=self.product)
+
         self.testcase.tags = 'tag1 tag2 tag3'
         testcase2.tags = 'tag3 tag4 tag5'
         testcase3.tags = 'tag4 tag5'
 
-        api = '/api/products/1/'
-        r = self.client.get(api)
-        assert r.data['name'] == 'test-product'
+        run = TestRun.objects.create(name='test-run', owner='test', start_by='test', product=self.product)
 
-        api = '/api/products/1/tags/'
+        for case in [self.testcase, testcase2, testcase3]:
+            TestResult.objects.create(outcome=1,
+                                      assigned_to='test',
+                                      test_run=run,
+                                      testcase=case,
+                                      test_client=self.test_client)
+
+        api = '/api/runs/1/'
         r = self.client.get(api)
-        assert r.data == ['tag1', 'tag2', 'tag3', 'tag4', 'tag5'], r.data
+        assert r.data['name'] == 'test-run'
+
+        api = '/api/runs/1/tags/'
+        r = self.client.get(api)
+        expected = [('tag1', 1), ('tag2', 1), ('tag3', 2), ('tag4', 2), ('tag5', 2)]
+        assert r.data == expected, r.data
