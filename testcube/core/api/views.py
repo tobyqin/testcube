@@ -87,6 +87,15 @@ class TestRunViewSet(viewsets.ModelViewSet):
     def info(self, request, pk=None):
         return info_view(self, TestRunDetailSerializer)
 
+    @detail_route(methods=['get'])
+    def tags(self, request, pk=None):
+        run = self.get_object()
+        assert isinstance(run, TestRun)
+        cases = [r.testcase for r in run.results.all()]
+        tags = [c.tags for c in cases]
+        pass
+
+
     @list_route()
     def recent(self, request):
         """get recent runs, in run list view"""
