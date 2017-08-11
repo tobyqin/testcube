@@ -3,7 +3,7 @@ import json
 from django.contrib.auth.models import User
 from django.test import TestCase as TC, Client
 
-from testcube.core.models import Configuration
+from testcube.core.models import Configuration, TestCase, Team, Product
 
 
 class ModelsTestCase(TC):
@@ -11,6 +11,9 @@ class ModelsTestCase(TC):
         self.client = Client()
         self.admin = User.objects.create_superuser('test', 'admin@test', 'test')
         Configuration.objects.create(key='test', value='unit')
+        self.team = Team.objects.create(name='test-team')
+        self.product = Product.objects.create(name='test-product', team=self.team)
+        self.testcase = TestCase.objects.create(name='testcase1', created_by='test', product=self.product)
 
     def test_visit_config(self):
         self.client.login(username='admin', password='admin')
@@ -52,3 +55,47 @@ class ModelsTestCase(TC):
         result = self.client.post('/client-register', data=info)
         assert result.status_code != 200
         assert "Failed to register testcube" in str(result.content)
+
+    def test_get_testcase_tags(self):
+        self.client.login(username='admin', password='admin')
+        testcase2 = TestCase.objects.create(name='testcase2', created_by='test', product=self.product)
+        self.testcase.tags = 'tag1 tag2 tag3'
+        testcase2.tags = 'tag3 tag4 tag5'
+
+        api = '/api/cases/1/'
+        r = self.client.get(api)
+        assert r.data['name'] == 'testcase1'
+
+        api = '/api/cases/1/tags/'
+        r = self.client.get(api)
+        assert r.data == ['tag1', 'tag2', 'tag3']
+
+    def test_get_product_tags(self):
+        self.client.login(username='admin', password='admin')
+        testcase2 = TestCase.objects.create(name='testcase2', created_by='test', product=self.product)
+        self.testcase.tags = 'tag1 tag2 tag3'
+        testcase2.tags = 'tag3 tag4 tag5'
+
+        api = '/api/products/1/'
+        r = self.client.get(api)
+        assert r.data['name'] == 'test-product'
+
+        api = '/api/products/1/tags/'
+        r = self.client.get(api)
+        assert r.data == ['tag1', 'tag2', 'tag3', 'tag4', 'tag5'], r.data
+
+    def test_get_run_tags(self):
+        self.client.login(username='admin', password='admin')
+        testcase2 = TestCase.objects.create(name='testcase2', created_by='test', product=self.product)
+        testcase3 = TestCase.objects.create(name='testcase2', created_by='test', product=self.product)
+        self.testcase.tags = 'tag1 tag2 tag3'
+        testcase2.tags = 'tag3 tag4 tag5'
+        testcase3.tags = 'tag4 tag5'
+
+        api = '/api/products/1/'
+        r = self.client.get(api)
+        assert r.data['name'] == 'test-product'
+
+        api = '/api/products/1/tags/'
+        r = self.client.get(api)
+        assert r.data == ['tag1', 'tag2', 'tag3', 'tag4', 'tag5'], r.data
