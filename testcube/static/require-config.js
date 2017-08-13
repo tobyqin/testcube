@@ -17,6 +17,10 @@ requirejs.config({
             deps: ['bootstrap'],
             exports: '$.fn.tagsinput'
         },
+        type_ahead: {
+            deps: ['jquery'],
+            exports: '$.fn.typeahead'
+        },
         bootstrapTableCookie: {
             deps: ['bootstrapTable'],
             exports: '$.fn.bootstrapTable.defaults'
@@ -57,7 +61,9 @@ requirejs.config({
         rainbow: 'rainbow/rainbow',
         rainbow_generic: 'rainbow/language/generic',
         rainbow_python: 'rainbow/language/python',
-        rainbow_log: 'rainbow/language/log'
+        rainbow_log: 'rainbow/language/log',
+        type_ahead: 'typeaheadjs/typeahead.bundle',
+        'case-detail': '../case-detail',
     },
     deps: ['bootstrap']
 });
