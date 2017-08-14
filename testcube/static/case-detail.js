@@ -1,6 +1,5 @@
 define(['jquery', 'bloodhound', 'typeahead'], function ($, Bloodhound) {
 
-
     function enableTypeAhead(productId) {
         let tags = new Bloodhound({
             datumTokenizer: Bloodhound.tokenizers.whitespace,
