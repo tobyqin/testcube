@@ -19,7 +19,9 @@ requirejs.config({
         },
         typeahead: {
             deps: ['jquery'],
-            exports: 'jquery'
+            init: function ($) {
+                return require.s.contexts._.registry['typeahead.js'].factory($);
+            }
         },
         bloodhound: {
             deps: ['jquery'],
