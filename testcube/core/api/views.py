@@ -7,6 +7,7 @@ from rest_framework.decorators import detail_route, list_route
 from rest_framework.pagination import PageNumberPagination, LimitOffsetPagination
 from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
+from tagging.models import Tag
 
 from testcube.settings import logger
 from .filters import *
@@ -61,6 +62,14 @@ class ProductViewSet(viewsets.ModelViewSet):
         self.serializer_class = ProductListSerializer
         return list_view(self)
 
+    @detail_route(methods=['get'])
+    def tags(self, request, pk=None):
+        product = self.get_object()
+        case_query = TestCase.objects.filter(product_id=product.id).all()
+        tags = Tag.objects.usage_for_queryset(case_query)
+        tags = [t.name for t in tags]
+        return Response(data=tags)
+
 
 class ConfigurationViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAdminUser]
@@ -86,6 +95,14 @@ class TestRunViewSet(viewsets.ModelViewSet):
     @detail_route(methods=['get'])
     def info(self, request, pk=None):
         return info_view(self, TestRunDetailSerializer)
+
+    @detail_route(methods=['get'])
+    def tags(self, request, pk=None):
+        run = self.get_object()
+        case_query = TestCase.objects.filter(results__test_run_id=run.id).all()
+        tags = Tag.objects.usage_for_queryset(case_query, counts=True)
+        tags = [(t.name, t.count) for t in tags]
+        return Response(data=tags)
 
     @list_route()
     def recent(self, request):
