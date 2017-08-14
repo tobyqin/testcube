@@ -1,27 +1,23 @@
-define(['jquery', 'type_ahead'], function ($, Bloodhound) {
+define(['jquery', 'bloodhound', 'typeahead'], function ($, Bloodhound) {
 
     function enableTypeAhead(productId) {
         let names = new Bloodhound({
-            datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
+            datumTokenizer: Bloodhound.tokenizers.whitespace,
             queryTokenizer: Bloodhound.tokenizers.whitespace,
-            prefetch: {
-                url: '/api/products/' + productId + '/tags/',
-                filter: function (list) {
-                    return $.map(list, function (name) {
-                        return {name: name};
-                    });
-                }
-            }
+            local: ['dog', 'pig', 'moose'],
+            // prefetch: {
+            //     url: '/api/products/' + productId + '/tags/'
+            // }
         });
         names.initialize();
 
-        $('#tc-tags').tagsinput({
-            typeaheadjs: {
-                name: 'names',
-                displayKey: 'name',
-                valueKey: 'name',
-                source: names.ttAdapter()
-            }
+        $('#tc-tags').typeahead({
+            hint: true,
+            highlight: true,
+            minLength: 1
+        }, {
+            name: 'names',
+            source: names
         });
     }
 
