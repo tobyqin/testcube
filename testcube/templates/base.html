@@ -22,7 +22,6 @@
 
 <body>
 
-
 {% block body-begin %}
 {% endblock %}
 
@@ -37,6 +36,12 @@
 {% block footer %}
     {% include './snippets/footer.html' %}
 {% endblock %}
+
+<div class="spinner hidden">
+    <div class="bounce1"></div>
+    <div class="bounce2"></div>
+    <div class="bounce3"></div>
+</div>
 
 {#always load these scripts#}
 <script src="{% static 'require.js' %}"></script>
