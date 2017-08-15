@@ -77,3 +77,7 @@ requirejs.config({
 });
 
 window.app = {};
+
+if (!window.localStorage) {
+    window.localStorage = {};
+}
