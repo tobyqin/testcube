@@ -14,15 +14,22 @@
             <li><a href="/">Home</a></li>
             <li><a href="{% url 'runs' %}">Runs</a></li>
             <li id="run-nav" class="active"><a href="">{{ run_id }}</a></li>
+
             {% if source %}
                 <li class="pull-right"><a href="{{ source.link }}">via {{ source.name }}</a></li>
             {% endif %}
+            <li class="pull-right" id="run-coverage-btn"><a href="#run-coverage">Coverage</a></li>
         </ul>
 
         <div id="main-content">
             <div class="row">
 
                 <div class="col-md-12">
+                    <div id="run-coverage" class="hidden">
+                        <h2>Coverage</h2>
+                        <hr/>
+                        <div id="coverage-chart"></div>
+                    </div>
                     <h2>Summary</h2>
                     <hr/>
                     <div class="col-md-8">
@@ -66,6 +73,14 @@
                 $(function () {
                     func.runDetailPageRender({{ run_id }});
                 });
+
+                $('#run-coverage-btn').click(function () {
+                    require(['chart-func'], function (chart) {
+                        chart.runCoverageChartRender({{ run_id }}, function () {
+                            $('#run-coverage').removeClass();
+                        })
+                    })
+                })
             });
         });
     </script>

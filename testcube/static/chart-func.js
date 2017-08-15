@@ -229,9 +229,54 @@ define(['moment', 'c3', 'd3', 'common'], function (moment, c3, d3, common) {
         if (callback) return callback();
     }
 
+    function runCoverageChartRender(runId, callback) {
+        require(['jquery'], function ($) {
+            $.getJSON('/api/runs/' + runId + '/tags/', function (data) {
+                let counts = ['hits'];
+                let tags = [];
+
+                for (let run of data) {
+                    tags.push(run[0]);
+                    counts.push(run[1]);
+                }
+
+                c3.generate({
+                    bindto: '#coverage-chart',
+                    size: {
+                        height: 240
+                    },
+                    data: {
+                        columns: [
+                            counts
+                        ],
+                        type: 'bar'
+                    },
+                    axis: {
+                        x: {
+                            type: 'category',
+                            categories: tags
+                        },
+                        y: {
+                            show: true,
+                            tick: {
+                                format: function (value) {
+                                    return value.toFixed(0);
+                                },
+                                count: 5
+                            }
+                        },
+                    }
+                });
+
+                if (callback) callback();
+            })
+        });
+    }
+
     return {
         runDetailChartRender: runDetailChartRender,
-        resultDetailChartRender: resultDetailChartRender
+        resultDetailChartRender: resultDetailChartRender,
+        runCoverageChartRender: runCoverageChartRender
     };
 
 });
