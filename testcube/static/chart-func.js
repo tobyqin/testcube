@@ -232,7 +232,7 @@ define(['moment', 'c3', 'd3', 'common'], function (moment, c3, d3, common) {
     function runCoverageChartRender(runId, callback) {
         require(['jquery'], function ($) {
             $.getJSON('/api/runs/' + runId + '/tags/', function (data) {
-                let counts = ['hits'];
+                let counts = ['counts'];
                 let tags = [];
 
                 for (let run of data) {
