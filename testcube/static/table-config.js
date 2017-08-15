@@ -4,15 +4,19 @@ define(['moment', 'common'], function (moment, common) {
     let config = {};
 
     function runIdFormatter(id) {
-        return `<a href="/runs/${id}">${id}</a>`;
+        return `<a target="_blank"  href="/runs/${id}">${id}</a>`;
     }
 
     function resultIdFormatter(id) {
-        return `<a href="/results/${id}">${id}</a>`;
+        return `<a target="_blank" href="/results/${id}">${id}</a>`;
     }
 
     function caseIdFormatter(id) {
-        return `<a href="/testcases/${id}">${id}</a>`;
+        return `<a target="_blank" href="/testcases/${id}">${id}</a>`;
+    }
+
+    function caseNameFormatter(caseInfo) {
+        return `<a target="_blank" href="/testcases/${caseInfo.id}">${caseInfo.name}</a>`;
     }
 
     function rateFormatter(rate) {
@@ -101,7 +105,7 @@ define(['moment', 'common'], function (moment, common) {
 
     config.runFailedResultColumns = [
         {title: 'ID', field: 'id', formatter: resultIdFormatter, sortable: true},
-        {title: 'TestCase', field: 'testcase_info.name', sortable: true},
+        {title: 'TestCase', field: 'testcase_info', formatter: caseNameFormatter, sortable: true},
         {title: 'Error Message', field: 'error_message', sortable: true},
         {title: 'Reason', field: 'reason', sortable: true},
         {title: 'Duration', field: 'duration', formatter: durationFormatter, sortable: true},
@@ -110,7 +114,7 @@ define(['moment', 'common'], function (moment, common) {
 
     config.runPassedResultColumns = [
         {title: 'ID', field: 'id', formatter: resultIdFormatter, sortable: true},
-        {title: 'TestCase', field: 'testcase_info.name', sortable: true},
+        {title: 'TestCase', field: 'testcase_info', formatter: caseNameFormatter, sortable: true},
         {title: 'Duration', field: 'duration', formatter: durationFormatter, sortable: true},
         {title: 'Assigned To', field: 'assigned_to', sortable: true},
         {title: 'Client', field: 'test_client.name', sortable: true},

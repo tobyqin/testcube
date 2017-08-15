@@ -17,6 +17,16 @@ requirejs.config({
             deps: ['bootstrap'],
             exports: '$.fn.tagsinput'
         },
+        typeahead: {
+            deps: ['jquery'],
+            init: function ($) {
+                return require.s.contexts._.registry['typeahead.js'].factory($);
+            }
+        },
+        bloodhound: {
+            deps: ['jquery'],
+            exports: 'Bloodhound'
+        },
         bootstrapTableCookie: {
             deps: ['bootstrapTable'],
             exports: '$.fn.bootstrapTable.defaults'
@@ -41,6 +51,7 @@ requirejs.config({
         bootstrapSelect: 'bootstrap-select/bootstrap-select.min',
         bootstrapTagsInput: 'bootstrap-tagsinput/bootstrap-tagsinput.min',
         bootstrapCookie: 'bootstrap-table/bootstrap-table-cookie',
+        bootstrapTypeAhead: 'bootstrap-typeahead/bootstrap3-typeahead.min',
         c3: 'c3.min',
         d3: 'd3.min',
         jquery: 'jquery-3.2.1.min',
@@ -57,9 +68,16 @@ requirejs.config({
         rainbow: 'rainbow/rainbow',
         rainbow_generic: 'rainbow/language/generic',
         rainbow_python: 'rainbow/language/python',
-        rainbow_log: 'rainbow/language/log'
+        rainbow_log: 'rainbow/language/log',
+        typeahead: 'typeaheadjs/typeahead.jquery',
+        bloodhound: 'typeaheadjs/bloodhound',
+        'case-detail': '../case-detail',
     },
     deps: ['bootstrap']
 });
 
 window.app = {};
+
+if (!window.localStorage) {
+    window.localStorage = {};
+}

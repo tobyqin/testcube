@@ -172,6 +172,10 @@ define(['jquery', 'table-config', 'common', 'bootstrapTable', 'bootstrapSelect']
             }
 
             caseTagsEvent(testcase.id);
+
+             require(['case-detail'],function (module) {
+                module.enableTypeAhead(testcase.product.id);
+            })
         }
 
         function caseTagsEvent(id) {
