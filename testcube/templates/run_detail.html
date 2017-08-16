@@ -16,9 +16,14 @@
             <li id="run-nav" class="active"><a href="">{{ run_id }}</a></li>
 
             {% if source %}
-                <li class="pull-right"><a href="{{ source.link }}">via {{ source.name }}</a></li>
+                <li class="pull-right">
+                    <a target="_blank"
+                       title="Go to run source"
+                       href="{{ source.link }}">via {{ source.name }}</a></li>
             {% endif %}
-            <li class="pull-right" id="run-coverage-btn"><a href="#run-coverage">Coverage</a></li>
+            <li class="pull-right" id="run-coverage-btn">
+                <a title="Show testcase tags for this run"
+                   href="#run-coverage">Coverage</a></li>
         </ul>
 
         <div id="main-content">
