@@ -102,6 +102,7 @@ class TestRunViewSet(viewsets.ModelViewSet):
         case_query = TestCase.objects.filter(results__test_run_id=run.id).all()
         tags = Tag.objects.usage_for_queryset(case_query, counts=True)
         tags = [(t.name, t.count) for t in tags]
+        tags = sorted(tags, key=lambda tag: -tag[1])
         return Response(data=tags)
 
     @list_route()
