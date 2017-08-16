@@ -123,6 +123,8 @@ define(['moment', 'c3', 'd3', 'common'], function (moment, c3, d3, common) {
                 }
             }
         });
+
+        loadingCompleted();
     }
 
 
@@ -226,6 +228,7 @@ define(['moment', 'c3', 'd3', 'common'], function (moment, c3, d3, common) {
             }
         });
 
+        loadingCompleted();
         if (callback) return callback();
     }
 

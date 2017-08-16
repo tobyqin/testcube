@@ -74,15 +74,18 @@
 {% block scripts %}
     <script>
         require(['/static/require-config.js'], function () {
+            waitForLoading();
             require(['table-func', 'jquery'], function (func, $) {
                 $(function () {
                     func.runDetailPageRender({{ run_id }});
                 });
 
                 $('#run-coverage-btn').click(function () {
+                    waitForLoading();
                     require(['chart-func'], function (chart) {
                         chart.runCoverageChartRender({{ run_id }}, function () {
                             $('#run-coverage').removeClass();
+                            loadingCompleted();
                         })
                     })
                 })
