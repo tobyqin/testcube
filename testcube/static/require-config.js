@@ -81,3 +81,16 @@ window.app = {};
 if (!window.localStorage) {
     window.localStorage = {};
 }
+
+window.waitForLoading = function () {
+    require(['jquery'], function ($) {
+        $('#loading-icon').removeClass('hidden');
+    })
+};
+
+window.loadingCompleted = function () {
+    require(['jquery'], function ($) {
+        $('#loading-icon').addClass('hidden');
+    })
+};
+

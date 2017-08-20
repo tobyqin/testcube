@@ -109,5 +109,5 @@ class ModelsTestCase(TC):
 
         api = '/api/runs/1/tags/'
         r = self.client.get(api)
-        expected = [('tag1', 1), ('tag2', 1), ('tag3', 2), ('tag4', 2), ('tag5', 2)]
+        expected = [('tag3', 2), ('tag4', 2), ('tag5', 2), ('tag1', 1), ('tag2', 1)]
         assert r.data == expected, r.data

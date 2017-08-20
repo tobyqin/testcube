@@ -22,6 +22,7 @@
 
 {% block scripts %}
     <script>
+        document.getElementById('loading-icon').classList.remove('hidden');
         require(['/static/require-config.js'], function () {
             require(['jquery', 'marked'], function ($, marked) {
                 $(function () {
@@ -30,6 +31,7 @@
                     let converted = marked(raw);
                     contentDiv.attr('data-text', raw);
                     contentDiv.empty().append(converted);
+                    loadingCompleted();
                 })
             });
         });

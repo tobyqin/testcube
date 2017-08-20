@@ -128,6 +128,7 @@
 {% block scripts %}
     <script>
         require(['/static/require-config.js'], function () {
+            waitForLoading();
             require(['table-func', 'jquery'], function (func, $) {
                 $(function () {
                     func.resultDetailPageRender({{ result_id }});
