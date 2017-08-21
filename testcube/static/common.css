@@ -167,17 +167,9 @@ body {
 }
 
 .tt-menu {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  z-index: 1000;
-  display: none;
-  float: left;
   min-width: 160px;
+  margin-top: 2px;
   padding: 5px 0;
-  margin: 2px 0 0;
-  list-style: none;
-  font-size: 14px;
   background-color: #ffffff;
   border: 1px solid #cccccc;
   border: 1px solid rgba(0, 0, 0, 0.15);
@@ -185,25 +177,29 @@ body {
   -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
   background-clip: padding-box;
-  cursor: pointer;
 }
 
 .tt-suggestion {
   display: block;
   padding: 3px 20px;
+}
+
+.tt-suggestion.tt-cursor,
+.tt-suggestion:hover {
+  background-color: #428bca;
   clear: both;
   font-weight: normal;
   line-height: 1.428571429;
-  color: #333333;
+  color: #fff;
   white-space: nowrap;
 }
 
-.tt-suggestion:hover,
-.tt-suggestion:focus {
-  color: #ffffff;
-  text-decoration: none;
-  outline: 0;
-  background-color: #428bca;
+.tt-suggestion.tt-is-under-cursor a {
+  color: #fff;
+}
+
+.tt-suggestion p {
+  margin: 0;
 }
 
 .spinner {
