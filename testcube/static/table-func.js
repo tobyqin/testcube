@@ -188,9 +188,10 @@ define(['jquery', 'table-config', 'common', 'bootstrapTable', 'bootstrapSelect']
                     data: data,
                     async: false,
                     complete: function (xhr) {
-                        if (!xhr.status === 200) {
+                        if (xhr.status !== 200) {
                             console.error(xhr.responseText);
                             event.cancel = true;
+                            alert(xhr.responseText);
                         }
                     }
                 });
