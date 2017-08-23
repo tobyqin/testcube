@@ -17,6 +17,13 @@ requirejs.config({
             deps: ['bootstrap'],
             exports: '$.fn.tagsinput'
         },
+        'bootstrap-dialog': {
+            deps: ['bootstrap']
+        },
+        bootstrapTableCookie: {
+            deps: ['bootstrapTable'],
+            exports: '$.fn.bootstrapTable.defaults'
+        },
         typeahead: {
             deps: ['jquery'],
             init: function ($) {
@@ -26,10 +33,6 @@ requirejs.config({
         bloodhound: {
             deps: ['jquery'],
             exports: 'Bloodhound'
-        },
-        bootstrapTableCookie: {
-            deps: ['bootstrapTable'],
-            exports: '$.fn.bootstrapTable.defaults'
         },
         rainbow: {
             exports: 'Rainbow'
@@ -52,6 +55,7 @@ requirejs.config({
         bootstrapTagsInput: 'bootstrap-tagsinput/bootstrap-tagsinput.min',
         bootstrapCookie: 'bootstrap-table/bootstrap-table-cookie',
         bootstrapTypeAhead: 'bootstrap-typeahead/bootstrap3-typeahead.min',
+        'bootstrap-dialog': 'bootstrap-dialog/bootstrap-dialog.min',
         c3: 'c3.min',
         d3: 'd3.min',
         jquery: 'jquery-3.2.1.min',

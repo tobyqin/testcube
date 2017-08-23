@@ -191,7 +191,12 @@ define(['jquery', 'table-config', 'common', 'bootstrapTable', 'bootstrapSelect']
                         if (xhr.status !== 200) {
                             console.error(xhr.responseText);
                             event.cancel = true;
-                            alert(xhr.responseText);
+                            require(['bootstrap-dialog'], function (BootstrapDialog) {
+                                BootstrapDialog.alert({
+                                    type: BootstrapDialog.TYPE_WARNING,
+                                    message: xhr.responseText
+                                });
+                            });
                         }
                     }
                 });
