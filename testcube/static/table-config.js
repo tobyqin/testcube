@@ -29,11 +29,12 @@ define(['moment', 'common'], function (moment, common) {
         }
 
         let color = common.getColor(percentNum);
+        let weather = common.getWeather(percentNum);
         return `<a href="/runs/${rate.id}" 
                 data-toggle="tooltip" 
                 title="${rate.passed} / ${rate.total}"
                 style="color: ${color};text-decoration: none"
-                >${percent}</a>`
+                >${percent} <i class="wi ${weather}"></i></a>`
     }
 
     function timeHumanFormatter(time) {

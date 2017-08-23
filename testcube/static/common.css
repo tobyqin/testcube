@@ -153,6 +153,7 @@ body {
   display: block;
 }
 
+/*tags input and type ahead*/
 .bootstrap-tagsinput {
   width: 100%;
 }
@@ -202,6 +203,7 @@ body {
   margin: 0;
 }
 
+/* loading icon */
 .spinner {
   width: 150px;
   text-align: center;
