@@ -34,7 +34,14 @@ define(['moment', 'common'], function (moment, common) {
                 data-toggle="tooltip" 
                 title="${rate.passed} / ${rate.total}"
                 style="color: ${color};text-decoration: none"
-                >${percent} <i class="wi ${weather}"></i></a>`
+                ><i class="wi ${weather}"></i>  ${percent}</a>`
+    }
+
+    function runStateFormatter(state) {
+        let icon = 'time';
+        if (state === 'Aborted') icon = 'remove';
+        if (state === 'Completed') icon = 'ok';
+        return `<i style="color:#6f6f6f" class="glyphicon glyphicon-${icon}"></i> ${state}`;
     }
 
     function timeHumanFormatter(time) {
@@ -55,13 +62,16 @@ define(['moment', 'common'], function (moment, common) {
 
     function outcomeFormatter(outcome) {
         let cls = 'text-danger';
+        let icon = 'remove-sign';
         if (outcome === 'Skipped') {
             cls = 'text-warning';
+            icon = 'minus-sign';
         }
         else if (outcome === 'Passed') {
             cls = 'text-success';
+            icon = 'ok-sign';
         }
-        return `<p class="${cls}">${outcome}</p>`;
+        return `<span class="${cls}"><i class="glyphicon glyphicon-${icon}"></i> ${outcome}</span>`;
     }
 
     config.defaultTableOptions = {
@@ -87,7 +97,7 @@ define(['moment', 'common'], function (moment, common) {
             field: 'passing_rate',
             formatter: rateFormatter
         },
-        {title: 'State', field: 'get_state_display'}
+        {title: 'State', field: 'get_state_display', formatter: runStateFormatter}
     ];
 
     config.runDetailColumns = [
@@ -135,7 +145,7 @@ define(['moment', 'common'], function (moment, common) {
             field: 'passing_rate',
             formatter: rateFormatter
         },
-        {title: 'State', field: 'get_state_display'}
+        {title: 'State', field: 'get_state_display', formatter: runStateFormatter}
     ];
 
     config.resultDetailColumns = [
