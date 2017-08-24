@@ -24,6 +24,22 @@ define([], function () {
         return ["hsl(", hue, ",100%,35%)"].join("");
     }
 
+    // get a weather class from 0 to 1 => bad to good
+    function getWeather(value) {
+        let mapping = {
+            '-1': 'wi-na',
+            '5':'wi-day-sunny',
+            '4': 'wi-day-cloudy',
+            '3': 'wi-cloudy',
+            '2': 'wi-rain-mix',
+            '1': 'wi-hail',
+            '0': 'wi-thunderstorm'
+        };
+        if (value === undefined) return mapping['-1'];
+        let key = Math.floor(value / 0.2);
+        return mapping[key.toString()];
+    }
+
     // convert hms kind of time string to seconds
     // e.g. '02:04:33' to seconds
     function hmsToSeconds(str) {
@@ -52,6 +68,7 @@ define([], function () {
         'disableConsoleLog': disableConsoleLog,
         'enableConsoleLog': enableConsoleLog,
         'getColor': getColor,
+        'getWeather': getWeather,
         'hmsToSeconds': hmsToSeconds,
         'startLogHighlight': startLogHighlight
     };
