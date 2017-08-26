@@ -9,9 +9,6 @@
 # All configuration values have a default; values that are commented out
 # serve to show the default.
 
-import os
-import sys
-
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
@@ -39,7 +36,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = 'Test Cube'
+project = 'TestCube'
 copyright = """2017, Toby Qin"""
 
 # The version info for the project you're documenting, acts as replacement for
@@ -184,7 +181,7 @@ latex_elements = {
 latex_documents = [
     ('index',
      'testcube.tex',
-     'Test Cube Documentation',
+     'TestCube Documentation',
      """Toby Qin""", 'manual'),
 ]
 
@@ -228,8 +225,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    ('index', 'testcube', 'Test Cube Documentation',
-     """Toby Qin""", 'Test Cube',
+    ('index', 'testcube', 'TestCube Documentation',
+     """Toby Qin""", 'TestCube',
      """Testcube is a platform to manage and monitor automation test results, it is a web portal provides variables clients + API to let you talk to it.""", 'Miscellaneous'),
 ]
 
