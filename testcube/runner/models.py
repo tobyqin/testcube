@@ -9,9 +9,9 @@ class RunnerProfile(models.Model):
 
 
 class Task(models.Model):
-    STATUS_CHOICES = ((-1, 'Pending'), (0, 'Send'), (1, 'Completed'), (2, 'Abandoned'))
+    STATUS_CHOICES = ((-1, 'Pending'), (0, 'Sent'))
 
     name = models.CharField(max_length=100)
+    object_id = models.IntegerField(default=-1)
     status = models.IntegerField(choices=STATUS_CHOICES, default=-1)
-    retry_count = models.IntegerField(default=1)
     data = models.TextField()
