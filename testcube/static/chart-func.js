@@ -70,9 +70,7 @@ define(['moment', 'c3', 'd3', 'common'], function (moment, c3, d3, common) {
                 y: {
                     show: true,
                     tick: {
-                        format: function (value) {
-                            return value.toFixed(0);
-                        },
+                        format: (value) => value.toFixed(0),
                         count: 5
                     }
                 },
@@ -262,16 +260,14 @@ define(['moment', 'c3', 'd3', 'common'], function (moment, c3, d3, common) {
                         y: {
                             show: true,
                             tick: {
-                                format: function (value) {
-                                    return value.toFixed(0);
-                                },
+                                format: (value) => value.toFixed(0),
                                 count: 5
                             }
-                        },
+                        }
                     }
                 });
 
-                if (callback) callback();
+                if (callback) return callback();
             })
         });
     }

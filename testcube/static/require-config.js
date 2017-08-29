@@ -75,7 +75,7 @@ requirejs.config({
         rainbow_log: 'rainbow/language/log',
         typeahead: 'typeaheadjs/typeahead.jquery',
         bloodhound: 'typeaheadjs/bloodhound',
-        'case-detail': '../case-detail',
+        'case-detail': '../case-detail'
     },
     deps: ['bootstrap']
 });
