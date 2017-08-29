@@ -101,8 +101,14 @@ class TestRunViewSet(viewsets.ModelViewSet):
         run = self.get_object()
         case_query = TestCase.objects.filter(results__test_run_id=run.id).all()
         tags = Tag.objects.usage_for_queryset(case_query, counts=True)
+
         tags = [(t.name, t.count) for t in tags]
         tags = sorted(tags, key=lambda tag: -tag[1])
+        no_tag_tc = len([tc for tc in case_query if not tc.tags])
+
+        if no_tag_tc:
+            tags.append(('no_tags', no_tag_tc))
+
         return Response(data=tags)
 
     @list_route()
