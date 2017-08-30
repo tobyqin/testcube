@@ -41,6 +41,10 @@ So you have to learn about its client or API later.
 
 ![testcube result](docs/images/testcube-view-result-detail.png)
 
+![testcube result](docs/images/testcube-view-result-log.png)
+
+![testcube result](docs/images/testcube-view-result-reason.png)
+
 ## Get Started
 
 Basically, there are 3 steps to run TestCube:

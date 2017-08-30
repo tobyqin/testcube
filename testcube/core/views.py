@@ -1,4 +1,7 @@
-from django.shortcuts import render, redirect, resolve_url, HttpResponse, reverse
+import re
+
+from django.shortcuts import render, redirect, resolve_url, HttpResponse
+from django.utils.http import urlquote
 
 from testcube.settings import logger
 from .forms import AnalysisForm
@@ -26,7 +29,9 @@ def document(request, name):
 def runs(request):
     source = request.GET.get('source', default=None)
     if source:
-        found = ObjectSource.objects.filter(link__contains=source).first()
+        source = re.sub('^(http[s]*:\/\/[^\/]+)', '', source)
+        found = ObjectSource.objects.filter(link__contains=urlquote(source)).first()
+
         if found:
             return redirect('/runs/{}'.format(found.testrun.id))
 
