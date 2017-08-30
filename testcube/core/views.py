@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, resolve_url, HttpResponse
+from django.shortcuts import render, redirect, resolve_url, HttpResponse, reverse
 
 from testcube.settings import logger
 from .forms import AnalysisForm
@@ -24,6 +24,12 @@ def document(request, name):
 
 
 def runs(request):
+    source = request.GET.get('source', default=None)
+    if source:
+        found = ObjectSource.objects.filter(link__contains=source).first()
+        if found:
+            return redirect('/runs/{}'.format(found.testrun.id))
+
     return render(request, 'runs.html')
 
 
@@ -37,10 +43,8 @@ def results(request):
 
 def run_detail(request, run_id):
     if request.method == 'GET':
-        outcome = request.GET.get('outcome', default='')
         source = ObjectSource.objects.filter(testrun__id=run_id).first()
         return render(request, 'run_detail.html', {'run_id': run_id,
-                                                   'outcome': outcome,
                                                    'source': source})
 
 

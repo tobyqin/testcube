@@ -20,6 +20,27 @@ Let me take 1 minute to describe TestCube...
 So you have to learn about its client or API later.
 
 
+## Features
+
+### 1. Manage test run in one page
+
+![testcube runs](docs/images/testcube-view-runs.png)
+
+
+### 2. Analyze and view test reports
+
+![testcube report](docs/images/testcube-view-run-detail.png)
+
+### 3. Tag test case and show coverage
+
+![testcube tags](docs/images/testcube-view-testcase-detail.png)
+
+![testcube coveage](docs/images/testcube-view-run-coverage.png)
+
+### 4. Analyze test result in a nice way
+
+![testcube result](docs/images/testcube-view-result-detail.png)
+
 ## Get Started
 
 Basically, there are 3 steps to run TestCube:
