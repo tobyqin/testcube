@@ -6,6 +6,8 @@
 
 ## TestCube
 
+![testcube overview](docs/images/testcube-life-cycle.png)
+
 TestCube is a platform to manage and monitor automation test run and results, it provides a friendly web interface which is build with Python and Django.
 
 Let me take 1 minute to describe TestCube...
