@@ -8,6 +8,7 @@
     <link href="{% static 'libs/bootstrap-table/bootstrap-table.min.css' %}" rel="stylesheet">
     <link href="{% static 'libs/c3.min.css' %}" rel="stylesheet">
     <link href="{% static 'libs/rainbow/css/monokai.css' %}" rel="stylesheet">
+    <link href="{% static 'libs/ekko-lightbox/ekko-lightbox.min.css' %}" rel="stylesheet">
 {% endblock %}
 
 {% block body %}
@@ -41,6 +42,7 @@
                     <ul class="nav nav-pills ">
                         <li class="active nav"><a href="#tab-error" data-toggle="tab">Error</a></li>
                         <li class="nav"><a href="#tab-stdout" data-toggle="tab">Output</a></li>
+                        <li class="nav"><a href="#tab-files" data-toggle="tab">Files</a></li>
                         <li class="nav"><a href="#tab-history" data-toggle="tab">History</a></li>
                         <li class="nav"><a href="#tab-analysis" data-toggle="tab">Analysis</a></li>
                     </ul>
@@ -55,6 +57,10 @@
                             <div class="spacer20"></div>
                             <pre style="white-space: pre-wrap;word-wrap: break-word;line-height: 180%">
                                 <code id="stdout" data-language="log">Loading...</code></pre>
+                        </div>
+                        <div class="tab-pane fade" id="tab-files">
+                            <div class="spacer20"></div>
+                            <table id="result-files"></table>
                         </div>
                         <div class="tab-pane fade" id="tab-history">
                             <div class="spacer20"></div>
@@ -158,6 +164,13 @@
                     {% endif %}
                 });
             });
+
+            require(['jquery', 'lightbox'], function ($) {
+                $(document).on('click', '[data-toggle="lightbox"]', function (event) {
+                    event.preventDefault();
+                    $(this).ekkoLightbox();
+                });
+            })
         });
     </script>
 {% endblock %}

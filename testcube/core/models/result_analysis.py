@@ -22,4 +22,4 @@ class ResultAnalysis(models.Model):
         ordering = ['-updated_on']
 
     def __str__(self):
-        return self.reason
+        return '{}'.format(self.id)

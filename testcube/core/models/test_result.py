@@ -57,6 +57,16 @@ class TestResult(models.Model):
             if self.analysis.issue:
                 return self.analysis.issue.name
 
+    def files(self):
+        from .result_file import ResultFile
+        files = ResultFile.objects.filter(run=self.test_run, name__contains=self.testcase.name)
+        return [{
+            'name': f.name,
+            'url': f.file.url,
+            'time': f.file_created_time,
+            'size': f.file_size()
+        } for f in files]
+
     class Meta:
         ordering = ['-created_on']
 
