@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 from .test_run import TestRun
 
@@ -10,7 +11,7 @@ def run_file_dir(instance, filename):
 class ResultFile(models.Model):
     name = models.CharField(max_length=1000)
     file = models.FileField(upload_to=run_file_dir)
-    file_created_time = models.DateTimeField(auto_now_add=True)
+    file_created_time = models.DateTimeField(default=timezone.now)
     file_byte_size = models.IntegerField(default=0)
     created_on = models.DateTimeField(auto_now_add=True)
 
