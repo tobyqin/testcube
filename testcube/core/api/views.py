@@ -146,7 +146,7 @@ class TestRunViewSet(viewsets.ModelViewSet):
         """get run history, will be used in run detail page."""
         instance = self.get_object()
         self.filter_fields = ()
-        self.queryset = TestRun.objects.filter(name=instance.name)
+        self.queryset = TestRun.objects.filter(name=instance.name, product=instance.product)
         self.serializer_class = TestRunListSerializer
         return list_view(self)
 
