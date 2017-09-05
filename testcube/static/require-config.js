@@ -1,5 +1,11 @@
+let version = '1.0';
+
+function jsVersion(id, url) {
+    return url.includes('libs/') ? '' : '?v' + version;
+}
 requirejs.config({
-    baseUrl: '/static/libs',
+    baseUrl: '/static/',
+    urlArgs: jsVersion,
     shim: {
         'bootstrap': {
             deps: ['jquery', 'bootstrap_fix'],
@@ -52,35 +58,35 @@ requirejs.config({
         }
     },
     paths: {
-        bootstrap: 'bootstrap/js/bootstrap.min',
-        bootstrap_fix: 'bootstrap/js/ie10-viewport-bug-workaround',
-        bootstrapTable: 'bootstrap-table/bootstrap-table.min',
-        bootstrapSelect: 'bootstrap-select/bootstrap-select.min',
-        bootstrapTagsInput: 'bootstrap-tagsinput/bootstrap-tagsinput.min',
-        bootstrapCookie: 'bootstrap-table/bootstrap-table-cookie',
-        bootstrapTypeAhead: 'bootstrap-typeahead/bootstrap3-typeahead.min',
-        'bootstrap-dialog': 'bootstrap-dialog/bootstrap-dialog.min',
-        c3: 'c3.min',
-        d3: 'd3.min',
-        jquery: 'jquery-3.2.1.min',
-        'js-cookie': 'js.cookie-2.1.4',
-        lodash: 'lodash.min',
-        marked: 'marked.min',
-        moment: 'moment.min',
-        mustache: 'mustache.min',
-        common: '../common',
-        'table-config': '../table-config',
-        'table-func': '../table-func',
-        signup: '../signup',
-        'chart-func': '../chart-func',
-        rainbow: 'rainbow/rainbow',
-        rainbow_generic: 'rainbow/language/generic',
-        rainbow_python: 'rainbow/language/python',
-        rainbow_log: 'rainbow/language/log',
-        typeahead: 'typeaheadjs/typeahead.jquery',
-        bloodhound: 'typeaheadjs/bloodhound',
-        'case-detail': '../case-detail',
-        'lightbox': 'ekko-lightbox/ekko-lightbox'
+        bootstrap: 'libs/bootstrap/js/bootstrap.min',
+        bootstrap_fix: 'libs/bootstrap/js/ie10-viewport-bug-workaround',
+        bootstrapTable: 'libs/bootstrap-table/bootstrap-table.min',
+        bootstrapSelect: 'libs/bootstrap-select/bootstrap-select.min',
+        bootstrapTagsInput: 'libs/bootstrap-tagsinput/bootstrap-tagsinput.min',
+        bootstrapCookie: 'libs/bootstrap-table/bootstrap-table-cookie',
+        bootstrapTypeAhead: 'libs/bootstrap-typeahead/bootstrap3-typeahead.min',
+        'bootstrap-dialog': 'libs/bootstrap-dialog/bootstrap-dialog.min',
+        c3: 'libs/c3.min',
+        d3: 'libs/d3.min',
+        jquery: 'libs/jquery-3.2.1.min',
+        'js-cookie': 'libs/js.cookie-2.1.4',
+        lodash: 'libs/lodash.min',
+        marked: 'libs/marked.min',
+        moment: 'libs/moment.min',
+        mustache: 'libs/mustache.min',
+        common: 'common',
+        'table-config': 'table-config',
+        'table-func': 'table-func',
+        signup: 'signup',
+        'chart-func': 'chart-func',
+        rainbow: 'libs/rainbow/rainbow',
+        rainbow_generic: 'libs/rainbow/language/generic',
+        rainbow_python: 'libs/rainbow/language/python',
+        rainbow_log: 'libs/rainbow/language/log',
+        typeahead: 'libs/typeaheadjs/typeahead.jquery',
+        bloodhound: 'libs/typeaheadjs/bloodhound',
+        'case-detail': 'case-detail',
+        'lightbox': 'libs/ekko-lightbox/ekko-lightbox'
     },
     deps: ['bootstrap']
 });
