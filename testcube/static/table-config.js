@@ -74,6 +74,10 @@ define(['moment', 'common'], function (moment, common) {
         return `<span class="${cls}"><i class="glyphicon glyphicon-${icon}"></i> ${outcome}</span>`;
     }
 
+    function imageUrlFormatter(url) {
+        return `<a href="${url}" data-toggle="lightbox" data-gallery="result-gallery">${url}</a>`;
+    }
+
     config.defaultTableOptions = {
         sidePagination: 'server',
         search: true,
@@ -169,6 +173,12 @@ define(['moment', 'common'], function (moment, common) {
         {title: 'Issue', field: 'issue_id'},
         {title: 'Client', field: 'test_client.name'},
         {title: 'Outcome', field: 'get_outcome_display', formatter: outcomeFormatter}
+    ];
+
+    config.resultFilesColumns = [
+        {title: 'Time', field: 'time', formatter: timeFormatter},
+        {title: 'Name', field: 'url', formatter: imageUrlFormatter},
+        {title: 'size', field: 'size'}
     ];
 
     config.caseListColumns = [

@@ -3,6 +3,11 @@ body {
   padding-bottom: 30px;
 }
 
+.navbar-brand img {
+  max-height: 30px;
+  margin-top: -5px;
+}
+
 .jumbotron {
   background-image: url("images/cube-light.jpg");
   background-size: cover;

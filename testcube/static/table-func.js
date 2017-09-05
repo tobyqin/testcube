@@ -281,6 +281,17 @@ define(['jquery', 'table-config', 'common', 'bootstrapTable', 'bootstrapSelect']
                 let nav = `<a href="/runs/${result.test_run.id}">${result.test_run.id} - ${result.test_run.name}</a>`;
                 $('#run-nav').empty().append(nav);
             }
+
+            $('#result-files').bootstrapTable({
+                url: `/api/results/${result.id}/files/`,
+                responseHandler: resultFileTableDataHandler,
+                search: false,
+                pagination: false,
+                sortable: false,
+                showFooter: false,
+                columns: config.resultFilesColumns
+            });
+
             if (result.testcase) {
                 let nav = `${result.id} - ${result.testcase.name}`;
                 $('#result-nav').empty().append(nav);
@@ -306,6 +317,11 @@ define(['jquery', 'table-config', 'common', 'bootstrapTable', 'bootstrapSelect']
         function resultHistoryTableDataHandler(data) {
             window.app.resultHistory = data;
             return data.results;
+        }
+
+        function resultFileTableDataHandler(data) {
+            window.app.resultFiles = data.files;
+            return data.files;
         }
 
         function resultDetailPageRender(resultId) {

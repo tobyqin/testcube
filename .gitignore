@@ -74,6 +74,7 @@ testcube/media/
 
 
 staticfiles/
+media/
 
 .cache/
 *.sqlite3

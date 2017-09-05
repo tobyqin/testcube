@@ -146,7 +146,7 @@ class TestRunViewSet(viewsets.ModelViewSet):
         """get run history, will be used in run detail page."""
         instance = self.get_object()
         self.filter_fields = ()
-        self.queryset = TestRun.objects.filter(name=instance.name)
+        self.queryset = TestRun.objects.filter(name=instance.name, product=instance.product)
         self.serializer_class = TestRunListSerializer
         return list_view(self)
 
@@ -212,6 +212,11 @@ class TestResultViewSet(viewsets.ModelViewSet):
     def info(self, request, pk=None):
         """query result info, use for result detail page."""
         return info_view(self, TestResultDetailSerializer)
+
+    @detail_route(methods=['get'])
+    def files(self, request, pk=None):
+        """query result files, use for result detail page."""
+        return info_view(self, TestResultFilesSerializer)
 
     @list_route()
     def recent(self, request):

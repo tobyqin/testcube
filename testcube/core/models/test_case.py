@@ -39,4 +39,4 @@ class TestCase(models.Model):
         ordering = ['-id']
 
     def __str__(self):
-        return self.full_name if self.full_name else self.name
+        return self.full_name or self.name

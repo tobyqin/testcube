@@ -20,6 +20,10 @@ requirejs.config({
         'bootstrap-dialog': {
             deps: ['bootstrap']
         },
+        'lightbox': {
+            deps: ['jquery'],
+            exports: '$.fn.ekkoLightbox'
+        },
         bootstrapTableCookie: {
             deps: ['bootstrapTable'],
             exports: '$.fn.bootstrapTable.defaults'
@@ -75,7 +79,8 @@ requirejs.config({
         rainbow_log: 'rainbow/language/log',
         typeahead: 'typeaheadjs/typeahead.jquery',
         bloodhound: 'typeaheadjs/bloodhound',
-        'case-detail': '../case-detail'
+        'case-detail': '../case-detail',
+        'lightbox': 'ekko-lightbox/ekko-lightbox'
     },
     deps: ['bootstrap']
 });
