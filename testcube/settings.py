@@ -38,6 +38,8 @@ DB_ENGINE = environ.get('TESTCUBE_DB_ENGINE') or 'django.db.backends.sqlite3'
 DB_NAME = environ.get('TESTCUBE_DB_NAME') or 'db.sqlite3'
 STATIC_URL = environ.get('TESTCUBE_STATIC_URL') or '/static/'
 STATIC_ROOT = environ.get('TESTCUBE_STATIC_ROOT') or join(BASE_DIR, 'dist')
+MEDIA_URL = environ.get('TESTCUBE_MEDIA_URL') or '/media/'
+MEDIA_ROOT = environ.get('TESTCUBE_MEDIA_ROOT') or join(BASE_DIR, 'media')
 LOG_ROOT = environ.get('TESTCUBE_LOG_ROOT') or BASE_DIR
 
 # Application definition
@@ -81,6 +83,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.media'
             ],
             'debug': DEBUG
         },
