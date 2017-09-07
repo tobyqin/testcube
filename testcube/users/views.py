@@ -59,6 +59,9 @@ def reset_password(request):
 
 
 def user_profile(request):
+    if not request.user.is_authenticated():
+        return to_next_page(request)
+
     if request.method == 'POST':
         form = UserProfileForm(request.POST, instance=request.user)
         if form.is_valid():
