@@ -58,13 +58,13 @@ def reset_password(request):
     pass
 
 
-def user_profile(request, username):
+def user_profile(request):
     if request.method == 'POST':
-        postdata = request.POST.copy()
-        form = UserProfileForm(postdata, instance=request.user)
+        form = UserProfileForm(request.POST, instance=request.user)
         if form.is_valid():
             form.save()
-            return to_next_page(request)
+            return render(request, 'user_profile.html', {'form': form,
+                                                         'success_message': "Your user profile is updated!"})
     else:
         form = UserProfileForm(instance=request.user)
     return render(request, 'user_profile.html', {'form': form})

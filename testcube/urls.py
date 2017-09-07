@@ -33,14 +33,14 @@ urlpatterns = [
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^client-register', client_auth.register, name='client_register'),
 
-    url('^signin', user_views.signin, name='signin'),
-    url('^signup', user_views.signup, name='signup'),
-    url('^signout', user_views.signout, name='signout'),
-    url('^reset', user_views.reset_password, name='reset_password'),
-    url('^profile/(.+)', user_views.user_profile, name='user_profile'),
+    url('^signin$', user_views.signin, name='signin'),
+    url('^signup$', user_views.signup, name='signup'),
+    url('^signout$', user_views.signout, name='signout'),
+    url('^reset$', user_views.reset_password, name='reset_password'),
+    url('^profile$', user_views.user_profile, name='user_profile'),
 
     url(r'^$', views.index, name='index'),
-    url(r'^welcome', views.welcome, name='welcome'),
+    url(r'^welcome$', views.welcome, name='welcome'),
     url(r'^docs/(?P<name>.+)$', views.document, name='docs'),
 
     url(r'^runs$', views.runs, name='runs'),

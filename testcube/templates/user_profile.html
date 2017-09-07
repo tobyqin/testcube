@@ -13,6 +13,9 @@
                     {{ form | bootstrap }}
                     <button class="btn btn-primary" type="submit">Update</button>
                 </form>
+                {% if success_message %}
+                    <p id="form-message" class="text-success" style="margin-top: 8px"> {{ success_message }} </p>
+                {% endif %}
                 <br>
             </div>
         </div>
