@@ -2,7 +2,7 @@ from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import render, redirect
 
-from .forms import SignUpForm
+from .forms import SignUpForm, UserProfileForm
 from ..utils import get_domain
 
 
@@ -59,4 +59,12 @@ def reset_password(request):
 
 
 def user_profile(request, username):
-    pass
+    if request.method == 'POST':
+        postdata = request.POST.copy()
+        form = UserProfileForm(postdata, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return to_next_page(request)
+    else:
+        form = UserProfileForm(instance=request.user)
+    return render(request, 'user_profile.html', {'form': form})
