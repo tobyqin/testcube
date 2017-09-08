@@ -42,10 +42,12 @@
     <script>
         require(['/static/require-config.js'], function () {
             waitForLoading();
-            require(['table-func', 'jquery'], function (func, $) {
-                func.runListTableRender('/api/runs/recent/');
-                $.ajax('/api/runs/clear/');
+            require(['modules/run-list', 'jquery'], function (module, $) {
+                module.runListTableRender('/api/runs/recent/');
                 loadingCompleted();
+
+                // clean up bad runs after page loaded
+                $.ajax('/api/runs/clear/');
             })
         });
     </script>

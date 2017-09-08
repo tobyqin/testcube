@@ -1,4 +1,4 @@
-let version = '1.0';
+let version = '1.1';
 
 function jsVersion(id, url) {
     return url.includes('libs/') ? '' : '?v' + version;
@@ -63,7 +63,7 @@ requirejs.config({
         bootstrapTable: 'libs/bootstrap-table/bootstrap-table.min',
         bootstrapSelect: 'libs/bootstrap-select/bootstrap-select.min',
         bootstrapTagsInput: 'libs/bootstrap-tagsinput/bootstrap-tagsinput.min',
-        bootstrapCookie: 'libs/bootstrap-table/bootstrap-table-cookie',
+        bootstrapTableCookie: 'libs/bootstrap-table/bootstrap-table-cookie',
         bootstrapTypeAhead: 'libs/bootstrap-typeahead/bootstrap3-typeahead.min',
         'bootstrap-dialog': 'libs/bootstrap-dialog/bootstrap-dialog.min',
         c3: 'libs/c3.min',
