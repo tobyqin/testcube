@@ -16,3 +16,16 @@ class SignUpForm(UserCreationForm):
 
         for name in ['username', 'password1', 'password2']:
             self.fields[name].help_text = ''
+
+
+class UserProfileForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ('username', 'first_name', 'last_name')
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['username'].widget.attrs['readonly'] = True
+
+        for name in ['username', ]:
+            self.fields[name].help_text = ''

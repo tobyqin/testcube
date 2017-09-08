@@ -31,6 +31,7 @@
                             <b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu">
+                            <li><a href="{% url 'user_profile' %}">Edit Profile</a> </li>
                             <li><a href="{% url 'signout' %}?next={{ request.path }}">Sign Out</a></li>
                         </ul>
                     </li>

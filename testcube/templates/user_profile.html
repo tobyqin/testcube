@@ -1,0 +1,23 @@
+{% extends './base.html' %}
+{% block title %}User Profile{% endblock %}
+
+{% load bootstrap %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <form role="form" method="post">
+                    <legend>User Profile</legend>
+                    {% csrf_token %}
+                    {{ form | bootstrap }}
+                    <button class="btn btn-primary" type="submit">Update</button>
+                </form>
+                {% if success_message %}
+                    <p id="form-message" class="text-success" style="margin-top: 8px"> {{ success_message }} </p>
+                {% endif %}
+                <br>
+            </div>
+        </div>
+    </div>
+{% endblock %}
