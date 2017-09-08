@@ -9,8 +9,12 @@ define(['moment', 'c3', 'd3', 'common'], function (moment, c3, d3, common) {
     config.infoColor = 'rgb(31, 119, 180)';
 
     function runDetailChartRender() {
-        if (window.app.runList === undefined || window.app.summaryInfo === undefined) return;
-        if (window.app.summaryInfo.result_total === 0) return;
+        if (window.app.runList === undefined
+            || window.app.summaryInfo === undefined
+            || window.app.summaryInfo.result_total === 0) {
+            loadingCompleted();
+            return;
+        }
 
         let x = ['x'];
         let runIds = [];
@@ -127,7 +131,11 @@ define(['moment', 'c3', 'd3', 'common'], function (moment, c3, d3, common) {
 
 
     function resultDetailChartRender(callback) {
-        if (window.app.resultHistory === undefined || window.app.summaryInfo === undefined) return;
+        if (window.app.resultHistory === undefined
+            || window.app.summaryInfo === undefined) {
+            loadingCompleted();
+            return;
+        }
 
         let x = ['x'];
         let runIds = [];
