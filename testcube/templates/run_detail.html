@@ -76,9 +76,9 @@
     <script>
         require(['/static/require-config.js'], function () {
             waitForLoading();
-            require(['table-func', 'jquery'], function (func, $) {
+            require(['modules/run-detail', 'jquery'], function (module, $) {
                 $(function () {
-                    func.runDetailPageRender({{ run_id }});
+                    module.runDetailPageRender({{ run_id }});
                 });
 
                 $('#run-coverage-btn').click(function () {

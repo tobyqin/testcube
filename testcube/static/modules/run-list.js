@@ -1,4 +1,4 @@
-define(['jquery', './table-support', 'common', 'bootstrapTableCookie', 'bootstrapSelect'],
+define(['jquery', './table-support', 'bootstrapTableCookie', 'bootstrapSelect'],
     function ($, support) {
 
         "use strict";
