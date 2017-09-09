@@ -7,5 +7,5 @@
 6. [>] show test case stability in run page when result failed
 7. [x] able to set website logo
 8. [ ] better loading experience
-9. [ ] refactor js scripts
+9. [>] refactor js scripts
 10.[ ] manage css file via require js
