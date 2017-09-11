@@ -1,5 +1,5 @@
-define(['jquery', './table-support', 'common', 'bootstrapTable', 'bootstrapSelect'],
-    function ($, support, common) {
+define(['jquery', './table-support', './chart-support', './utils', 'bootstrapTable', 'bootstrapSelect'],
+    function ($, support, chart, utils) {
 
         "use strict";
         let f = support.formatter;
@@ -55,7 +55,7 @@ define(['jquery', './table-support', 'common', 'bootstrapTable', 'bootstrapSelec
 
             $('#stderr').empty().append(stderr.trim());
             $('#stdout').empty().append(stdout.trim());
-            common.startLogHighlight();
+            utils.startLogHighlight();
 
             if (result.test_run) {
                 let nav = `<a href="/runs/${result.test_run.id}">${result.test_run.id} - ${result.test_run.name}</a>`;
@@ -76,20 +76,17 @@ define(['jquery', './table-support', 'common', 'bootstrapTable', 'bootstrapSelec
                 let nav = `${result.id} - ${result.testcase.name}`;
                 $('#result-nav').empty().append(nav);
 
-                require(['chart-func'], function (chart) {
-                    $('#result-history').bootstrapTable({
-                        url: `/api/cases/${result.testcase.id}/history/`,
-                        responseHandler: resultHistoryTableDataHandler,
-                        search: false,
-                        pagination: false,
-                        sortable: false,
-                        showFooter: false,
-                        columns: resultHistoryColumns,
-                        onPostBody: function () {
-                            chart.resultDetailChartRender();
-                        }
-                    });
-
+                $('#result-history').bootstrapTable({
+                    url: `/api/cases/${result.testcase.id}/history/`,
+                    responseHandler: resultHistoryTableDataHandler,
+                    search: false,
+                    pagination: false,
+                    sortable: false,
+                    showFooter: false,
+                    columns: resultHistoryColumns,
+                    onPostBody: function () {
+                        chart.resultDetailChartRender();
+                    }
                 });
             }
         }

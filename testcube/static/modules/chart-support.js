@@ -1,4 +1,4 @@
-define(['moment', 'c3', 'd3', 'common'], function (moment, c3, d3, common) {
+define(['moment', 'c3', 'd3', './utils'], function (moment, c3, d3, utils) {
 
     "use strict";
     let config = {};
@@ -129,7 +129,6 @@ define(['moment', 'c3', 'd3', 'common'], function (moment, c3, d3, common) {
         loadingCompleted();
     }
 
-
     function resultDetailChartRender(callback) {
         if (window.app.resultHistory === undefined
             || window.app.summaryInfo === undefined) {
@@ -146,7 +145,7 @@ define(['moment', 'c3', 'd3', 'common'], function (moment, c3, d3, common) {
         let latest = window.app.resultHistory.results.slice(0, 20);
         for (let result of latest.reverse()) {
             runIds.push('Run: ' + result.run_info.id);
-            duration.push(common.hmsToSeconds(result.duration));
+            duration.push(utils.hmsToSeconds(result.duration));
             if (result.get_outcome_display === 'Passed') {
                 passed.push(1);
                 failed.push(0);

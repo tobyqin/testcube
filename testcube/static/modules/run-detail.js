@@ -1,4 +1,4 @@
-define(['jquery', './table-support', 'chart-func', 'bootstrapSelect'],
+define(['jquery', './table-support', './chart-support', 'bootstrapSelect'],
     function ($, support, chart) {
 
         "use strict";

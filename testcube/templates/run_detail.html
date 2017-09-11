@@ -83,7 +83,7 @@
 
                 $('#run-coverage-btn').click(function () {
                     waitForLoading();
-                    require(['chart-func'], function (chart) {
+                    require(['modules/chart-support'], function (chart) {
                         chart.runCoverageChartRender({{ run_id }}, function () {
                             $('#run-coverage').removeClass();
                             loadingCompleted();

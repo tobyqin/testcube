@@ -74,8 +74,6 @@ requirejs.config({
         marked: 'libs/marked.min',
         moment: 'libs/moment.min',
         mustache: 'libs/mustache.min',
-        common: 'common',
-        'chart-func': 'chart-func',
         rainbow: 'libs/rainbow/rainbow',
         rainbow_generic: 'libs/rainbow/language/generic',
         rainbow_python: 'libs/rainbow/language/python',

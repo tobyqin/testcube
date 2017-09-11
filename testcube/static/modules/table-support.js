@@ -1,4 +1,4 @@
-define(['moment', 'common', 'bootstrapTable'], function (moment, common) {
+define(['moment', './utils', 'bootstrapTable'], function (moment, utils) {
 
     "use strict";
     let support = {};
@@ -30,8 +30,8 @@ define(['moment', 'common', 'bootstrapTable'], function (moment, common) {
             percentNum = 0;
         }
 
-        let color = common.getColor(percentNum);
-        let weather = common.getWeather(percentNum);
+        let color = utils.getColor(percentNum);
+        let weather = utils.getWeather(percentNum);
         return `<a href="/runs/${rate.id}" 
                 data-toggle="tooltip" 
                 title="${rate.passed} / ${rate.total}"
