@@ -2,15 +2,15 @@ define(['jquery', './table-support', 'chart-func', 'bootstrapSelect'],
     function ($, support, chart) {
 
         "use strict";
-        let formatter = support.formatter;
+        let f = support.formatter;
 
         let runDetailColumns = [
             {title: 'ID', field: 'id'},
             {title: 'Team', field: 'team_name'},
             {title: 'Product', field: 'product_name'},
             {title: 'Name', field: 'name'},
-            {title: 'Start Time', field: 'start_time', formatter: formatter.timeFormatter},
-            {title: 'Duration', field: 'duration', formatter: formatter.durationFormatter},
+            {title: 'Start Time', field: 'start_time', formatter: f.timeFormatter},
+            {title: 'Duration', field: 'duration', formatter: f.durationFormatter},
             {title: 'Start By', field: 'start_by'},
             {title: 'Passed', field: 'result_passed'},
             {title: 'Failed', field: 'result_failed'},
@@ -19,37 +19,37 @@ define(['jquery', './table-support', 'chart-func', 'bootstrapSelect'],
         ];
 
         let runFailedResultColumns = [
-            {title: 'ID', field: 'id', formatter: formatter.resultIdFormatter, sortable: true},
-            {title: 'TestCase', field: 'testcase_info', formatter: formatter.caseNameFormatter, sortable: true},
+            {title: 'ID', field: 'id', formatter: f.resultIdFormatter, sortable: true},
+            {title: 'TestCase', field: 'testcase_info', formatter: f.caseNameFormatter, sortable: true},
             {title: 'Error Message', field: 'error_message', sortable: true},
             {title: 'Reason', field: 'reason', sortable: true},
-            {title: 'Duration', field: 'duration', formatter: formatter.durationFormatter, sortable: true},
-            {title: 'Outcome', field: 'get_outcome_display', formatter: formatter.outcomeFormatter, sortable: true}
+            {title: 'Duration', field: 'duration', formatter: f.durationFormatter, sortable: true},
+            {title: 'Outcome', field: 'get_outcome_display', formatter: f.outcomeFormatter, sortable: true}
         ];
 
         let runPassedResultColumns = [
-            {title: 'ID', field: 'id', formatter: formatter.resultIdFormatter, sortable: true},
-            {title: 'TestCase', field: 'testcase_info', formatter: formatter.caseNameFormatter, sortable: true},
-            {title: 'Duration', field: 'duration', formatter: formatter.durationFormatter, sortable: true},
+            {title: 'ID', field: 'id', formatter: f.resultIdFormatter, sortable: true},
+            {title: 'TestCase', field: 'testcase_info', formatter: f.caseNameFormatter, sortable: true},
+            {title: 'Duration', field: 'duration', formatter: f.durationFormatter, sortable: true},
             {title: 'Assigned To', field: 'assigned_to', sortable: true},
             {title: 'Client', field: 'test_client.name', sortable: true},
-            {title: 'Outcome', field: 'get_outcome_display', formatter: formatter.outcomeFormatter, sortable: true}
+            {title: 'Outcome', field: 'get_outcome_display', formatter: f.outcomeFormatter, sortable: true}
         ];
 
         let runHistoryColumns = [
-            {title: 'ID', field: 'id', formatter: formatter.runIdFormatter},
+            {title: 'ID', field: 'id', formatter: f.runIdFormatter},
             {title: 'Team', field: 'team_name'},
             {title: 'Product', field: 'product_name'},
             {title: 'Title', field: 'name'},
-            {title: 'Start Time', field: 'start_time', formatter: formatter.timeHumanFormatter},
-            {title: 'Duration', field: 'duration', formatter: formatter.durationFormatter},
+            {title: 'Start Time', field: 'start_time', formatter: f.timeHumanFormatter},
+            {title: 'Duration', field: 'duration', formatter: f.durationFormatter},
             {title: 'Start By', field: 'start_by'},
             {
                 title: 'Passing',
                 field: 'passing_rate',
-                formatter: formatter.rateFormatter
+                formatter: f.rateFormatter
             },
-            {title: 'State', field: 'get_state_display', formatter: formatter.runStateFormatter}
+            {title: 'State', field: 'get_state_display', formatter: f.runStateFormatter}
         ];
 
         function summaryDataHandler(data) {

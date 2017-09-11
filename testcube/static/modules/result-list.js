@@ -2,15 +2,15 @@ define(['jquery', './table-support'],
     function ($, support) {
 
         "use strict";
-        let formatter = support.formatter;
+        let f = support.formatter;
 
         let resultListColumns = [
-            {title: 'ID', field: 'id', formatter: formatter.resultIdFormatter, sortable: true},
+            {title: 'ID', field: 'id', formatter: f.resultIdFormatter, sortable: true},
             {title: 'TestCase', field: 'testcase_name'},
             {title: 'Message', field: 'error_message'},
-            {title: 'Created On', field: 'created_on', formatter: formatter.timeFormatter},
-            {title: 'Duration', field: 'duration', formatter: formatter.durationFormatter},
-            {title: 'Outcome', field: 'get_outcome_display', formatter: formatter.outcomeFormatter}
+            {title: 'Created On', field: 'created_on', formatter: f.timeFormatter},
+            {title: 'Duration', field: 'duration', formatter: f.durationFormatter},
+            {title: 'Outcome', field: 'get_outcome_display', formatter: f.outcomeFormatter}
         ];
 
         function resultListTableRender(url) {

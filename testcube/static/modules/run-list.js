@@ -2,18 +2,18 @@ define(['jquery', './table-support', 'bootstrapTableCookie', 'bootstrapSelect'],
     function ($, support) {
 
         "use strict";
-        let formatter = support.formatter;
+        let f = support.formatter;
 
         let runListColumns = [
-            {title: 'ID', field: 'id', formatter: formatter.runIdFormatter, sortable: true},
+            {title: 'ID', field: 'id', formatter: f.runIdFormatter, sortable: true},
             {title: 'Team', field: 'team_name'},
             {title: 'Product', field: 'product_name'},
             {title: 'Title', field: 'name', sortable: true},
-            {title: 'Start Time', field: 'start_time', formatter: formatter.timeHumanFormatter, sortable: true},
+            {title: 'Start Time', field: 'start_time', formatter: f.timeHumanFormatter, sortable: true},
             {
                 title: 'Duration',
                 field: 'duration',
-                formatter: formatter.durationFormatter,
+                formatter: f.durationFormatter,
                 sortable: true,
                 visible: false
             },
@@ -21,9 +21,9 @@ define(['jquery', './table-support', 'bootstrapTableCookie', 'bootstrapSelect'],
             {
                 title: 'Passing',
                 field: 'passing_rate',
-                formatter: formatter.rateFormatter
+                formatter: f.rateFormatter
             },
-            {title: 'State', field: 'get_state_display', formatter: formatter.runStateFormatter}
+            {title: 'State', field: 'get_state_display', formatter: f.runStateFormatter}
         ];
 
 

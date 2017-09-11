@@ -39,8 +39,8 @@
 {% block scripts %}
     <script>
         require(['/static/require-config.js'], function () {
-            require(['table-func', 'jquery'], function (func, $) {
-                func.caseListTableRender('/api/cases/recent/');
+            require(['modules/case-list', 'jquery'], function (module, $) {
+                module.caseListTableRender('/api/cases/recent/');
             })
         });
     </script>
