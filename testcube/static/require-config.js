@@ -85,7 +85,6 @@ requirejs.config({
         rainbow_log: 'libs/rainbow/language/log',
         typeahead: 'libs/typeaheadjs/typeahead.jquery',
         bloodhound: 'libs/typeaheadjs/bloodhound',
-        'case-detail': 'case-detail',
         'lightbox': 'libs/ekko-lightbox/ekko-lightbox'
     },
     deps: ['bootstrap']
