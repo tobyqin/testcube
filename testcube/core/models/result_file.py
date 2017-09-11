@@ -18,7 +18,7 @@ class ResultFile(models.Model):
     run = models.ForeignKey(TestRun, on_delete=models.CASCADE, related_name='files')
 
     def file_size(self):
-        return '{} kb'.format(self.file_byte_size / 1024)
+        return '{:.2f} kb'.format(self.file_byte_size / 1024)
 
     class Meta:
         ordering = ['name']
