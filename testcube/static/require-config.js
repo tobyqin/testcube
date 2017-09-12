@@ -1,4 +1,4 @@
-let version = '1.0';
+let version = '1.2';
 
 function jsVersion(id, url) {
     return url.includes('libs/') ? '' : '?v' + version;
@@ -63,7 +63,7 @@ requirejs.config({
         bootstrapTable: 'libs/bootstrap-table/bootstrap-table.min',
         bootstrapSelect: 'libs/bootstrap-select/bootstrap-select.min',
         bootstrapTagsInput: 'libs/bootstrap-tagsinput/bootstrap-tagsinput.min',
-        bootstrapCookie: 'libs/bootstrap-table/bootstrap-table-cookie',
+        bootstrapTableCookie: 'libs/bootstrap-table/bootstrap-table-cookie',
         bootstrapTypeAhead: 'libs/bootstrap-typeahead/bootstrap3-typeahead.min',
         'bootstrap-dialog': 'libs/bootstrap-dialog/bootstrap-dialog.min',
         c3: 'libs/c3.min',
@@ -74,18 +74,12 @@ requirejs.config({
         marked: 'libs/marked.min',
         moment: 'libs/moment.min',
         mustache: 'libs/mustache.min',
-        common: 'common',
-        'table-config': 'table-config',
-        'table-func': 'table-func',
-        signup: 'signup',
-        'chart-func': 'chart-func',
         rainbow: 'libs/rainbow/rainbow',
         rainbow_generic: 'libs/rainbow/language/generic',
         rainbow_python: 'libs/rainbow/language/python',
         rainbow_log: 'libs/rainbow/language/log',
         typeahead: 'libs/typeaheadjs/typeahead.jquery',
         bloodhound: 'libs/typeaheadjs/bloodhound',
-        'case-detail': 'case-detail',
         'lightbox': 'libs/ekko-lightbox/ekko-lightbox'
     },
     deps: ['bootstrap']
