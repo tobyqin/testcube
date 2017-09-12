@@ -14,7 +14,7 @@ define(['jquery', './table-support', 'bootstrapSelect'],
             {title: 'Updated On', field: 'updated_on', formatter: f.timeFormatter, sortable: true}
         ];
 
-        function caseListTableRender(url) {
+        function renderCaseListTable(url) {
             $('#table').bootstrapTable({
                 sidePagination: 'server',
                 url: url,
@@ -37,7 +37,7 @@ define(['jquery', './table-support', 'bootstrapSelect'],
         }
 
         return {
-            caseListTableRender: caseListTableRender
+            renderCaseListTable: renderCaseListTable
         };
 
     });

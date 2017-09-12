@@ -27,7 +27,7 @@ define(['jquery', './table-support', 'bootstrapTableCookie', 'bootstrapSelect'],
         ];
 
 
-        function runListTableRender(url) {
+        function renderRunListTable(url) {
             $('#table').bootstrapTable($.extend(support.defaultTableOptions, {
                 url: url,
                 queryParams: support.refineQueryParams,
@@ -63,7 +63,7 @@ define(['jquery', './table-support', 'bootstrapTableCookie', 'bootstrapSelect'],
         }
 
         return {
-            runListTableRender: runListTableRender
+            renderRunListTable: renderRunListTable
         };
 
     });

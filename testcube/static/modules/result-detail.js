@@ -85,7 +85,7 @@ define(['jquery', './table-support', './chart-support', './utils', 'bootstrapTab
                     showFooter: false,
                     columns: resultHistoryColumns,
                     onPostBody: function () {
-                        chart.resultDetailChartRender();
+                        chart.renderResultDetailChart();
                     }
                 });
             }
@@ -101,7 +101,7 @@ define(['jquery', './table-support', './chart-support', './utils', 'bootstrapTab
             return data.files;
         }
 
-        function resultDetailPageRender(resultId) {
+        function renderResultDetailPage(resultId) {
             $('#table').bootstrapTable({
                 url: `/api/results/${ resultId }/info/`,
                 responseHandler: summaryDataHandler,
@@ -117,7 +117,7 @@ define(['jquery', './table-support', './chart-support', './utils', 'bootstrapTab
         }
 
         return {
-            resultDetailPageRender: resultDetailPageRender
+            renderResultDetailPage: renderResultDetailPage
         };
 
     });

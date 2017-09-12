@@ -43,7 +43,7 @@
         require(['/static/require-config.js'], function () {
             waitForLoading();
             require(['modules/run-list', 'jquery'], function (module, $) {
-                module.runListTableRender('/api/runs/recent/');
+                module.renderRunListTable('/api/runs/recent/');
                 loadingCompleted();
 
                 // clean up bad runs after page loaded

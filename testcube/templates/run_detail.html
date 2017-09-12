@@ -78,13 +78,13 @@
             waitForLoading();
             require(['modules/run-detail', 'jquery'], function (module, $) {
                 $(function () {
-                    module.runDetailPageRender({{ run_id }});
+                    module.renderRunDetailPage({{ run_id }});
                 });
 
                 $('#run-coverage-btn').click(function () {
                     waitForLoading();
                     require(['modules/chart-support'], function (chart) {
-                        chart.runCoverageChartRender({{ run_id }}, function () {
+                        chart.renderRunCoverageChart({{ run_id }}, function () {
                             $('#run-coverage').removeClass();
                             loadingCompleted();
                         })

@@ -33,7 +33,7 @@
             waitForLoading();
             require(['modules/result-list', 'jquery'], function (module, $) {
                 $(function () {
-                    module.resultListTableRender('/api/results/recent/');
+                    module.renderResultListTable('/api/results/recent/');
                     loadingCompleted();
                 });
             });

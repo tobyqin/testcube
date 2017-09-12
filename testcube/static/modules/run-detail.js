@@ -71,7 +71,7 @@ define(['jquery', './table-support', './chart-support', 'bootstrapSelect'],
             return data;
         }
 
-        function runDetailPageRender(runId) {
+        function renderRunDetailPage(runId) {
             $('#run-summary').bootstrapTable($.extend(support.defaultTableOptions, {
                 url: `/api/runs/${ runId }/info/`,
                 responseHandler: summaryDataHandler,
@@ -139,12 +139,12 @@ define(['jquery', './table-support', './chart-support', 'bootstrapSelect'],
                 showFooter: false,
                 sortable: false,
                 columns: runHistoryColumns,
-                onPostBody: chart.runDetailChartRender
+                onPostBody: chart.renderRunDetailChart
             });
         }
 
         return {
-            runDetailPageRender: runDetailPageRender,
+            renderRunDetailPage: renderRunDetailPage,
         };
 
     });

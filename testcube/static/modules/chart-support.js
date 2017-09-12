@@ -8,7 +8,7 @@ define(['moment', 'c3', 'd3', './utils'], function (moment, c3, d3, utils) {
     config.warnColor = 'rgb(255, 127, 14)';
     config.infoColor = 'rgb(31, 119, 180)';
 
-    function runDetailChartRender() {
+    function renderRunDetailChart() {
         if (window.app.runList === undefined
             || window.app.summaryInfo === undefined
             || window.app.summaryInfo.result_total === 0) {
@@ -129,7 +129,7 @@ define(['moment', 'c3', 'd3', './utils'], function (moment, c3, d3, utils) {
         loadingCompleted();
     }
 
-    function resultDetailChartRender(callback) {
+    function renderResultDetailChart(callback) {
         if (window.app.resultHistory === undefined
             || window.app.summaryInfo === undefined) {
             loadingCompleted();
@@ -237,7 +237,7 @@ define(['moment', 'c3', 'd3', './utils'], function (moment, c3, d3, utils) {
         if (callback) return callback();
     }
 
-    function runCoverageChartRender(runId, callback) {
+    function renderRunCoverageChart(runId, callback) {
         require(['jquery'], function ($) {
             $.getJSON('/api/runs/' + runId + '/tags/', function (data) {
                 let counts = ['counts'];
@@ -280,9 +280,9 @@ define(['moment', 'c3', 'd3', './utils'], function (moment, c3, d3, utils) {
     }
 
     return {
-        runDetailChartRender: runDetailChartRender,
-        resultDetailChartRender: resultDetailChartRender,
-        runCoverageChartRender: runCoverageChartRender
+        renderRunDetailChart: renderRunDetailChart,
+        renderResultDetailChart: renderResultDetailChart,
+        renderRunCoverageChart: renderRunCoverageChart
     };
 
 });

@@ -105,7 +105,7 @@ define(['jquery', './table-support', 'bloodhound', 'typeahead', 'bootstrapTagsIn
             });
         }
 
-        function caseDetailTableRender(caseId) {
+        function renderCaseDetailTable(caseId) {
             $('#case-summary').bootstrapTable({
                 url: `/api/cases/${caseId}/info/`,
                 responseHandler: caseDetailSummaryDataHandler,
@@ -131,7 +131,7 @@ define(['jquery', './table-support', 'bloodhound', 'typeahead', 'bootstrapTagsIn
         }
 
         return {
-            caseDetailTableRender: caseDetailTableRender
+            renderCaseDetailTable: renderCaseDetailTable
         };
 
     });

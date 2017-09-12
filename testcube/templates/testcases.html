@@ -40,7 +40,7 @@
     <script>
         require(['/static/require-config.js'], function () {
             require(['modules/case-list', 'jquery'], function (module, $) {
-                module.caseListTableRender('/api/cases/recent/');
+                module.renderCaseListTable('/api/cases/recent/');
             })
         });
     </script>
