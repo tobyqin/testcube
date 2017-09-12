@@ -125,10 +125,10 @@ define(['jquery', './table-support', './chart-support', 'bootstrapSelect'],
                 onPostBody: undefined
             });
 
-            runHistoryTableRender(run.id);
+            renderRunHistoryTable(run.id);
         }
 
-        function runHistoryTableRender(runId) {
+        function renderRunHistoryTable(runId) {
 
             $('#run-history').bootstrapTable({
                 sidePagination: 'server',
