@@ -49,7 +49,7 @@
         require(['/static/require-config.js'], function () {
             waitForLoading();
             require(['modules/case-detail'], function (module) {
-                module.caseDetailTableRender({{ case_id }});
+                module.renderCaseDetailTable({{ case_id }});
             });
 
 

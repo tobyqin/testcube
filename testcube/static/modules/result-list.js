@@ -13,7 +13,7 @@ define(['jquery', './table-support'],
             {title: 'Outcome', field: 'get_outcome_display', formatter: f.outcomeFormatter}
         ];
 
-        function resultListTableRender(url) {
+        function renderResultListTable(url) {
             $('#table').bootstrapTable({
                 sidePagination: 'server',
                 url: url,
@@ -34,7 +34,7 @@ define(['jquery', './table-support'],
         }
 
         return {
-            resultListTableRender: resultListTableRender
+            renderResultListTable: renderResultListTable
         };
 
     });

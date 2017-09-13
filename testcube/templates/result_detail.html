@@ -137,7 +137,7 @@
             waitForLoading();
             require(['modules/result-detail', 'jquery'], function (module, $) {
                 $(function () {
-                    module.resultDetailPageRender({{ result_id }});
+                    module.renderResultDetailPage({{ result_id }});
                     $('form').submit(function (event) {
                         $.ajax({
                             url: '',

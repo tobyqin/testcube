@@ -147,7 +147,7 @@ define(['moment', './utils', 'bootstrapTable'], function (moment, utils) {
         }
     };
 
-    support.toolbarFilterRender = function () {
+    support.renderToolbarFilter = function () {
         $.get('/api/products/recent/', function (data) {
             for (let obj of data.results) {
                 $('#product-picker').append(`<option value="${obj.id}">${obj.name}</option>`);
@@ -165,7 +165,7 @@ define(['moment', './utils', 'bootstrapTable'], function (moment, utils) {
     support.toolbarTablePostEvent = function (data) {
         if (data[0] === undefined) return;
         if (window.app.setFilters) return;
-        support.toolbarFilterRender();
+        support.renderToolbarFilter();
         $('.selectpicker').on('changed.bs.select', support.toolbarPickerChanged);
         window.app.setFilters = true;
     };
