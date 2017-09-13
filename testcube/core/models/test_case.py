@@ -35,6 +35,12 @@ class TestCase(models.Model):
     def tags_list(self):
         return ':'.join([t.name for t in getattr(self, 'tags')])
 
+    def stability(self):
+        latest_results = self.results.all()[:10]
+        passed = len([s for s in latest_results if s.outcome == 0])
+
+        return "%.f%%" % round(passed / len(latest_results) * 100)
+
     class Meta:
         ordering = ['-id']
 

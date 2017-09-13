@@ -14,16 +14,9 @@
     <content url="file://$MODULE_DIR$" />
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="jQuery-2.0.0" level="application" />
-    <orderEntry type="library" name="semantic-ui-DefinitelyTyped" level="application" />
   </component>
   <component name="TemplatesService">
     <option name="TEMPLATE_CONFIGURATION" value="Django" />
-    <option name="TEMPLATE_FOLDERS">
-      <list>
-        <option value="$MODULE_DIR$/testcube/templates" />
-      </list>
-    </option>
   </component>
   <component name="TestRunnerService">
     <option name="projectConfiguration" value="py.test" />
