@@ -30,8 +30,8 @@ define(['moment', 'common'], function (moment, common) {
 
         let color = common.getColor(percentNum);
         let weather = common.getWeather(percentNum);
-        return `<a href="/runs/${rate.id}" 
-                data-toggle="tooltip" 
+        return `<a href="/runs/${rate.id}"
+                data-toggle="tooltip"
                 title="${rate.passed} / ${rate.total}"
                 style="color: ${color};text-decoration: none"
                 ><i class="wi ${weather}"></i>  ${percent}</a>`
@@ -123,6 +123,7 @@ define(['moment', 'common'], function (moment, common) {
         {title: 'TestCase', field: 'testcase_info', formatter: caseNameFormatter, sortable: true},
         {title: 'Error Message', field: 'error_message', sortable: true},
         {title: 'Reason', field: 'reason', sortable: true},
+        {title: 'Stability', field: 'stability'},
         {title: 'Duration', field: 'duration', formatter: durationFormatter, sortable: true},
         {title: 'Outcome', field: 'get_outcome_display', formatter: outcomeFormatter, sortable: true}
     ];
