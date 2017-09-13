@@ -48,8 +48,8 @@
     <script>
         require(['/static/require-config.js'], function () {
             waitForLoading();
-            require(['table-func', 'bootstrapTagsInput'], function (func) {
-                func.caseDetailTableRender({{ case_id }});
+            require(['modules/case-detail'], function (module) {
+                module.renderCaseDetailTable({{ case_id }});
             });
 
 

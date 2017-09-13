@@ -135,9 +135,9 @@
     <script>
         require(['/static/require-config.js'], function () {
             waitForLoading();
-            require(['table-func', 'jquery'], function (func, $) {
+            require(['modules/result-detail', 'jquery'], function (module, $) {
                 $(function () {
-                    func.resultDetailPageRender({{ result_id }});
+                    module.renderResultDetailPage({{ result_id }});
                     $('form').submit(function (event) {
                         $.ajax({
                             url: '',

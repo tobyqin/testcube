@@ -1,4 +1,4 @@
-define(['moment', 'c3', 'd3', 'common'], function (moment, c3, d3, common) {
+define(['moment', 'c3', 'd3', './utils'], function (moment, c3, d3, utils) {
 
     "use strict";
     let config = {};
@@ -8,7 +8,7 @@ define(['moment', 'c3', 'd3', 'common'], function (moment, c3, d3, common) {
     config.warnColor = 'rgb(255, 127, 14)';
     config.infoColor = 'rgb(31, 119, 180)';
 
-    function runDetailChartRender() {
+    function renderRunDetailChart() {
         if (window.app.runList === undefined
             || window.app.summaryInfo === undefined
             || window.app.summaryInfo.result_total === 0) {
@@ -129,8 +129,7 @@ define(['moment', 'c3', 'd3', 'common'], function (moment, c3, d3, common) {
         loadingCompleted();
     }
 
-
-    function resultDetailChartRender(callback) {
+    function renderResultDetailChart(callback) {
         if (window.app.resultHistory === undefined
             || window.app.summaryInfo === undefined) {
             loadingCompleted();
@@ -146,7 +145,7 @@ define(['moment', 'c3', 'd3', 'common'], function (moment, c3, d3, common) {
         let latest = window.app.resultHistory.results.slice(0, 20);
         for (let result of latest.reverse()) {
             runIds.push('Run: ' + result.run_info.id);
-            duration.push(common.hmsToSeconds(result.duration));
+            duration.push(utils.hmsToSeconds(result.duration));
             if (result.get_outcome_display === 'Passed') {
                 passed.push(1);
                 failed.push(0);
@@ -238,7 +237,7 @@ define(['moment', 'c3', 'd3', 'common'], function (moment, c3, d3, common) {
         if (callback) return callback();
     }
 
-    function runCoverageChartRender(runId, callback) {
+    function renderRunCoverageChart(runId, callback) {
         require(['jquery'], function ($) {
             $.getJSON('/api/runs/' + runId + '/tags/', function (data) {
                 let counts = ['counts'];
@@ -281,9 +280,9 @@ define(['moment', 'c3', 'd3', 'common'], function (moment, c3, d3, common) {
     }
 
     return {
-        runDetailChartRender: runDetailChartRender,
-        resultDetailChartRender: resultDetailChartRender,
-        runCoverageChartRender: runCoverageChartRender
+        renderRunDetailChart: renderRunDetailChart,
+        renderResultDetailChart: renderResultDetailChart,
+        renderRunCoverageChart: renderRunCoverageChart
     };
 
 });

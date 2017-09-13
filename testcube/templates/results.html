@@ -30,9 +30,11 @@
 {% block scripts %}
     <script>
         require(['/static/require-config.js'], function () {
-            require(['table-func', 'jquery'], function (func, $) {
+            waitForLoading();
+            require(['modules/result-list', 'jquery'], function (module, $) {
                 $(function () {
-                    func.resultListTableRender('/api/results/recent/');
+                    module.renderResultListTable('/api/results/recent/');
+                    loadingCompleted();
                 });
             });
         });
