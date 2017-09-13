@@ -77,7 +77,8 @@ define(['moment', './utils', 'bootstrapTable'], function (moment, utils) {
     };
 
     formatter.imageUrlFormatter = function (url) {
-        return `<a href="${url}" data-toggle="lightbox" data-gallery="result-gallery">${url}</a>`;
+        let filename = /[^\/]*$/.exec(url)[0];
+        return `<a href="${url}" data-toggle="lightbox" data-title="${filename}" data-gallery="result-gallery">${url}</a>`;
     };
 
     support.defaultTableOptions = {
