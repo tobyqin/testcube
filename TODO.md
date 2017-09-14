@@ -8,4 +8,4 @@
 7. [x] able to set website logo
 8. [ ] better loading experience
 9. [x] refactor js scripts
-10.[ ] manage css file via require js
+10.[>] manage css file via require js
