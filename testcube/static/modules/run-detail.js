@@ -23,6 +23,7 @@ define(['jquery', './table-support', './chart-support', 'bootstrapSelect'],
             {title: 'TestCase', field: 'testcase_info', formatter: f.caseNameFormatter, sortable: true},
             {title: 'Error Message', field: 'error_message', sortable: true},
             {title: 'Reason', field: 'reason', sortable: true},
+            {title: 'Stability', field: 'stability'},
             {title: 'Duration', field: 'duration', formatter: f.durationFormatter, sortable: true},
             {title: 'Outcome', field: 'get_outcome_display', formatter: f.outcomeFormatter, sortable: true}
         ];

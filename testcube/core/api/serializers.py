@@ -139,7 +139,7 @@ class TestResultInfoSerializer(serializers.ModelSerializer):
         fields = (
             'id', 'run_info', 'testcase_info', 'get_outcome_display',
             'duration', 'assigned_to', 'is_rerun', 'test_client',
-            'created_on', 'error_message', 'reason')
+            'created_on', 'error_message', 'reason', 'stability')
 
         depth = 1
 

@@ -44,6 +44,9 @@ class TestResult(models.Model):
     def testcase_exec_info(self):
         return self.testcase.execution_info()
 
+    def stability(self):
+        return self.testcase.stability()
+
     def error_message(self):
         if self.error:
             return self.error.message
