@@ -98,6 +98,11 @@ define(['jquery', './table-support', './chart-support', './utils', 'bootstrapTab
 
         function resultFileTableDataHandler(data) {
             window.app.resultFiles = data.files;
+
+            // hide the file tab if no files found
+            if (data.files.length === 0) {
+                $("a[href='#tab-files']").hide();
+            }
             return data.files;
         }
 
