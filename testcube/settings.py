@@ -154,6 +154,7 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 20
 }
 
+# global logging entry
 logger = setup_logger(debug=DEBUG, log_dir=LOG_ROOT)
 
 # tagging
