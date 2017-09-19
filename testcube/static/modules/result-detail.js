@@ -30,7 +30,7 @@ define(['jquery', './table-support', './chart-support', './utils', 'bootstrapTab
         let resultFilesColumns = [
             {title: 'Time', field: 'time', formatter: f.timeFormatter},
             {title: 'Name', field: 'url', formatter: f.imageUrlFormatter},
-            {title: 'size', field: 'size'}
+            {title: 'Size', field: 'size'}
         ];
 
 

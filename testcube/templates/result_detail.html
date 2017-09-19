@@ -159,8 +159,9 @@
                         event.preventDefault();
                         return false;
                     });
-                    {% if form.by_post %}
-                        window.showAnalysisForm = true;
+
+                    {% if not form.need_analysis %}
+                        $('a[href="#tab-analysis"]').hide();
                     {% endif %}
                 });
             });
