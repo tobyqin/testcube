@@ -8,15 +8,14 @@ from .test_case import TestCase
 from .test_client import TestClient
 from .test_run import TestRun
 
+OUTCOME_CHOICES = ((0, 'Passed'), (1, 'Failed'), (2, 'Skipped'), (3, 'Error'), (4, 'Manual Passed'))
+
 
 class TestResult(models.Model):
-    OUTCOME_CHOICES = ((0, 'Passed'), (1, 'Failed'), (2, 'Skipped'), (3, 'Error'), (4, 'Manual Passed'))
-
     outcome = models.IntegerField(choices=OUTCOME_CHOICES)
     stdout = models.TextField(default=None, null=True, blank=True)
     duration = models.DurationField(default=timedelta())
     assigned_to = models.CharField(max_length=50)
-    is_rerun = models.BooleanField(default=False)
     created_on = models.DateTimeField(auto_now_add=True)
 
     test_run = models.ForeignKey(TestRun, on_delete=models.CASCADE, related_name='results')
