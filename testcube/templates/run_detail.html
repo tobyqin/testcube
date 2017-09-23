@@ -81,15 +81,7 @@
                     module.renderRunDetailPage({{ run_id }});
                 });
 
-                $('#run-coverage-btn').click(function () {
-                    waitForLoading();
-                    require(['modules/chart-support'], function (chart) {
-                        chart.renderRunCoverageChart({{ run_id }}, function () {
-                            $('#run-coverage').removeClass();
-                            loadingCompleted();
-                        })
-                    })
-                })
+                module.setupRunCoverageEvent({{ run_id }});
             });
         });
     </script>

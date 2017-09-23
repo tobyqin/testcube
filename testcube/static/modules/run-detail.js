@@ -144,8 +144,20 @@ define(['jquery', './table-support', './chart-support', 'bootstrapSelect'],
             });
         }
 
+        function setupRunCoverageEvent(runId) {
+            $('#run-coverage-btn').click(function () {
+                waitForLoading();
+
+                chart.renderRunCoverageChart(runId, function () {
+                    $('#run-coverage').removeClass();
+                    loadingCompleted();
+                })
+            })
+        }
+
         return {
             renderRunDetailPage: renderRunDetailPage,
+            setupRunCoverageEvent: setupRunCoverageEvent
         };
 
     });
