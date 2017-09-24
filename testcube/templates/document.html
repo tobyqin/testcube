@@ -22,17 +22,10 @@
 
 {% block scripts %}
     <script>
-        document.getElementById('loading-icon').classList.remove('hidden');
         require(['/static/require-config.js'], function () {
-            require(['jquery', 'marked'], function ($, marked) {
-                $(function () {
-                    let contentDiv = $('#content');
-                    let raw = contentDiv.children().first().text().trim();
-                    let converted = marked(raw);
-                    contentDiv.attr('data-text', raw);
-                    contentDiv.empty().append(converted);
-                    loadingCompleted();
-                })
+            waitForLoading();
+            require(['modules/document'], function (module) {
+                module();
             });
         });
     </script>
