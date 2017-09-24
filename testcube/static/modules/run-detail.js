@@ -151,6 +151,7 @@ define(['jquery', './table-support', './chart-support', 'bootstrapSelect'],
                 chart.renderRunCoverageChart(runId, function () {
                     $('#run-coverage').removeClass();
                     loadingCompleted();
+                    $('#run-coverage-btn').click(undefined);
                 })
             })
         }
