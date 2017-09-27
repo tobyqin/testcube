@@ -6,6 +6,8 @@ from testcube.core.models import Product
 class Profile(models.Model):
     product = models.OneToOneField(Product, on_delete=models.CASCADE, related_name='runner_profile')
     command = models.CharField(max_length=1000)
+    created_on = models.DateTimeField(auto_now_add=True)
+    updated_on = models.DateTimeField(auto_now=True)
 
 
 class Task(models.Model):
@@ -17,3 +19,5 @@ class Task(models.Model):
     status = models.IntegerField(choices=STATUS_CHOICES, default=-1)
     command = models.CharField(max_length=1000)
     data = models.TextField()
+    created_on = models.DateTimeField(auto_now_add=True)
+    updated_on = models.DateTimeField(auto_now=True)
