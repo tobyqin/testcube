@@ -2,6 +2,8 @@
 
 TestCube is a platform to manage and monitor automation test results, it provides a friendly web interface which is build with Python and Django. Project at https://github.com/tobyqin/testcube.
 
+![TestCube](/static/images/testcube-overview.png)
+
 ## Should I use TestCube, how can it help me?
 
 This is an open-source project, and I am not a marketing guy try to sell this product to you. However, as a testing engineer, to be frank, you might feel paint when you manage hundreds of test runs, test cases or test results in a day.
@@ -84,6 +86,9 @@ Strategy 2.1, you just have to add bellow commands at the end of a run.
 pip install testcube-client -U
 testcube-client --register http://server:8000
 testcube-client --run -t TeamName -p ProductName -x "**/results/*.xml"
+
+# upload result files (e.g. your tests will generate screen shots)
+testcube-client --result-files "**/*.png"
 ```
 
 Strategy 2.2, add start command as run first step.
@@ -97,5 +102,5 @@ testcube-client --start-run -t TeamName -p ProductName
 Then add finish command to run last step.
 
 ```
-testcube-client --finish-run -x "**/results/*.xml"
+testcube-client --finish-run -x "**/results/*.xml" -i "**/*.png"
 ```
