@@ -267,6 +267,13 @@ class ResultFileViewSet(viewsets.ModelViewSet):
     search_fields = filter_fields
 
 
+class ResetResultViewSet(viewsets.ModelViewSet):
+    queryset = ResetResult.objects.all()
+    serializer_class = ResetResultSerializer
+    filter_fields = ()
+    search_fields = filter_fields
+
+
 class LargeResultsSetPagination(PageNumberPagination):
     page_size = 1000
     page_size_query_param = 'page_size'

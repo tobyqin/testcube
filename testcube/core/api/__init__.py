@@ -6,7 +6,8 @@ def api_registration():
     from .views import (ProductViewSet, TeamViewSet, ConfigurationViewSet,
                         TestRunViewSet, TestClientViewSet, TestCaseViewSet,
                         TestResultViewSet, IssueViewSet, ResultAnalysisViewSet,
-                        ResultErrorViewSet, ObjectSourceViewSet, ResultFileViewSet)
+                        ResultErrorViewSet, ObjectSourceViewSet, ResultFileViewSet,
+                        ResetResultViewSet)
 
     router = routers.DefaultRouter()
     router.register('teams', TeamViewSet)
@@ -22,5 +23,6 @@ def api_registration():
     router.register('configurations', ConfigurationViewSet)
     router.register('object_sources', ObjectSourceViewSet)
     router.register('result_files', ResultFileViewSet)
+    router.register('reset_results', ResetResultViewSet)
 
     return router

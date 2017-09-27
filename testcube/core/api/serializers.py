@@ -87,6 +87,12 @@ class ResultFileSerializer(serializers.HyperlinkedModelSerializer):
         fields = '__all__'
 
 
+class ResetResultSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = ResetResult
+        fields = '__all__'
+
+
 class TestRunListSerializer(serializers.ModelSerializer):
     class Meta:
         model = TestRun
