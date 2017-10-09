@@ -17,16 +17,20 @@ from django.conf import settings
 from django.conf.urls import url, include
 from django.conf.urls.static import static
 from django.contrib import admin
+from rest_framework import routers
 
-from .core import api
 from .core import views
+from .core.api import api_registration as core_api_registration
 from .core.api import client_auth
+from .runner.api import api_registration as runner_api_registration
 from .users import views as user_views
 
 admin.site.site_header = 'TestCube Administration'
 admin.site.site_title = admin.site.site_header
 
-router = api.api_registration()
+router = routers.DefaultRouter()
+core_api_registration(router)
+runner_api_registration(router)
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),

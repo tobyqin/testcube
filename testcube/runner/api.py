@@ -1,8 +1,6 @@
-from .views import *
+from .views import ProfileViewSet, TaskViewSet
 
 
-def register_runner_api(router):
+def api_registration(router):
     router.register('profile', ProfileViewSet)
     router.register('task', TaskViewSet)
-
-    return router

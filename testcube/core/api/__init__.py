@@ -1,7 +1,4 @@
-from rest_framework import routers
-
-
-def api_registration():
+def api_registration(router):
     from ...users.api import UserViewSet
     from .views import (ProductViewSet, TeamViewSet, ConfigurationViewSet,
                         TestRunViewSet, TestClientViewSet, TestCaseViewSet,
@@ -9,7 +6,6 @@ def api_registration():
                         ResultErrorViewSet, ObjectSourceViewSet, ResultFileViewSet,
                         ResetResultViewSet)
 
-    router = routers.DefaultRouter()
     router.register('teams', TeamViewSet)
     router.register('products', ProductViewSet)
     router.register('runs', TestRunViewSet)
