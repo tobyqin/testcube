@@ -57,7 +57,7 @@ INSTALLED_APPS = [
     'bootstrapform',
     'testcube.core',
     'testcube.users',
-    'testcube.runner'
+    'testcube.runner',
     'tagging'
 ]
 
