@@ -43,8 +43,8 @@
                         <li class="active nav"><a href="#tab-error" data-toggle="tab">Error</a></li>
                         <li class="nav"><a href="#tab-stdout" data-toggle="tab">Output</a></li>
                         <li class="nav"><a href="#tab-files" data-toggle="tab">Files</a></li>
+                        <li class="nav"><a href="#tab-reset" data-toggle="tab">Reset</a></li>
                         <li class="nav"><a href="#tab-history" data-toggle="tab">History</a></li>
-                        <li class="nav"><a href="#tab-analysis" data-toggle="tab">Analysis</a></li>
                     </ul>
 
                     <div class="tab-content">
@@ -62,21 +62,45 @@
                             <div class="spacer20"></div>
                             <table id="result-files"></table>
                         </div>
+                        <div class="tab-pane fade" id="tab-reset">
+                            <div class="spacer20"></div>
+                            <table id="result-reset">
+                            </table>
+                            <hr/>
+                            <form role="form" method="post" action="{{ result_id }}/reset" id="form-reset">
+                                {% csrf_token %}
+                                {{ reset_form | bootstrap }}
+                                <div class="row">
+                                    {% if user.is_authenticated %}
+                                        <div class="col-md-1">
+                                            <button class="btn btn-primary"
+                                                    type="submit">Reset
+                                            </button>
+                                        </div>
+                                    {% else %}
+                                        <div class="col-md-1">
+                                            <button class="btn btn-primary disabled"
+                                                    type="submit">Reset
+                                            </button>
+                                        </div>
+                                    {% endif %}
+                                    <div class="col-md-8">
+                                        <p id="reset-message" class="text-success" style="margin-top: 8px"></p>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
                         <div class="tab-pane fade" id="tab-history">
                             <div class="spacer20"></div>
                             <table id="result-history">
                             </table>
                         </div>
-                        <div class="tab-pane fade" id="tab-analysis">
-                            <div class="spacer20"></div>
-                            <table id="result-analysis">
-                            </table>
-                        </div>
-                        {% if form.need_analysis %}
+
+                        {% if analysis_form.need_analysis %}
                             <hr/>
-                            <form role="form" method="post">
+                            <form role="form" method="post" action="{{ result_id }}/analysis" id="form-analysis">
                                 {% csrf_token %}
-                                {{ form | bootstrap }}
+                                {{ analysis_form | bootstrap }}
                                 <div class="row">
                                     {% if user.is_authenticated %}
                                         <div class="col-md-1">
@@ -85,16 +109,16 @@
                                             </button>
                                         </div>
 
-                                        {% if form.result.analysis %}
+                                        {% if analysis_form.result.analysis %}
                                             <div class="col-md-8">
-                                                <p id="form-message" class="text-success" style="margin-top: 8px">
+                                                <p id="analysis-message" class="text-success" style="margin-top: 8px">
                                                     Analyzed
-                                                    by {{ form.result.analysis.by }}
-                                                    on {{ form.result.analysis.updated_on | naturaltime }}.</p>
+                                                    by {{ analysis_form.result.analysis.by }}
+                                                    on {{ analysis_form.result.analysis.updated_on | naturaltime }}.</p>
                                             </div>
                                         {% else %}
                                             <div class="col-md-6">
-                                                <p id="form-message" class="text-danger" style="margin-top: 8px">
+                                                <p id="analysis-message" class="text-danger" style="margin-top: 8px">
                                                     Analysis Required.</p>
                                             </div>
                                         {% endif %}
@@ -105,16 +129,17 @@
                                                     type="submit">Submit
                                             </button>
                                         </div>
-                                        {% if form.result.analysis %}
+                                        {% if analysis_form.result.analysis %}
                                             <div class="col-md-8">
-                                                <p id="form-message" class="text-success" style="margin-top: 8px">
+                                                <p id="analysis-message" class="text-success" style="margin-top: 8px">
                                                     Analyzed
-                                                    by {{ form.result.analysis.by }}
-                                                    on {{ form.result.analysis.updated_on | naturaltime }}.</p>
+                                                    by {{ analysis_form.result.analysis.by }}
+                                                    on {{ analysis_form.result.analysis.updated_on | naturaltime }}.</p>
                                             </div>
                                         {% else %}
                                             <div class="col-md-6">
-                                                <p id="form-message" class="text-danger" style="margin-top: 8px">Login
+                                                <p id="analysis-message" class="text-danger" style="margin-top: 8px">
+                                                    Login
                                                     Required.</p>
                                             </div>
                                         {% endif %}
@@ -138,27 +163,26 @@
             require(['modules/result-detail', 'jquery'], function (module, $) {
                 $(function () {
                     module.renderResultDetailPage({{ result_id }});
-                    $('form').submit(function (event) {
-                        $.ajax({
-                            url: '',
-                            type: 'post',
-                            dataType: 'application/json',
-                            data: $('form').serialize(),
-                            async: true,
-                            complete: function (xhr) {
-                                let message = xhr.responseText;
-                                let messageCls = 'text-danger';
-                                if (xhr.status === 200) {
-                                    messageCls = 'text-success';
-                                }
-                                $('#form-message').empty()
-                                    .append(xhr.responseText)
-                                    .removeClass().addClass(messageCls);
-                            }
-                        });
-                        event.preventDefault();
-                        return false;
+                    module.postFormAsync('#form-analysis', function (xhr) {
+                        let messageCls = 'text-danger';
+                        if (xhr.status === 200) {
+                            messageCls = 'text-success';
+                        }
+                        $('#analysis-message').empty()
+                            .append(xhr.responseText)
+                            .removeClass().addClass(messageCls);
                     });
+
+                    module.postFormAsync('#form-reset', function (xhr) {
+                        let messageCls = 'text-danger';
+                        if (xhr.status === 200) {
+                            messageCls = 'text-success';
+                        }
+                        $('#reset-message').empty()
+                            .append(xhr.responseText)
+                            .removeClass().addClass(messageCls);
+                    });
+
 
                     {% if not form.need_analysis %}
                         $('a[href="#tab-analysis"]').hide();

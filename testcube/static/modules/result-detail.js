@@ -121,8 +121,26 @@ define(['jquery', './table-support', './chart-support', './utils', 'bootstrapTab
             });
         }
 
+        function postFormAsync(formSelector, callback) {
+            $(formSelector).submit(function (event) {
+                $.ajax({
+                    url: $(formSelector).attr('action'),
+                    type: 'post',
+                    dataType: 'application/json',
+                    data: $(formSelector).serialize(),
+                    async: true,
+                    complete: function (xhr) {
+                        if (callback) callback(xhr)
+                    }
+                });
+                event.preventDefault();
+                return false;
+            });
+        }
+
         return {
-            renderResultDetailPage: renderResultDetailPage
+            renderResultDetailPage: renderResultDetailPage,
+            postFormAsync: postFormAsync
         };
 
     });
