@@ -1,5 +1,6 @@
 from datetime import timedelta
 
+from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 
 from .result_analysis import ResultAnalysis
@@ -8,7 +9,9 @@ from .test_case import TestCase
 from .test_client import TestClient
 from .test_run import TestRun
 
-OUTCOME_CHOICES = ((0, 'Passed'), (1, 'Failed'), (2, 'Skipped'), (3, 'Error'), (4, 'Manual Passed'))
+OUTCOME_CHOICES = ((0, 'Passed'), (1, 'Failed'),
+                   (2, 'Skipped'), (3, 'Error'),
+                   (4, 'Manual Passed'), (5, 'Pending'))
 
 
 class TestResult(models.Model):
@@ -68,6 +71,16 @@ class TestResult(models.Model):
             'time': f.file_created_time,
             'size': f.file_size()
         } for f in files]
+
+    def is_reset_in_progress(self):
+        """check reset in progress or not."""
+        return False
+
+    def get_reset_profile(self):
+        try:
+            return self.testcase.product.runner_profile
+        except ObjectDoesNotExist:
+            return None
 
     class Meta:
         ordering = ['-created_on']
