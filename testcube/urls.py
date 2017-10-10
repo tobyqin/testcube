@@ -53,7 +53,9 @@ urlpatterns = [
     url(r'^runs/(\d+)$', views.run_detail, name='run_detail'),
     url(r'^testcases$', views.cases, name='testcases'),
     url(r'^testcases/(\d+)', views.case_detail, name='testcase_detail'),
-    url(r'^results/(\d+)', views.result_detail, name='result_detail'),
+    url(r'^results/(\d+)$', views.result_detail, name='result_detail'),
+    url(r'^results/(\d+)/reset$', views.result_reset, name='result_reset'),
+    url(r'^results/(\d+)/analysis$', views.result_analysis, name='result_analysis'),
     url(r'^results$', views.results, name='results'),
 ]
 

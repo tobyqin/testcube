@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect, resolve_url, HttpResponse
 from django.utils.http import urlquote
 
 from testcube.settings import logger
-from .forms import AnalysisForm
+from .forms import AnalysisForm, ResetForm
 from .models import TestRun, ObjectSource
 from ..utils import read_document
 
@@ -61,9 +61,20 @@ def case_detail(request, case_id):
 def result_detail(request, result_id):
     result_id = int(result_id)
 
+    analysis_form = AnalysisForm()
+    analysis_form.load(result_id)
+    reset_form = ResetForm()
+    return render(request, 'result_detail.html', {'result_id': result_id,
+                                                  'analysis_form': analysis_form,
+                                                  'reset_form': reset_form})
+
+
+def result_analysis(request, result_id):
+    """POST view for result analysis"""
+    result_id = int(result_id)
+
     if request.method == 'POST':
         form = AnalysisForm(data=request.POST)
-        form.by_post = True
 
         if form.is_valid():
             if request.user.is_authenticated():
@@ -78,8 +89,23 @@ def result_detail(request, result_id):
         else:
             return HttpResponse(content='Analyzed just now.')
 
-    else:
-        form = AnalysisForm()
-        form.load(result_id)
 
-    return render(request, 'result_detail.html', {'result_id': result_id, 'form': form})
+def result_reset(request, result_id):
+    """POST view for result reset"""
+    result_id = int(result_id)
+
+    if request.method == 'POST':
+        form = ResetForm(data=request.POST)
+
+        if form.is_valid():
+            if request.user.is_authenticated():
+                form.save(result_id, request.user.username)
+            else:
+                form.add_error('Reason', 'Login required.')
+
+        if form.errors:
+            errors = [m[0] for e, m in form.errors.items()]
+            message = ', '.join(errors)
+            return HttpResponse(content=message, status=400)
+        else:
+            return HttpResponse(content='Reset task submitted, please wait.')
