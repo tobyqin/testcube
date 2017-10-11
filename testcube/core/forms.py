@@ -1,7 +1,9 @@
+import json
+
 from django import forms
 
-from .models import ResultAnalysis, Issue, TestResult, TestCase, Product, ResetResult
-from ..runner.models import Profile, Task
+from .models import ResultAnalysis, Issue, TestResult, ResetResult
+from ..runner.models import Task
 
 
 class AnalysisForm(forms.Form):
@@ -87,6 +89,7 @@ class ResetForm(forms.Form):
         3. add a reset result in core/reset_result with [in progress] status
         """
         result = TestResult.objects.get(id=result_id)
+        reason = self.cleaned_data.get('reason')
 
         if result.is_reset_in_progress():
             self.add_error('reason', 'Reset is in progress, please wait...')
@@ -98,19 +101,42 @@ class ResetForm(forms.Form):
             self.add_error('reason', 'Please configure reset profile at first.')
             return
 
+        cmd, error = _parse_command(profile.command, result)
+
+        # if reset with error, abort tasks
+        if error:
+            self.add_error('reason', 'Failed to reset result {}'.format(error))
+            return
+
         # add reset result object
         reset_result = ResetResult(reset_by=username,
-                                   reset_reason=self.reason,
+                                   reset_reason=reason,
                                    reset_status=1,  # in progress
                                    origin_result=result)
 
         reset_result.save()
 
         # add reset task object
+
+        data = {'result_id': result_id,
+                'reset_id': reset_result.id,
+                'reason': reason,
+                'by': username}
+
         task = Task(object_name='TestResult',
                     object_id=result_id,
                     description='ResetResult',
-                    command=profile.command,
-                    data='')
+                    command=cmd,
+                    data=json.dumps(data))
 
         task.save()
+
+
+def _parse_command(command, result):
+    try:
+        cmd = command.format(result=result)
+        return cmd, None
+    except Exception as e:
+        message = 'while parsing command "{}" due to {}: {}'.format(
+            command, type(e).__name__, e.args)
+        return command, message

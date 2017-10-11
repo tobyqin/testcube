@@ -11,7 +11,7 @@ class Profile(models.Model):
 
 
 class Task(models.Model):
-    STATUS_CHOICES = ((-1, 'Pending'), (0, 'Sent'))
+    STATUS_CHOICES = ((-1, 'Pending'), (0, 'Sent'), (1, 'Error'))
 
     object_name = models.CharField(max_length=100)
     object_id = models.IntegerField(default=-1)
