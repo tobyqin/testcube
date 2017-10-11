@@ -117,7 +117,6 @@ class ResetForm(forms.Form):
         reset_result.save()
 
         # add reset task object
-
         data = {'result_id': result_id,
                 'reset_id': reset_result.id,
                 'reason': reason,
