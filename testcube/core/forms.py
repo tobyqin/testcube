@@ -133,6 +133,11 @@ class ResetForm(forms.Form):
 
 
 def _parse_command(command, result):
+    """
+    method to parse reset command.
+    for example: http://server/reset_job?testcase={result.testcase.name}&result_id={result.id}
+    will be parsed according under current result context.
+    """
     try:
         cmd = command.format(result=result)
         return cmd, None
