@@ -64,7 +64,7 @@
                         </div>
                         <div class="tab-pane fade" id="tab-reset">
                             <div class="spacer20"></div>
-                            <table id="result-reset">
+                            <table id="result-resets">
                             </table>
                             <hr/>
                             <form role="form" method="post" action="{{ result_id }}/reset" id="form-reset">
@@ -85,7 +85,7 @@
                                         </div>
                                     {% endif %}
                                     <div class="col-md-8">
-                                        <p id="reset-message" class="text-success" style="margin-top: 8px"></p>
+                                        <p id="form-reset-message" class="text-success" style="margin-top: 8px"></p>
                                     </div>
                                 </div>
                             </form>
@@ -111,14 +111,16 @@
 
                                         {% if analysis_form.result.analysis %}
                                             <div class="col-md-8">
-                                                <p id="analysis-message" class="text-success" style="margin-top: 8px">
+                                                <p id="form-analysis-message" class="text-success"
+                                                   style="margin-top: 8px">
                                                     Analyzed
                                                     by {{ analysis_form.result.analysis.by }}
                                                     on {{ analysis_form.result.analysis.updated_on | naturaltime }}.</p>
                                             </div>
                                         {% else %}
                                             <div class="col-md-6">
-                                                <p id="analysis-message" class="text-danger" style="margin-top: 8px">
+                                                <p id="form-analysis-message" class="text-danger"
+                                                   style="margin-top: 8px">
                                                     Analysis Required.</p>
                                             </div>
                                         {% endif %}
@@ -131,14 +133,16 @@
                                         </div>
                                         {% if analysis_form.result.analysis %}
                                             <div class="col-md-8">
-                                                <p id="analysis-message" class="text-success" style="margin-top: 8px">
+                                                <p id="form-analysis-message" class="text-success"
+                                                   style="margin-top: 8px">
                                                     Analyzed
                                                     by {{ analysis_form.result.analysis.by }}
                                                     on {{ analysis_form.result.analysis.updated_on | naturaltime }}.</p>
                                             </div>
                                         {% else %}
                                             <div class="col-md-6">
-                                                <p id="analysis-message" class="text-danger" style="margin-top: 8px">
+                                                <p id="form-analysis-message" class="text-danger"
+                                                   style="margin-top: 8px">
                                                     Login
                                                     Required.</p>
                                             </div>
@@ -163,26 +167,8 @@
             require(['modules/result-detail', 'jquery'], function (module, $) {
                 $(function () {
                     module.renderResultDetailPage({{ result_id }});
-                    module.postFormAsync('#form-analysis', function (xhr) {
-                        let messageCls = 'text-danger';
-                        if (xhr.status === 200) {
-                            messageCls = 'text-success';
-                        }
-                        $('#analysis-message').empty()
-                            .append(xhr.responseText)
-                            .removeClass().addClass(messageCls);
-                    });
-
-                    module.postFormAsync('#form-reset', function (xhr) {
-                        let messageCls = 'text-danger';
-                        if (xhr.status === 200) {
-                            messageCls = 'text-success';
-                        }
-                        $('#reset-message').empty()
-                            .append(xhr.responseText)
-                            .removeClass().addClass(messageCls);
-                    });
-
+                    module.postFormAsync('#form-analysis');
+                    module.postFormAsync('#form-reset');
 
                     {% if not form.need_analysis %}
                         $('a[href="#tab-analysis"]').hide();

@@ -181,6 +181,13 @@ class TestResultFilesSerializer(serializers.ModelSerializer):
         depth = 1
 
 
+class TestResultResetHistorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TestResult
+        fields = ('id', 'reset_results')
+        depth = 1
+
+
 class TestRunDetailSerializer(serializers.ModelSerializer):
     results = TestResultInfoSerializer(many=True)
 

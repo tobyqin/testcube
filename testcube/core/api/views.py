@@ -218,6 +218,11 @@ class TestResultViewSet(viewsets.ModelViewSet):
         """query result files, use for result detail page."""
         return info_view(self, TestResultFilesSerializer)
 
+    @detail_route(methods=['get'])
+    def resets(self, request, pk=None):
+        """query result reset history, use for result detail page."""
+        return info_view(self, TestResultResetHistorySerializer)
+
     @list_route()
     def recent(self, request):
         """get recent runs, in run list view"""

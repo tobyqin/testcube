@@ -33,6 +33,15 @@ define(['jquery', './table-support', './chart-support', './utils', 'bootstrapTab
             {title: 'Size', field: 'size'}
         ];
 
+        let resultResetsColumns = [
+            {title: 'ID', field: 'id'},
+            {title: 'By', field: 'reset_by'},
+            {title: 'Reason', field: 'reason'},
+            {title: 'Time', field: 'reset_on'},
+            {title: 'Duration', field: 'duration'},
+            {title: 'Outcome', field: 'outcome'}
+        ];
+
 
         function summaryDataHandler(data) {
             window.app.summaryInfo = data;
@@ -72,6 +81,16 @@ define(['jquery', './table-support', './chart-support', './utils', 'bootstrapTab
                 columns: resultFilesColumns
             });
 
+            $('#result-resets').bootstrapTable({
+                url: `/api/results/${result.id}/resets/`,
+                responseHandler: resultResetsTableDataHandler,
+                search: false,
+                pagination: false,
+                sortable: false,
+                showFooter: false,
+                columns: resultResetsColumns
+            });
+
             if (result.testcase) {
                 let nav = `${result.id} - ${result.testcase.name}`;
                 $('#result-nav').empty().append(nav);
@@ -106,6 +125,11 @@ define(['jquery', './table-support', './chart-support', './utils', 'bootstrapTab
             return data.files;
         }
 
+        function resultResetsTableDataHandler(data) {
+            window.app.resultResets = data;
+            return data;
+        }
+
         function renderResultDetailPage(resultId) {
             $('#table').bootstrapTable({
                 url: `/api/results/${ resultId }/info/`,
@@ -130,6 +154,15 @@ define(['jquery', './table-support', './chart-support', './utils', 'bootstrapTab
                     data: $(formSelector).serialize(),
                     async: true,
                     complete: function (xhr) {
+
+                        let messageCls = 'text-danger';
+                        if (xhr.status === 200) {
+                            messageCls = 'text-success';
+                        }
+                        $(formSelector + '-message').empty()
+                            .append(xhr.responseText)
+                            .removeClass().addClass(messageCls);
+
                         if (callback) callback(xhr)
                     }
                 });
