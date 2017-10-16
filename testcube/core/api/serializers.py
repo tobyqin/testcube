@@ -161,6 +161,17 @@ class TestResultHistorySerializer(serializers.ModelSerializer):
         depth = 1
 
 
+class ResetResultDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ResetResult
+        fields = (
+            'id', 'stdout', 'get_reset_status_display', 'get_outcome_display',
+            'duration', 'run_on', 'reset_on', 'reset_by',
+            'test_client', 'reset_reason')
+
+        depth = 1
+
+
 class TestResultDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = TestResult
@@ -182,6 +193,8 @@ class TestResultFilesSerializer(serializers.ModelSerializer):
 
 
 class TestResultResetHistorySerializer(serializers.ModelSerializer):
+    reset_results = ResetResultDetailSerializer(many=True)
+
     class Meta:
         model = TestResult
         fields = ('id', 'reset_results')

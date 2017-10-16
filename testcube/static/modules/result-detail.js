@@ -34,12 +34,14 @@ define(['jquery', './table-support', './chart-support', './utils', 'bootstrapTab
         ];
 
         let resultResetsColumns = [
-            {title: 'ID', field: 'id'},
             {title: 'By', field: 'reset_by'},
-            {title: 'Reason', field: 'reason'},
-            {title: 'Time', field: 'reset_on'},
-            {title: 'Duration', field: 'duration'},
-            {title: 'Outcome', field: 'outcome'}
+            {title: 'Reason', field: 'reset_reason'},
+            {title: 'Reset Time', field: 'reset_on', formatter: f.timeFormatter},
+            {title: 'Run Time', field: 'run_on', formatter: f.timeFormatter},
+            {title: 'Duration', field: 'duration', formatter: f.durationFormatter},
+            {title: 'Status', field: 'get_reset_status_display'},
+            {title: 'Outcome', field: 'get_outcome_display'},
+            {title: 'Detail', field: 'stdout', formatter: f.resetDetailFormatter}
         ];
 
 
@@ -126,8 +128,8 @@ define(['jquery', './table-support', './chart-support', './utils', 'bootstrapTab
         }
 
         function resultResetsTableDataHandler(data) {
-            window.app.resultResets = data;
-            return data;
+            window.app.resultResets = data.reset_results;
+            return data.reset_results;
         }
 
         function renderResultDetailPage(resultId) {

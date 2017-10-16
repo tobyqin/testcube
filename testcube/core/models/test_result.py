@@ -74,7 +74,8 @@ class TestResult(models.Model):
 
     def is_reset_in_progress(self):
         """check reset in progress or not."""
-        return False
+        in_progress = self.reset_results.filter(reset_status=1).all()
+        return len(in_progress) > 0
 
     def get_reset_profile(self):
         try:
