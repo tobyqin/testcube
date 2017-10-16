@@ -4,7 +4,7 @@ from datetime import datetime, timezone
 from django.db.models import Q
 from rest_framework import viewsets
 from rest_framework.decorators import detail_route, list_route
-from rest_framework.pagination import PageNumberPagination, LimitOffsetPagination
+from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
 from tagging.models import Tag
@@ -277,9 +277,3 @@ class ResetResultViewSet(viewsets.ModelViewSet):
     serializer_class = ResetResultSerializer
     filter_fields = ()
     search_fields = filter_fields
-
-
-class LargeResultsSetPagination(PageNumberPagination):
-    page_size = 1000
-    page_size_query_param = 'page_size'
-    max_page_size = 1000
