@@ -277,3 +277,20 @@ class ResetResultViewSet(viewsets.ModelViewSet):
     serializer_class = ResetResultSerializer
     filter_fields = ()
     search_fields = filter_fields
+
+    @list_route()
+    def clear(self, request):
+        """clear dead results and reset tasks, will be called async when user visit run detail page."""
+        pending_resets = ResetResult.objects.filter(reset_status__lt=2)  # none, in progress
+        fixed = []
+
+        for result in pending_resets:
+            delta = datetime.now(timezone.utc) - result.reset_on
+            if delta.days > 1:
+                logger.info('abort reset result: {}'.format(result.id))
+                result.outcome, result.reset_status = 1, 3  # failed, failed
+                result.stdout = 'Reset task timeout.'
+                result.save()
+                fixed.append(result.id)
+
+        return Response(data=fixed)
