@@ -1,5 +1,6 @@
 from datetime import datetime, timezone
 
+from django.forms.models import model_to_dict
 from rest_framework import viewsets
 from rest_framework.decorators import list_route
 from rest_framework.response import Response
@@ -24,7 +25,8 @@ class TaskViewSet(viewsets.ModelViewSet):
 
     @list_route()
     def clear(self, request):
-        """clear dead runs, will be called async when user visit run list."""
+        """clear dead tasks, will be called async when user visit run detail page."""
+
         pending_tasks = Task.objects.filter(status=-1)  # pending
         fixed = []
 
@@ -38,3 +40,10 @@ class TaskViewSet(viewsets.ModelViewSet):
                 fixed.append(task.id)
 
         return Response(data=fixed)
+
+    @list_route()
+    def pending(self, request):
+        """process task, GET will return top pending task"""
+
+        pending_task = Task.objects.filter(status=-1).first()  # pending
+        return Response(data=model_to_dict(pending_task))
