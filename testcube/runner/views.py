@@ -46,4 +46,8 @@ class TaskViewSet(viewsets.ModelViewSet):
         """process task, GET will return top pending task"""
 
         pending_task = Task.objects.filter(status=-1).first()  # pending
-        return Response(data=model_to_dict(pending_task))
+
+        if pending_task:
+            return Response(data=model_to_dict(pending_task))
+        else:
+            return Response(data={}, status=404)
