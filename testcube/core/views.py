@@ -101,7 +101,7 @@ def result_reset(request, result_id):
             if request.user.is_authenticated():
                 form.save(result_id, request.user.username)
             else:
-                form.add_error('Reason', 'Login required.')
+                form.add_error('reason', 'Login required.')
 
         if form.errors:
             errors = [m[0] for e, m in form.errors.items()]
