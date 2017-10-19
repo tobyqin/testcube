@@ -147,7 +147,7 @@ define(['jquery', './table-support', './chart-support', './utils', 'bootstrapTab
             });
         }
 
-        function postFormAsync(formSelector, callback) {
+        function postFormAsync(formSelector) {
             $(formSelector).submit(function (event) {
                 $.ajax({
                     url: $(formSelector).attr('action'),
@@ -164,8 +164,6 @@ define(['jquery', './table-support', './chart-support', './utils', 'bootstrapTab
                         $(formSelector + '-message').empty()
                             .append(xhr.responseText)
                             .removeClass().addClass(messageCls);
-
-                        if (callback) callback(xhr)
                     }
                 });
                 event.preventDefault();
