@@ -1,5 +1,5 @@
 import re
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 
 from django.db.models import Q
 from rest_framework import viewsets
@@ -294,3 +294,52 @@ class ResetResultViewSet(viewsets.ModelViewSet):
                 fixed.append(result.id)
 
         return Response(data=fixed)
+
+    @detail_route(methods=['get', 'post'])
+    def handler(self, request, pk=None):
+        """
+        Handle single reset result.
+        1. update current reset result with provided info.
+        2. create error object if required.
+        3. update original result with latest outcome.
+        """
+
+        if request.method == 'GET':
+            return Response(data='Please post final reset data to this API.', status=406)
+
+        instance = self.get_object()
+        assert isinstance(instance, ResetResult)
+        required_fields = ['outcome', 'stdout', 'duration', 'run_on', 'test_client']
+        optional_field = ['exception_type', 'message', 'stacktrace', 'stderr']
+
+        try:
+            for f in required_fields:
+                value = self.request.POST.get(f)
+
+                if f == 'duration':
+                    instance.duration = timedelta(seconds=value)
+                else:
+                    setattr(instance, f, value)
+
+            has_error = self.request.POST.get(optional_field[0], None)
+
+            if has_error:
+                error = ResultError()
+
+                for f in optional_field:
+                    value = self.request.POST.get(f, None)
+                    setattr(error, f, value)
+
+                error.save()
+                instance.error = error
+
+            instance.save()
+            instance.origin_result.outcome = instance.outcome
+            instance.origin_result.save()
+
+            return Response(data='Result has been saved.')
+
+
+
+        except Exception as e:
+            return Response(data=str(e.args), status=400)
