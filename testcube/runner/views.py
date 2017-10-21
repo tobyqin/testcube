@@ -53,8 +53,8 @@ class TaskViewSet(viewsets.ModelViewSet):
             return Response(data={}, status=404)
 
     @detail_route(methods=['post'])
-    def process(self, request, pk=None):
-        """process task with required info."""
+    def handler(self, request, pk=None):
+        """handle task with required info."""
 
         instance = self.get_object()
         code = 400
