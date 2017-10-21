@@ -60,6 +60,10 @@ def append_json(origin_txt, field, value):
     except JSONDecodeError:
         obj = {}
 
-    obj[field] += value
+    if field in obj:
+        obj[field] += '|*|' + value
+
+    else:
+        obj[field] = value
 
     return json.dumps(obj)

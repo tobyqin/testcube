@@ -310,21 +310,28 @@ class ResetResultViewSet(viewsets.ModelViewSet):
         instance = self.get_object()
         assert isinstance(instance, ResetResult)
         required_fields = ['outcome', 'stdout', 'duration', 'run_on', 'test_client']
-        optional_field = ['exception_type', 'message', 'stacktrace', 'stderr']
+        optional_field = ['exception_type', 'message', 'stacktrace', 'stdout', 'stderr']
 
         try:
             for f in required_fields:
                 value = self.request.POST.get(f)
 
+                if value == None:
+                    raise ValueError('Field "{}" is required!'.format(f))
+
                 if f == 'duration':
-                    instance.duration = timedelta(seconds=value)
+                    instance.duration = timedelta(seconds=float(value))
+
+                elif f == 'test_client':
+                    instance.test_client = TestClient.objects.get(id=int(value))
+
                 else:
                     setattr(instance, f, value)
 
             has_error = self.request.POST.get(optional_field[0], None)
 
             if has_error:
-                error = ResultError()
+                error = ResultError() if not instance.error else instance.error
 
                 for f in optional_field:
                     value = self.request.POST.get(f, None)
@@ -333,13 +340,14 @@ class ResetResultViewSet(viewsets.ModelViewSet):
                 error.save()
                 instance.error = error
 
+            instance.reset_status = 2  # done
             instance.save()
             instance.origin_result.outcome = instance.outcome
             instance.origin_result.save()
 
             return Response(data='Result has been saved.')
 
-
-
         except Exception as e:
+            instance.reset_status = 3  # failed
+            instance.save()
             return Response(data=str(e.args), status=400)
