@@ -305,7 +305,7 @@ class ResetResultViewSet(viewsets.ModelViewSet):
         """
 
         if request.method == 'GET':
-            return Response(data='Please post final reset data to this API.', status=406)
+            return self.retrieve(self, request, pk=pk)
 
         instance = self.get_object()
         assert isinstance(instance, ResetResult)

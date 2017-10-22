@@ -1,6 +1,5 @@
 from datetime import datetime, timezone
 
-from django.forms.models import model_to_dict
 from rest_framework import viewsets
 from rest_framework.decorators import list_route, detail_route
 from rest_framework.response import Response
@@ -43,28 +42,36 @@ class TaskViewSet(viewsets.ModelViewSet):
 
     @list_route()
     def pending(self, request):
-        """process task, GET will return top pending task"""
+        """get top pending task if existed."""
 
         pending_task = Task.objects.filter(status=-1).first()  # pending
 
         if pending_task:
-            return Response(data=model_to_dict(pending_task))
+            serializer = self.get_serializer(pending_task)
+            return Response(serializer.data)
         else:
             return Response(data={}, status=404)
 
-    @detail_route(methods=['post'])
+    @detail_route(methods=['get', 'post'])
     def handler(self, request, pk=None):
         """handle task with required info."""
 
+        if request.method == 'GET':
+            return self.retrieve(self, request, pk=pk)
+
         instance = self.get_object()
-        code = 400
 
-        if request.method == 'POST':
-            status = request.POST.get('status', 'Error')
-            message = request.POST.get('message', '')
+        try:
 
-            instance.status = 0 if status == 'Sent' else 1
-            instance.data = append_json(instance.data, 'message', message)
-            instance.save()
+            if request.method == 'POST':
+                status = request.POST.get('status', 'Error')
+                message = request.POST.get('message', '')
 
-            return Response(data={'status': status, 'message': message}, status=code)
+                instance.status = 0 if status == 'Sent' else 1
+                instance.data = append_json(instance.data, 'message', message)
+                instance.save()
+
+                return Response(data={'status': status, 'message': message})
+
+        except Exception as e:
+            return Response(data=str(e.args), status=400)
