@@ -82,6 +82,10 @@
                 });
 
                 module.setupRunCoverageEvent({{ run_id }});
+
+                // clean up bad reset tasks
+                $.ajax('/api/reset_results/clear/');
+                $.ajax('/api/tasks/clear/');
             });
         });
     </script>

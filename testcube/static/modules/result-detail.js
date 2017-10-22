@@ -33,6 +33,17 @@ define(['jquery', './table-support', './chart-support', './utils', 'bootstrapTab
             {title: 'Size', field: 'size'}
         ];
 
+        let resultResetsColumns = [
+            {title: 'By', field: 'reset_by'},
+            {title: 'Reason', field: 'reset_reason'},
+            {title: 'Reset Time', field: 'reset_on', formatter: f.timeFormatter},
+            {title: 'Run Time', field: 'run_on', formatter: f.timeFormatter},
+            {title: 'Duration', field: 'duration', formatter: f.durationFormatter},
+            {title: 'Status', field: 'get_reset_status_display'},
+            {title: 'Outcome', field: 'get_outcome_display'},
+            {title: 'Detail', field: 'stdout', formatter: f.resetDetailFormatter}
+        ];
+
 
         function summaryDataHandler(data) {
             window.app.summaryInfo = data;
@@ -72,6 +83,16 @@ define(['jquery', './table-support', './chart-support', './utils', 'bootstrapTab
                 columns: resultFilesColumns
             });
 
+            $('#result-resets').bootstrapTable({
+                url: `/api/results/${result.id}/resets/`,
+                responseHandler: resultResetsTableDataHandler,
+                search: false,
+                pagination: false,
+                sortable: false,
+                showFooter: false,
+                columns: resultResetsColumns
+            });
+
             if (result.testcase) {
                 let nav = `${result.id} - ${result.testcase.name}`;
                 $('#result-nav').empty().append(nav);
@@ -106,6 +127,11 @@ define(['jquery', './table-support', './chart-support', './utils', 'bootstrapTab
             return data.files;
         }
 
+        function resultResetsTableDataHandler(data) {
+            window.app.resultResets = data.reset_results;
+            return data.reset_results;
+        }
+
         function renderResultDetailPage(resultId) {
             $('#table').bootstrapTable({
                 url: `/api/results/${ resultId }/info/`,
@@ -121,8 +147,33 @@ define(['jquery', './table-support', './chart-support', './utils', 'bootstrapTab
             });
         }
 
+        function postFormAsync(formSelector) {
+            $(formSelector).submit(function (event) {
+                $.ajax({
+                    url: $(formSelector).attr('action'),
+                    type: 'post',
+                    dataType: 'application/json',
+                    data: $(formSelector).serialize(),
+                    async: true,
+                    complete: function (xhr) {
+
+                        let messageCls = 'text-danger';
+                        if (xhr.status === 200) {
+                            messageCls = 'text-success';
+                        }
+                        $(formSelector + '-message').empty()
+                            .append(xhr.responseText)
+                            .removeClass().addClass(messageCls);
+                    }
+                });
+                event.preventDefault();
+                return false;
+            });
+        }
+
         return {
-            renderResultDetailPage: renderResultDetailPage
+            renderResultDetailPage: renderResultDetailPage,
+            postFormAsync: postFormAsync
         };
 
     });

@@ -1,5 +1,7 @@
+import json
 import logging
 import sys
+from json import JSONDecodeError
 from logging.handlers import RotatingFileHandler
 from os.path import join, exists
 
@@ -50,3 +52,18 @@ def setup_logger(log_dir=None, debug=False):
         logger.setLevel(logging.INFO)
 
     return logger
+
+
+def append_json(origin_txt, field, value):
+    try:
+        obj = json.loads(origin_txt)
+    except JSONDecodeError:
+        obj = {}
+
+    if field in obj:
+        obj[field] += '|*|' + value
+
+    else:
+        obj[field] = value
+
+    return json.dumps(obj)

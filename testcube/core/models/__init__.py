@@ -4,6 +4,7 @@ from .configuration import Configuration
 from .issue import Issue
 from .object_source import ObjectSource
 from .product import Product
+from .reset_result import ResetResult
 from .result_analysis import ResultAnalysis
 from .result_error import ResultError
 from .result_file import ResultFile

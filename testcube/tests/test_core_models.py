@@ -9,7 +9,7 @@ class ModelsTestCase(TC):
 
     def test_get_set_config(self):
         assert Configuration.get('test') == 'unit'
-        assert Configuration.get('nothing') == None
+        assert Configuration.get('nothing') is None
         assert Configuration.get('bad', default=123) == 123
 
         cfg = Configuration.objects.get(key='test')

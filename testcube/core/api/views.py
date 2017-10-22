@@ -1,10 +1,10 @@
 import re
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 
 from django.db.models import Q
 from rest_framework import viewsets
 from rest_framework.decorators import detail_route, list_route
-from rest_framework.pagination import PageNumberPagination, LimitOffsetPagination
+from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
 from tagging.models import Tag
@@ -218,6 +218,11 @@ class TestResultViewSet(viewsets.ModelViewSet):
         """query result files, use for result detail page."""
         return info_view(self, TestResultFilesSerializer)
 
+    @detail_route(methods=['get'])
+    def resets(self, request, pk=None):
+        """query result reset history, use for result detail page."""
+        return info_view(self, TestResultResetHistorySerializer)
+
     @list_route()
     def recent(self, request):
         """get recent runs, in run list view"""
@@ -267,7 +272,82 @@ class ResultFileViewSet(viewsets.ModelViewSet):
     search_fields = filter_fields
 
 
-class LargeResultsSetPagination(PageNumberPagination):
-    page_size = 1000
-    page_size_query_param = 'page_size'
-    max_page_size = 1000
+class ResetResultViewSet(viewsets.ModelViewSet):
+    queryset = ResetResult.objects.all()
+    serializer_class = ResetResultSerializer
+    filter_fields = ()
+    search_fields = filter_fields
+
+    @list_route()
+    def clear(self, request):
+        """clear dead results and reset tasks, will be called async when user visit run detail page."""
+        pending_resets = ResetResult.objects.filter(reset_status__lt=2)  # none, in progress
+        fixed = []
+
+        for result in pending_resets:
+            delta = datetime.now(timezone.utc) - result.reset_on
+            if delta.days > 1:
+                logger.info('abort reset result: {}'.format(result.id))
+                result.outcome, result.reset_status = 1, 3  # failed, failed
+                result.stdout = 'Reset task timeout.'
+                result.save()
+                fixed.append(result.id)
+
+        return Response(data=fixed)
+
+    @detail_route(methods=['get', 'post'])
+    def handler(self, request, pk=None):
+        """
+        Handle single reset result.
+        1. update current reset result with provided info.
+        2. create error object if required.
+        3. update original result with latest outcome.
+        """
+
+        if request.method == 'GET':
+            return self.retrieve(self, request, pk=pk)
+
+        instance = self.get_object()
+        assert isinstance(instance, ResetResult)
+        required_fields = ['outcome', 'stdout', 'duration', 'run_on', 'test_client']
+        optional_field = ['exception_type', 'message', 'stacktrace', 'stdout', 'stderr']
+
+        try:
+            for f in required_fields:
+                value = self.request.POST.get(f)
+
+                if value is None:
+                    raise ValueError('Field "{}" is required!'.format(f))
+
+                if f == 'duration':
+                    instance.duration = timedelta(seconds=float(value))
+
+                elif f == 'test_client':
+                    instance.test_client = TestClient.objects.get(id=int(value))
+
+                else:
+                    setattr(instance, f, value)
+
+            has_error = self.request.POST.get(optional_field[0], None)
+
+            if has_error:
+                error = ResultError() if not instance.error else instance.error
+
+                for f in optional_field:
+                    value = self.request.POST.get(f, None)
+                    setattr(error, f, value)
+
+                error.save()
+                instance.error = error
+
+            instance.reset_status = 2  # done
+            instance.save()
+            instance.origin_result.outcome = instance.outcome
+            instance.origin_result.save()
+
+            return Response(data='Result has been saved.')
+
+        except Exception as e:
+            instance.reset_status = 3  # failed
+            instance.save()
+            return Response(data=str(e.args), status=400)
