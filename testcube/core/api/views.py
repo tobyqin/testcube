@@ -316,7 +316,7 @@ class ResetResultViewSet(viewsets.ModelViewSet):
             for f in required_fields:
                 value = self.request.POST.get(f)
 
-                if value == None:
+                if value is None:
                     raise ValueError('Field "{}" is required!'.format(f))
 
                 if f == 'duration':
