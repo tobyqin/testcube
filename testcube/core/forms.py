@@ -2,6 +2,7 @@ import json
 
 from django import forms
 
+from testcube.settings import logger
 from .models import ResultAnalysis, Issue, TestResult, ResetResult
 from ..runner.models import Task
 
@@ -141,6 +142,8 @@ def _parse_command(command, result):
         cmd = command.format(result=result)
         return cmd, None
     except Exception as e:
+        logger.exception('Failed to parse command: {}'.format(command))
+
         message = 'while parsing command "{}" due to {}: {}'.format(
             command, type(e).__name__, e.args)
         return command, message

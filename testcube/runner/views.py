@@ -74,4 +74,5 @@ class TaskViewSet(viewsets.ModelViewSet):
                 return Response(data={'status': status, 'message': message})
 
         except Exception as e:
+            logger.exception('Failed to handle task: {}'.format(pk))
             return Response(data=str(e.args), status=400)

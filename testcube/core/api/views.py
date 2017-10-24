@@ -348,6 +348,7 @@ class ResetResultViewSet(viewsets.ModelViewSet):
             return Response(data='Result has been saved.')
 
         except Exception as e:
+            logger.exception('Failed to handle reset result: {}'.format(pk))
             instance.reset_status = 3  # failed
             instance.save()
             return Response(data=str(e.args), status=400)
