@@ -50,7 +50,7 @@ class TaskViewSet(viewsets.ModelViewSet):
             serializer = self.get_serializer(pending_task)
             return Response(serializer.data)
         else:
-            return Response(data={}, status=404)
+            return Response(data=None, status=204)
 
     @detail_route(methods=['get', 'post'])
     def handler(self, request, pk=None):
@@ -74,4 +74,5 @@ class TaskViewSet(viewsets.ModelViewSet):
                 return Response(data={'status': status, 'message': message})
 
         except Exception as e:
+            logger.exception('Failed to handle task: {}'.format(pk))
             return Response(data=str(e.args), status=400)

@@ -309,7 +309,7 @@ class ResetResultViewSet(viewsets.ModelViewSet):
 
         instance = self.get_object()
         assert isinstance(instance, ResetResult)
-        required_fields = ['outcome', 'stdout', 'duration', 'run_on', 'test_client']
+        required_fields = ['outcome', 'duration', 'run_on', 'test_client']
         optional_field = ['exception_type', 'message', 'stacktrace', 'stdout', 'stderr']
 
         try:
@@ -345,9 +345,10 @@ class ResetResultViewSet(viewsets.ModelViewSet):
             instance.origin_result.outcome = instance.outcome
             instance.origin_result.save()
 
-            return Response(data='Result has been saved.')
+            return Response(data={'message': 'Result has been saved.'})
 
         except Exception as e:
+            logger.exception('Failed to handle reset result: {}'.format(pk))
             instance.reset_status = 3  # failed
             instance.save()
-            return Response(data=str(e.args), status=400)
+            return Response(data={'message': str(e.args)}, status=400)

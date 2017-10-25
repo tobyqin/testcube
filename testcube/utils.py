@@ -57,7 +57,8 @@ def append_json(origin_txt, field, value):
     try:
         obj = json.loads(origin_txt)
     except:
-        logging.warning('Cannot parse to json: {}'.format(origin_txt))
+        from testcube.settings import logger
+        logger.warning('Cannot parse to json: {}'.format(origin_txt))
         obj = {}
 
     if field in obj:
