@@ -102,24 +102,26 @@ class ResetForm(forms.Form):
             self.add_error('reason', 'Please configure reset profile at first.')
             return
 
-        cmd, error = _parse_command(profile.command, result)
+        # add reset result object
+        reset = ResetResult(reset_by=username,
+                            reset_reason=reason,
+                            reset_status=1,  # in progress
+                            origin_result=result)
 
         # if reset with error, abort tasks
+        cmd, error = _parse_command(profile.command, result, reset)
         if error:
             self.add_error('reason', 'Failed to reset result {}'.format(error))
             return
 
-        # add reset result object
-        reset_result = ResetResult(reset_by=username,
-                                   reset_reason=reason,
-                                   reset_status=1,  # in progress
-                                   origin_result=result)
+        reset.save()
 
-        reset_result.save()
+        # now generate cmd with real reset id
+        cmd = _parse_command(profile.command, result, reset)[0]
 
         # add reset task object
         data = {'result_id': result_id,
-                'reset_id': reset_result.id,
+                'reset_id': reset.id,
                 'reason': reason,
                 'by': username}
 
@@ -132,14 +134,14 @@ class ResetForm(forms.Form):
         task.save()
 
 
-def _parse_command(command, result):
+def _parse_command(command, result, reset):
     """
     method to parse reset command.
     for example: http://server/reset_job?testcase={result.testcase.name}&result_id={result.id}
     will be parsed according under current result context.
     """
     try:
-        cmd = command.format(result=result)
+        cmd = command.format(result=result, reset=reset)
         return cmd, None
     except Exception as e:
         logger.exception('Failed to parse command: {}'.format(command))
