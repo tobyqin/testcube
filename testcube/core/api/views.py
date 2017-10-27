@@ -275,7 +275,7 @@ class ResultFileViewSet(viewsets.ModelViewSet):
 class ResetResultViewSet(viewsets.ModelViewSet):
     queryset = ResetResult.objects.all()
     serializer_class = ResetResultSerializer
-    filter_fields = ('id')
+    filter_fields = ('id',)
     search_fields = filter_fields
 
     @list_route()

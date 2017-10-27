@@ -1,5 +1,5 @@
-define(['jquery', './table-support', './chart-support', './utils', 'bootstrapTable', 'bootstrapSelect'],
-    function ($, support, chart, utils) {
+define(['jquery', './table-support', './chart-support', './utils', 'bootstrap-dialog', 'bootstrapTable', 'bootstrapSelect'],
+    function ($, support, chart, utils, BootstrapDialog) {
 
         "use strict";
         let f = support.formatter;
@@ -90,7 +90,8 @@ define(['jquery', './table-support', './chart-support', './utils', 'bootstrapTab
                 pagination: false,
                 sortable: false,
                 showFooter: false,
-                columns: resultResetsColumns
+                columns: resultResetsColumns,
+                onPostBody: setupResetResultDetailViewEvent
             });
 
             if (result.testcase) {
@@ -110,6 +111,23 @@ define(['jquery', './table-support', './chart-support', './utils', 'bootstrapTab
                     }
                 });
             }
+        }
+
+        function setupResetResultDetailViewEvent() {
+            $('.reset-result').click(function () {
+                waitForLoading();
+                let output = $(this).attr('data-text');
+                output = output.replace('||', '\n\n').replace('||', '\n---------- OUTPUT --------\n');
+                let detail = `<pre><code data-language="log">${output}</code></pre>`;
+                BootstrapDialog.show({
+                    title: 'Reset Detail',
+                    message: detail,
+                    size: BootstrapDialog.SIZE_WIDE
+                });
+
+                utils.startLogHighlight();
+                loadingCompleted();
+            });
         }
 
         function resultHistoryTableDataHandler(data) {
