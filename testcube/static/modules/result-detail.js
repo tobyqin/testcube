@@ -41,7 +41,7 @@ define(['jquery', './table-support', './chart-support', './utils', 'bootstrapTab
             {title: 'Duration', field: 'duration', formatter: f.durationFormatter},
             {title: 'Status', field: 'get_reset_status_display'},
             {title: 'Outcome', field: 'get_outcome_display'},
-            {title: 'Detail', field: 'stdout', formatter: f.resetDetailFormatter}
+            {title: 'Detail', field: 'error', formatter: f.resetDetailFormatter}
         ];
 
 
