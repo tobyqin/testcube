@@ -104,3 +104,22 @@ Then add finish command to run last step.
 ```
 testcube-client --finish-run -x "**/results/*.xml" -i "**/*.png"
 ```
+
+## Advanced feature: Reset a test result
+
+TestCube provide the feature to reset a failed test result, there are lots of reason when a test failed, sometimes you want to run the failed test again, **reset** means rerun a failed test.
+
+From test result detail page, you can see a reset tab provide reset feature, before it works, you have to do a few works:
+
+A. Setup a job to process reset work
+  - This job requires varialbes so your test engine can run the failed test case and generate xunit files, e.g. testcase name, environments, result id
+  - Upload the xunits by command: `testcube-client --reset-result 123 -x "**/*.xml"`
+
+B. Add job A as the reset command to a product
+  - Open /api/profiles/ to add a profile to your product, with step A command
+
+C. Setup a job to handle reset tasks automatically, e.g. running every 5 minutes
+  - command: `testcube-client --handle-task`
+
+When you reset a result, TestCube will add a pending task with required variable, job C will handle this task automatically, then run a reset command according to current product profile, if the command has been run successfully, job A will be executed, and pending task will be marked as done. Once job A done, it will upload generated results to TestCube, at the same time, the failed results will be updated to new state, the reset process finished.
+
