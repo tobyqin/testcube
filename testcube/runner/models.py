@@ -1,6 +1,13 @@
 from django.db import models
 
-from testcube.core.models import Product
+from testcube.core.models import Product, TestRun
+
+
+class RunVariables(models.Model):
+    test_run = models.OneToOneField(TestRun, on_delete=models.CASCADE, related_name='run_variables')
+    detail = models.TextField(null=True, default=None)
+    created_on = models.DateTimeField(auto_now_add=True)
+    updated_on = models.DateTimeField(auto_now=True)
 
 
 class Profile(models.Model):
