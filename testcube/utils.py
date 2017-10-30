@@ -54,12 +54,7 @@ def setup_logger(log_dir=None, debug=False):
 
 
 def append_json(origin_txt, field, value):
-    try:
-        obj = json.loads(origin_txt)
-    except:
-        from testcube.settings import logger
-        logger.warning('Cannot parse to json: {}'.format(origin_txt))
-        obj = {}
+    obj = to_json(origin_txt)
 
     if field in obj:
         obj[field] += '|*|' + value
@@ -68,3 +63,12 @@ def append_json(origin_txt, field, value):
         obj[field] = value
 
     return json.dumps(obj)
+
+
+def to_json(data_text):
+    try:
+        return json.loads(data_text)
+    except:
+        from testcube.settings import logger
+        logger.exception('Cannot parse to json: {}'.format(data_text))
+        return {}
