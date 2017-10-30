@@ -9,6 +9,13 @@ from testcube.utils import append_json
 from .serializers import *
 
 
+class RunVariablesViewSet(viewsets.ModelViewSet):
+    queryset = RunVariables.objects.all()
+    serializer_class = RunVariablesSerializer
+    filter_fields = ('test_run',)
+    search_fields = filter_fields
+
+
 class ProfileViewSet(viewsets.ModelViewSet):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
