@@ -167,7 +167,7 @@ class ResetResultDetailSerializer(serializers.ModelSerializer):
         fields = (
             'id', 'stdout', 'get_reset_status_display', 'get_outcome_display',
             'duration', 'run_on', 'reset_on', 'reset_by',
-            'test_client', 'reset_reason')
+            'test_client', 'reset_reason', 'error')
 
         depth = 1
 

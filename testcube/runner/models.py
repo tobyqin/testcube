@@ -1,6 +1,18 @@
 from django.db import models
 
-from testcube.core.models import Product
+from testcube.core.models import Product, TestRun
+from testcube.utils import to_json
+
+
+class RunVariables(models.Model):
+    test_run = models.OneToOneField(TestRun, on_delete=models.CASCADE, related_name='run_variables')
+    data = models.TextField(null=True, default=None)
+    created_on = models.DateTimeField(auto_now_add=True)
+    updated_on = models.DateTimeField(auto_now=True)
+
+    @property
+    def data_json(self):
+        return to_json(self.data)
 
 
 class Profile(models.Model):

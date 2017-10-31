@@ -9,3 +9,4 @@
 8. [ ] better loading experience
 9. [x] refactor js scripts
 10.[>] manage css file via require js
+11.[ ] auto clean up result files

@@ -12,7 +12,7 @@ from ipware.ip import get_ip
 
 from testcube.core.models import TestClient
 
-version = '1.2'
+version = '1.3'
 
 
 @csrf_exempt

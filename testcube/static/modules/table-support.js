@@ -83,8 +83,12 @@ define(['moment', './utils', 'bootstrapTable'], function (moment, utils) {
         return `<a href="${url}" data-toggle="lightbox" data-title="${filename}" data-gallery="result-gallery">${url}</a>`;
     };
 
-    formatter.resetDetailFormatter = function (detail) {
-        return `<a href="#" title="${detail}">View</a>`;
+    formatter.resetDetailFormatter = function (error) {
+        let message = 'Nothing';
+        if (error) {
+            message = error.message + '||' + error.stacktrace + '||' + error.stdout;
+        }
+        return `<a class="reset-result" data-text="${message}">View</a>`;
     };
 
     support.defaultTableOptions = {
