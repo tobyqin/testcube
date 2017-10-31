@@ -1,4 +1,4 @@
-let version = '1.7';
+let version = '1.8';
 
 function jsVersion(id, url) {
     return url.includes('libs/') ? '' : '?v' + version;
