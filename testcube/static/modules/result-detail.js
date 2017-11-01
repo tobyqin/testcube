@@ -146,6 +146,11 @@ define(['jquery', './table-support', './chart-support', './utils', 'bootstrap-di
         }
 
         function resultResetsTableDataHandler(data) {
+            for (let result of data.reset_results) {
+                if (!result.error) {
+                    result.error = result.stdout;
+                }
+            }
             window.app.resultResets = data.reset_results;
             return data.reset_results;
         }
