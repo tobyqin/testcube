@@ -50,7 +50,7 @@
 {% block scripts %}
     <script>
         require(['/static/require-config.js'], function () {
-            console.log('config initialized.')
+            updateSiteVersion();
         });
     </script>
 {% endblock %}

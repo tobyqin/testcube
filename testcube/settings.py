@@ -20,6 +20,7 @@ from testcube.utils import setup_logger
 
 SETTINGS_DIR = dirname(abspath(__file__))
 BASE_DIR = dirname(SETTINGS_DIR)
+VERSION = '1.8'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/

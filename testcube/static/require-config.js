@@ -103,3 +103,11 @@ window.loadingCompleted = function () {
     })
 };
 
+window.updateSiteVersion = function () {
+    require(['jquery'], function ($) {
+        $('#site-version').append(version);
+    })
+};
+
+updateSiteVersion();
+
