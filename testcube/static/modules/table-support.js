@@ -85,7 +85,9 @@ define(['moment', './utils', 'bootstrapTable'], function (moment, utils) {
 
     formatter.resetDetailFormatter = function (error) {
         let message = 'Nothing';
-        if (error) {
+        if (typeof error === 'string') {
+            message = error;
+        } else if (error) {
             message = error.message + '||' + error.stacktrace + '||' + error.stdout;
         }
         return `<a class="reset-result" data-text="${message}">View</a>`;
