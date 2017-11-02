@@ -309,12 +309,15 @@ class ResetResultViewSet(viewsets.ModelViewSet):
 
         instance = self.get_object()
         assert isinstance(instance, ResetResult)
-        required_fields = ['outcome', 'duration', 'run_on', 'test_client']
+        required_fields = ['outcome', 'duration', 'run_on', 'test_client', 'stdout']
         optional_field = ['exception_type', 'message', 'stacktrace', 'stdout', 'stderr']
 
         try:
             for f in required_fields:
                 value = self.request.POST.get(f)
+
+                if f == 'stdout' and not value:
+                    value = 'Nothing in output.'
 
                 if value is None:
                     raise ValueError('Field "{}" is required!'.format(f))
