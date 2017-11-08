@@ -47,7 +47,9 @@ So you have to learn about its client or API later.
 
 ![testcube result](docs/images/testcube-view-result-reason.png)
 
- For more features, please refer to issues page or todo list.
+![testcube reset result](docs/images/testcube-view-result-reset.png)
+
+For more features, please refer to issues page or todo list.
  
 ## Get Started
 

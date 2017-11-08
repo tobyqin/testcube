@@ -105,21 +105,31 @@ Then add finish command to run last step.
 testcube-client --finish-run -x "**/results/*.xml" -i "**/*.png"
 ```
 
-## Advanced feature: Reset a test result
+## Advanced: Reset a test result
 
 TestCube provide the feature to reset a failed test result, there are lots of reason when a test failed, sometimes you want to run the failed test again, **reset** means rerun a failed test.
 
 From test result detail page, you can see a reset tab provide reset feature, before it works, you have to do a few works:
 
 A. Setup a job to process reset work
-  - This job requires varialbes so your test engine can run the failed test case and generate xunit files, e.g. testcase name, environments, result id
+  - This job requires variables so your test engine can run the failed test case and generate xunit files, e.g. testcase name, environments, result id
   - Upload the xunits by command: `testcube-client --reset-result 123 -x "**/*.xml"`
+  - Additionally, you could upload screenshots as well: `testcube-client -i "**/*.png"`
 
-B. Add job A as the reset command to a product
+B. Add a reset profile for target product
   - Open /api/profiles/ to add a profile to your product, with step A command
+  - replace the required variables with context object, for example:
+    + `http://jenkins/jobs/reset-testcube?/buildWithParameters?test={result.testcase.name}&ResetId={reset.id}&ENV={ENV}`
+  - You can use `result`, `reset` and all environment variables for original run in reset command. 
 
 C. Setup a job to handle reset tasks automatically, e.g. running every 5 minutes
   - command: `testcube-client --handle-task`
+  
+D. Reset a failed result in detail page
+  - After above steps done, when you reset a failed reset, TestCube will
+    + Generate a reset task
+    + Job C will handle the task and process reset command
+    + Reset command will trigger job A
+    + Once job A done, it will update target result and reset history
 
-When you reset a result, TestCube will add a pending task with required variable, job C will handle this task automatically, then run a reset command according to current product profile, if the command has been run successfully, job A will be executed, and pending task will be marked as done. Once job A done, it will upload generated results to TestCube, at the same time, the failed results will be updated to new state, the reset process finished.
-
+If you still have more questions, welcome to contact me directly.
