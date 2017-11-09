@@ -32,7 +32,7 @@ define(['jquery', './table-support', './chart-support', 'bootstrapSelect'],
             {title: 'ID', field: 'id', formatter: f.resultIdFormatter, sortable: true},
             {title: 'TestCase', field: 'testcase_info', formatter: f.caseNameFormatter, sortable: true},
             {title: 'Duration', field: 'duration', formatter: f.durationFormatter, sortable: true},
-            {title: 'Assigned To', field: 'assigned_to', sortable: true},
+            {title: 'Stability', field: 'stability'},
             {title: 'Client', field: 'test_client.name', sortable: true},
             {title: 'Outcome', field: 'get_outcome_display', formatter: f.outcomeFormatter, sortable: true}
         ];
