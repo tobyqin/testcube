@@ -1,8 +1,9 @@
-let version = '1.8';
+let version = document.getElementById('site-version').innerText;
 
 function jsVersion(id, url) {
     return url.includes('libs/') ? '' : '?v' + version;
 }
+
 requirejs.config({
     baseUrl: '/static/',
     urlArgs: jsVersion,
@@ -102,12 +103,4 @@ window.loadingCompleted = function () {
         $('#loading-icon').addClass('hidden');
     })
 };
-
-window.updateSiteVersion = function () {
-    require(['jquery'], function ($) {
-        $('#site-version').append(version);
-    })
-};
-
-updateSiteVersion();
 
