@@ -20,7 +20,7 @@ from testcube.utils import setup_logger
 
 SETTINGS_DIR = dirname(abspath(__file__))
 BASE_DIR = dirname(SETTINGS_DIR)
-VERSION = '1.8'
+VERSION = '1.8.1'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
@@ -85,7 +85,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'django.template.context_processors.media'
+                'django.template.context_processors.media',
+                'testcube.context_processors.settings_context_processor'
             ],
             'debug': DEBUG
         },
