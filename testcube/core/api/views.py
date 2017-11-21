@@ -302,13 +302,14 @@ class ResetResultViewSet(viewsets.ModelViewSet):
         1. update current reset result with provided info.
         2. create error object if required.
         3. update original result with latest outcome.
+        4. update original run to passed if all result passed
         """
 
         if request.method == 'GET':
             return self.retrieve(self, request, pk=pk)
 
-        instance = self.get_object()
-        assert isinstance(instance, ResetResult)
+        current_reset = self.get_object()
+        assert isinstance(current_reset, ResetResult)
         required_fields = ['outcome', 'duration', 'run_on', 'test_client', 'stdout']
         optional_field = ['exception_type', 'message', 'stacktrace', 'stdout', 'stderr']
 
@@ -323,35 +324,42 @@ class ResetResultViewSet(viewsets.ModelViewSet):
                     raise ValueError('Field "{}" is required!'.format(f))
 
                 if f == 'duration':
-                    instance.duration = timedelta(seconds=float(value))
+                    current_reset.duration = timedelta(seconds=float(value))
 
                 elif f == 'test_client':
-                    instance.test_client = TestClient.objects.get(id=int(value))
+                    current_reset.test_client = TestClient.objects.get(id=int(value))
 
                 else:
-                    setattr(instance, f, value)
+                    setattr(current_reset, f, value)
 
             has_error = self.request.POST.get(optional_field[0], None)
 
             if has_error:
-                error = ResultError() if not instance.error else instance.error
+                error = ResultError() if not current_reset.error else current_reset.error
 
                 for f in optional_field:
                     value = self.request.POST.get(f, None)
                     setattr(error, f, value)
 
                 error.save()
-                instance.error = error
+                current_reset.error = error
 
-            instance.reset_status = 2  # done
-            instance.save()
-            instance.origin_result.outcome = instance.outcome
-            instance.origin_result.save()
+            # update original result outcome to current reset outcome
+            current_reset.reset_status = 2  # done
+            current_reset.save()
+            current_reset.origin_result.outcome = current_reset.outcome
+            current_reset.origin_result.save()
+
+            # update original run status to passed if no failed result
+            run = current_reset.origin_result.test_run
+            if run.result_failed() == 0:
+                run.status = 0  # passed
+                run.save()
 
             return Response(data={'message': 'Result has been saved.'})
 
         except Exception as e:
             logger.exception('Failed to handle reset result: {}'.format(pk))
-            instance.reset_status = 3  # failed
-            instance.save()
+            current_reset.reset_status = 3  # failed
+            current_reset.save()
             return Response(data={'message': str(e.args)}, status=400)
