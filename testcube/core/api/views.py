@@ -12,6 +12,7 @@ from tagging.models import Tag
 from testcube.settings import logger
 from .filters import *
 from .serializers import *
+from ...utils import get_auto_cleanup_run_days, cleanup_run_media
 
 
 def info_view(self, serializer_class):
@@ -138,6 +139,26 @@ class TestRunViewSet(viewsets.ModelViewSet):
                 logger.info('delete run: {}'.format(run.id))
                 fixed.append(run.id)
                 run.delete()
+
+        return Response(data=fixed)
+
+    @list_route()
+    def archive(self, request):
+        """archive runs = delete old runs via config value."""
+        days = get_auto_cleanup_run_days()
+
+        if days <= 0:
+            return Response(data=[])
+
+        time_threshold = datetime.now() - timedelta(days=days)
+        pending_runs = TestRun.objects.filter(start_time__lt=time_threshold)
+        fixed = []
+
+        for run in pending_runs:
+            logger.info('delete old run: {}'.format(run.id))
+            cleanup_run_media(run.id)
+            fixed.append(run.id)
+            run.delete()
 
         return Response(data=fixed)
 
