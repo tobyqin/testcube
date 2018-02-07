@@ -144,8 +144,12 @@ class TestRunViewSet(viewsets.ModelViewSet):
 
     @list_route()
     def archive(self, request):
-        """clear dead runs, will be called async when user visit run list."""
+        """archive runs = delete old runs via config value."""
         days = get_auto_cleanup_run_days()
+
+        if days <= 0:
+            return Response(data=[])
+
         time_threshold = datetime.now() - timedelta(days=days)
         pending_runs = TestRun.objects.filter(start_time__lt=time_threshold)
         fixed = []
