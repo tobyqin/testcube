@@ -12,6 +12,7 @@ from tagging.models import Tag
 from testcube.settings import logger
 from .filters import *
 from .serializers import *
+from ...utils import get_auto_cleanup_run_days, cleanup_run_media
 
 
 def info_view(self, serializer_class):
@@ -138,6 +139,22 @@ class TestRunViewSet(viewsets.ModelViewSet):
                 logger.info('delete run: {}'.format(run.id))
                 fixed.append(run.id)
                 run.delete()
+
+        return Response(data=fixed)
+
+    @list_route()
+    def archive(self, request):
+        """clear dead runs, will be called async when user visit run list."""
+        days = get_auto_cleanup_run_days()
+        time_threshold = datetime.now() - timedelta(days=days)
+        pending_runs = TestRun.objects.filter(start_time__lt=time_threshold)
+        fixed = []
+
+        for run in pending_runs:
+            logger.info('delete old run: {}'.format(run.id))
+            cleanup_run_media(run.id)
+            fixed.append(run.id)
+            run.delete()
 
         return Response(data=fixed)
 

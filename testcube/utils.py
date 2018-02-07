@@ -3,6 +3,7 @@ import logging
 import sys
 from logging.handlers import RotatingFileHandler
 from os.path import join, exists
+from shutil import rmtree
 
 
 def get_domain():
@@ -13,6 +14,29 @@ def get_domain():
 def get_menu_links():
     from .core.models import Configuration
     return [link for link in Configuration.menu_links()]
+
+
+def get_auto_cleanup_run_days():
+    from .core.models import Configuration
+    from .settings import logger
+    key = 'auto_cleanup_run_after_days'
+    value = Configuration.get(key, 90)
+
+    try:
+        return int(value)
+    except ValueError:
+        logger.exception('config key: {} should be integer!'.format(key))
+        return 90
+
+
+def cleanup_run_media(run_id):
+    from .settings import MEDIA_ROOT, logger
+    run_media_dir = join(MEDIA_ROOT, 'runs/{}'.format(run_id))
+    if exists(run_media_dir):
+        try:
+            rmtree(run_media_dir)
+        except:
+            logger.exception('failed to cleanup run media <{}>'.format(run_id))
 
 
 def read_document(name):

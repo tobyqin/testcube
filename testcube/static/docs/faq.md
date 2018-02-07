@@ -105,7 +105,9 @@ Then add finish command to run last step.
 testcube-client --finish-run -x "**/results/*.xml" -i "**/*.png"
 ```
 
-## Advanced: Reset a test result
+## Advanced Topics
+
+### Reset a test result
 
 TestCube provide the feature to reset a failed test result, there are lots of reason when a test failed, sometimes you want to run the failed test again, **reset** means rerun a failed test.
 
@@ -124,12 +126,31 @@ B. Add a reset profile for target product
 
 C. Setup a job to handle reset tasks automatically, e.g. running every 5 minutes
   - command: `testcube-client --handle-task`
-  
+
 D. Reset a failed result in detail page
   - After above steps done, when you reset a failed reset, TestCube will
     + Generate a reset task
     + Job C will handle the task and process reset command
     + Reset command will trigger job A
     + Once job A done, it will update target result and reset history
+
+### Configurations
+
+By default, when you deploy TestCube there will be default administrator (admin/admin). you can login to admin panel from below address:
+
+- [http://your-site-domain/admin](/admin)
+
+From there you can add/delete/update quite a lot models, for example:
+
+- Groups / Users
+- Configrations / Products / Teams / Test Cases / Test Runs
+
+I put most system configurations in `Configurations` model, in this model, you will be able to update: 
+
+- domain (used to signup a new user)
+- menu link (yes, the main top menu items)
+- auto_cleanup_run_after_days (days to keep the runs results , 0 means forever)
+
+When deploy TestCube, you can configurate a few more things via environment variable, for more detail, please check `env.example` in source folder. 
 
 If you still have more questions, welcome to contact me directly.
