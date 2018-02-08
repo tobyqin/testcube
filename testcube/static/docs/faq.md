@@ -1,8 +1,10 @@
 ## What is TestCube ?
 
-TestCube is a platform to manage and monitor automation test results, it provides a friendly web interface which is build with Python and Django. Project at https://github.com/tobyqin/testcube.
+TestCube is a platform to manage and monitor automation test results, it provides a friendly web interface which is build with Python and Django. 
 
-![TestCube](/static/images/testcube-overview.png)
+> Project: https://github.com/tobyqin/testcube
+
+![TestCube](https://raw.githubusercontent.com/tobyqin/testcube/master/testcube/static/images/testcube-overview.png)
 
 ## Should I use TestCube, how can it help me?
 
@@ -107,7 +109,9 @@ testcube-client --finish-run -x "**/results/*.xml" -i "**/*.png"
 
 ## Advanced Topics
 
-### Reset a test result
+For advanced features, the best way to ping me or find out via source code.
+
+### 1. Reset a test result
 
 TestCube provide the feature to reset a failed test result, there are lots of reason when a test failed, sometimes you want to run the failed test again, **reset** means rerun a failed test.
 
@@ -134,7 +138,7 @@ D. Reset a failed result in detail page
     + Reset command will trigger job A
     + Once job A done, it will update target result and reset history
 
-### Configurations
+### 2. Configurations
 
 By default, when you deploy TestCube there will be default administrator (admin/admin). you can login to admin panel from below address:
 
@@ -153,4 +157,12 @@ I put most system configurations in `Configurations` model, in this model, you w
 
 When deploy TestCube, you can configurate a few more things via environment variable, for more detail, please check `env.example` in source folder. 
 
-If you still have more questions, welcome to contact me directly.
+### 3. Clean up old runs
+
+When TestCube run days after days, there might be a lot of data, a smart way is clean up old runs after specified days. You can do this by TestCube client.
+
+```
+testcube-client --cleanup-runs --days 90
+```
+
+With above command run results 90 ago will be cleaned up, including result files, which will save space and speed up TestCube loading a page.
