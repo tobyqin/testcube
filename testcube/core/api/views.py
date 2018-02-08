@@ -143,14 +143,18 @@ class TestRunViewSet(viewsets.ModelViewSet):
         return Response(data=fixed)
 
     @list_route()
-    def archive(self, request):
-        """archive runs = delete old runs via config value."""
-        days = get_auto_cleanup_run_days()
+    def cleanup(self, request):
+        """cleanup runs = delete old runs via config value."""
+        if 'days' in request.GET:
+            days = int(request.GET.get('days'))
+        else:
+            days = get_auto_cleanup_run_days()
 
         if days <= 0:
             return Response(data=[])
 
-        time_threshold = datetime.now() - timedelta(days=days)
+        logger.info('clean up runs before {} days'.format(days))
+        time_threshold = datetime.now(tz=timezone.utc) - timedelta(days=days)
         pending_runs = TestRun.objects.filter(start_time__lt=time_threshold)
         fixed = []
 

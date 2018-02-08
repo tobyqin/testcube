@@ -80,7 +80,7 @@ def get_or_create_tc(product):
 
 def start_run(product):
     name = get_run_name(product.name)
-    start_time = fake.date_time_between(start_date="-1y", end_date="-7d", tzinfo=timezone.get_current_timezone())
+    start_time = fake.date_time_between(start_date="-60d", end_date="-7d", tzinfo=timezone.get_current_timezone())
     return TestRun.objects.create(product=product, name=name,
                                   owner=product.owner, start_time=start_time,
                                   start_by=product.owner)
