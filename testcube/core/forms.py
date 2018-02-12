@@ -141,8 +141,13 @@ def _parse_command(command, result, reset):
     will be parsed according under current result context.
     """
     try:
+        from testcube.runner.models import RunVariables
+        try:
+            run_variables = result.test_run.run_variables.data_json
+        except RunVariables.DoesNotExist:
+            run_variables = {}
+
         assert isinstance(result, TestResult)
-        run_variables = result.test_run.run_variables.data_json if result.test_run.run_variables else {}
         cmd = command.format(result=result, reset=reset, **run_variables)
         return cmd, None
     except Exception as e:
