@@ -154,7 +154,7 @@ def generate_failed_run():
 
 
 def main():
-    for i in range(100):
+    for i in range(10):
         if fake.boolean(70):
             generate_failed_run()
         else:
