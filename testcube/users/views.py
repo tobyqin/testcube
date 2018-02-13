@@ -12,7 +12,7 @@ def to_next_page(request):
 
 
 def signup(request):
-    if request.user.is_authenticated():
+    if request.user.is_authenticated:
         return to_next_page(request)
 
     if request.method == 'POST':
@@ -30,7 +30,7 @@ def signup(request):
 
 
 def signin(request):
-    if request.user.is_authenticated():
+    if request.user.is_authenticated:
         return to_next_page(request)
 
     if request.method == 'POST':
@@ -59,7 +59,7 @@ def reset_password(request):
 
 
 def user_profile(request):
-    if not request.user.is_authenticated():
+    if not request.user.is_authenticated:
         return to_next_page(request)
 
     if request.method == 'POST':
