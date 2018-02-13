@@ -77,7 +77,7 @@ def result_analysis(request, result_id):
         form = AnalysisForm(data=request.POST)
 
         if form.is_valid():
-            if request.user.is_authenticated():
+            if request.user.is_authenticated:
                 form.save(result_id, request.user.username)
             else:
                 form.add_error('description', 'Login required.')
@@ -98,7 +98,7 @@ def result_reset(request, result_id):
         form = ResetForm(data=request.POST)
 
         if form.is_valid():
-            if request.user.is_authenticated():
+            if request.user.is_authenticated:
                 form.save(result_id, request.user.username)
             else:
                 form.add_error('reason', 'Login required.')
