@@ -49,7 +49,7 @@ TESTCUBE_DSN = environ.get('TESTCUBE_DSN')
 # Sentry config
 RAVEN_CONFIG = {
     'dsn': TESTCUBE_DSN,
-    'release': raven.fetch_git_sha(os.path.abspath(os.curdir)),
+    'release': raven.fetch_git_sha(BASE_DIR),
 }
 
 # Application definition
