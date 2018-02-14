@@ -16,6 +16,8 @@ import sys
 from os import environ
 from os.path import join, dirname, abspath
 
+import raven
+
 from testcube.utils import setup_logger
 
 SETTINGS_DIR = dirname(abspath(__file__))
@@ -42,6 +44,13 @@ STATIC_ROOT = environ.get('TESTCUBE_STATIC_ROOT') or join(BASE_DIR, 'dist')
 MEDIA_URL = environ.get('TESTCUBE_MEDIA_URL') or '/media/'
 MEDIA_ROOT = environ.get('TESTCUBE_MEDIA_ROOT') or join(BASE_DIR, 'media')
 LOG_ROOT = environ.get('TESTCUBE_LOG_ROOT') or BASE_DIR
+TESTCUBE_DSN = environ.get('TESTCUBE_DSN')
+
+# Sentry config
+RAVEN_CONFIG = {
+    'dsn': TESTCUBE_DSN,
+    'release': raven.fetch_git_sha(os.path.abspath(os.curdir)),
+}
 
 # Application definition
 
@@ -61,6 +70,9 @@ INSTALLED_APPS = [
     'testcube.runner',
     'tagging'
 ]
+
+if TESTCUBE_DSN:
+    INSTALLED_APPS.append('raven.contrib.django.raven_compat')
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
