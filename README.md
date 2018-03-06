@@ -147,6 +147,16 @@ coverage html
 open htmlcov/index.html
 ```
 
+## Deployment with Docker
+
+It work on Postgresql with Nginx on port 8082 so if the port is allocated or want to use different database, update them in docker-compose.yml.
+
+### Run docker-compose
+```
+cd path/to/testcube
+docker-compose up
+```
+
 ## FAQ
 
 More questions about TestCube will be answered at  [FAQ](/testcube/static/docs/faq.md). 
