@@ -1,0 +1,34 @@
+version: '2'
+
+services:
+  nginx:
+    image: nginx:latest
+    container_name: ng01
+    ports:
+      - 8082:8000
+    volumes:
+      - .:/code
+      - ./config/nginx:/etc/nginx/conf.d
+    depends_on:
+      - web
+  db:
+    container_name: postgres-testcube
+    restart: always
+    image: postgres:latest
+    volumes:
+      - "database:/var/lib/postgresql/data"
+    ports:
+      - 5433:5432
+  web:
+    build: .
+    command: bash -c "python3 manage.py collectstatic --noinput && python3 manage.py makemigrations && python3 manage.py migrate && python3 manage.py runserver 0.0.0.0:8082"
+    volumes:
+      - .:/code
+    ports:
+      - 8082
+    depends_on:
+      - db
+
+volumes:
+  database:
+
