@@ -149,7 +149,7 @@ open htmlcov/index.html
 
 ## Deployment with Docker
 
-It work on Postgresql with Nginx on port 8082 so if the port is allocated or want to use different database, update them in docker-compose.yml.
+It works with Postgresql and Nginx on port 4000 so if the port is allocated or want to use different database, update them in docker-compose.yml.
 
 ### Run docker-compose
 ```

@@ -5,7 +5,7 @@ services:
     image: nginx:latest
     container_name: ng01
     ports:
-      - 8082:8000
+      - "0.0.0.0:4000:4000"
     volumes:
       - .:/code
       - ./config/nginx:/etc/nginx/conf.d
@@ -18,14 +18,14 @@ services:
     volumes:
       - "database:/var/lib/postgresql/data"
     ports:
-      - 5433:5432
+      - 5432:5432
   web:
     build: .
-    command: bash -c "python3 manage.py collectstatic --noinput && python3 manage.py makemigrations && python3 manage.py migrate && python3 manage.py runserver 0.0.0.0:8082"
+    command: bash -c "python3 manage.py collectstatic --noinput && python3 manage.py makemigrations && python3 manage.py migrate && python3 manage.py runserver 0.0.0.0:4000"
     volumes:
       - .:/code
     ports:
-      - 8082
+      - 4000
     depends_on:
       - db
 
