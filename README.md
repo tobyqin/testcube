@@ -147,6 +147,16 @@ coverage html
 open htmlcov/index.html
 ```
 
+## Deployment with Docker
+
+It works with Postgresql and Nginx on port 4000 so if the port is allocated or want to use different database, update them in docker-compose.yml.
+
+### Run docker-compose
+```
+cd path/to/testcube
+docker-compose up
+```
+
 ## FAQ
 
 More questions about TestCube will be answered at  [FAQ](/testcube/static/docs/faq.md). 
