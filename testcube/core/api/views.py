@@ -3,7 +3,7 @@ from datetime import datetime, timezone, timedelta
 
 from django.db.models import Q
 from rest_framework import viewsets
-from rest_framework.decorators import detail_route, list_route
+from rest_framework.decorators import action
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
@@ -42,7 +42,7 @@ class TeamViewSet(viewsets.ModelViewSet):
     filter_fields = ('name', 'owner')
     search_fields = filter_fields
 
-    @list_route()
+    @action(detail=False)
     def recent(self, request):
         """get recent teams"""
         self.queryset = Team.objects.order_by('name').all()
@@ -56,14 +56,14 @@ class ProductViewSet(viewsets.ModelViewSet):
     filter_fields = ('name', 'owner', 'version', 'team')
     search_fields = ('name', 'owner', 'version')
 
-    @list_route()
+    @action(detail=False)
     def recent(self, request):
         """get recent teams"""
         self.queryset = Product.objects.order_by('name').all()
         self.serializer_class = ProductListSerializer
         return list_view(self)
 
-    @detail_route(methods=['get'])
+    @action(methods=['get'], detail=True)
     def tags(self, request, pk=None):
         product = self.get_object()
         case_query = TestCase.objects.filter(product_id=product.id).all()
@@ -93,11 +93,11 @@ class TestRunViewSet(viewsets.ModelViewSet):
     filter_fields = ('name', 'state', 'status', 'owner', 'product')
     search_fields = ('name', 'owner')
 
-    @detail_route(methods=['get'])
+    @action(methods=['get'], detail=True)
     def info(self, request, pk=None):
         return info_view(self, TestRunDetailSerializer)
 
-    @detail_route(methods=['get'])
+    @action(methods=['get'], detail=True)
     def tags(self, request, pk=None):
         run = self.get_object()
         case_query = TestCase.objects.filter(results__test_run_id=run.id).all()
@@ -112,14 +112,14 @@ class TestRunViewSet(viewsets.ModelViewSet):
 
         return Response(data=tags)
 
-    @list_route()
+    @action(detail=False)
     def recent(self, request):
         """get recent runs, in run list view"""
         self.serializer_class = TestRunListSerializer
         self.filter_class = TestRunFilter
         return list_view(self)
 
-    @list_route()
+    @action(detail=False)
     def clear(self, request):
         """clear dead runs, will be called async when user visit run list."""
         pending_runs = TestRun.objects.filter(state__lt=2)  # not ready, starting, running
@@ -142,7 +142,7 @@ class TestRunViewSet(viewsets.ModelViewSet):
 
         return Response(data=fixed)
 
-    @list_route()
+    @action(detail=False)
     def cleanup(self, request):
         """cleanup runs = delete old runs via config value."""
         if 'days' in request.GET:
@@ -166,7 +166,7 @@ class TestRunViewSet(viewsets.ModelViewSet):
 
         return Response(data=fixed)
 
-    @detail_route(methods=['get'])
+    @action(methods=['get'], detail=True)
     def history(self, request, pk=None):
         """get run history, will be used in run detail page."""
         instance = self.get_object()
@@ -182,12 +182,12 @@ class TestCaseViewSet(viewsets.ModelViewSet):
     filter_fields = ('name', 'full_name', 'keyword', 'priority', 'owner', 'product')
     search_fields = ('name', 'full_name', 'keyword')
 
-    @detail_route(methods=['get'])
+    @action(methods=['get'], detail=True)
     def info(self, request, pk=None):
         """query result info, use for result detail page."""
         return info_view(self, TestCaseDetailSerializer)
 
-    @detail_route(methods=['get', 'post'])
+    @action(methods=['get', 'post'], detail=True)
     def tags(self, request, pk=None):
         """query result tags"""
         from tagging.models import Tag
@@ -210,14 +210,14 @@ class TestCaseViewSet(viewsets.ModelViewSet):
         tags = [t.name for t in instance.tags]
         return Response(data=tags)
 
-    @list_route()
+    @action(detail=False)
     def recent(self, request):
         """get recent testcase, use for test case page."""
         self.serializer_class = TestCaseListSerializer
         self.filter_class = TestCaseFilter
         return list_view(self)
 
-    @detail_route(methods=['get'])
+    @action(methods=['get'], detail=True)
     def history(self, request, pk=None):
         """get test case history, use in test case view or result detail view."""
         instance = self.get_object()
@@ -233,22 +233,22 @@ class TestResultViewSet(viewsets.ModelViewSet):
     filter_fields = ('outcome', 'assigned_to')
     search_fields = filter_fields
 
-    @detail_route(methods=['get'])
+    @action(methods=['get'], detail=True)
     def info(self, request, pk=None):
         """query result info, use for result detail page."""
         return info_view(self, TestResultDetailSerializer)
 
-    @detail_route(methods=['get'])
+    @action(methods=['get'], detail=True)
     def files(self, request, pk=None):
         """query result files, use for result detail page."""
         return info_view(self, TestResultFilesSerializer)
 
-    @detail_route(methods=['get'])
+    @action(methods=['get'], detail=True)
     def resets(self, request, pk=None):
         """query result reset history, use for result detail page."""
         return info_view(self, TestResultResetHistorySerializer)
 
-    @list_route()
+    @action(detail=False)
     def recent(self, request):
         """get recent runs, in run list view"""
         self.serializer_class = TestResultListSerializer
@@ -303,7 +303,7 @@ class ResetResultViewSet(viewsets.ModelViewSet):
     filter_fields = ('id',)
     search_fields = filter_fields
 
-    @list_route()
+    @action(detail=False)
     def clear(self, request):
         """clear dead results and reset tasks, will be called async when user visit run detail page."""
         pending_resets = ResetResult.objects.filter(reset_status__lt=2)  # none, in progress
@@ -320,7 +320,7 @@ class ResetResultViewSet(viewsets.ModelViewSet):
 
         return Response(data=fixed)
 
-    @detail_route(methods=['get', 'post'])
+    @action(methods=['get', 'post'], detail=True)
     def handler(self, request, pk=None):
         """
         Handle single reset result.

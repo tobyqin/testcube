@@ -1,7 +1,7 @@
 from datetime import datetime, timezone
 
 from rest_framework import viewsets
-from rest_framework.decorators import list_route, detail_route
+from rest_framework.decorators import action
 from rest_framework.response import Response
 
 from testcube.settings import logger
@@ -29,7 +29,7 @@ class TaskViewSet(viewsets.ModelViewSet):
     filter_fields = ('description', 'object_name', 'object_id', 'status', 'command')
     search_fields = filter_fields
 
-    @list_route()
+    @action(detail=False)
     def clear(self, request):
         """clear dead tasks, will be called async when user visit run detail page."""
 
@@ -47,7 +47,7 @@ class TaskViewSet(viewsets.ModelViewSet):
 
         return Response(data=fixed)
 
-    @list_route()
+    @action(detail=False)
     def pending(self, request):
         """get top pending task if existed."""
 
@@ -59,7 +59,7 @@ class TaskViewSet(viewsets.ModelViewSet):
         else:
             return Response(data=None, status=204)
 
-    @detail_route(methods=['get', 'post'])
+    @action(methods=['get', 'post'], detail=True)
     def handler(self, request, pk=None):
         """handle task with required info."""
 
