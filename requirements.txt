@@ -1,12 +1,12 @@
 # basic
 django
 djangorestframework
-markdown
 django-filter
 django-bootstrap-form
 django-ipware
 djangorestframework-filters
 django-tagging
+raven
 
 # for development
 django-debug-toolbar

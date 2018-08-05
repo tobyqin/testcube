@@ -47,7 +47,9 @@ So you have to learn about its client or API later.
 
 ![testcube result](docs/images/testcube-view-result-reason.png)
 
- For more features, please refer to issues page or todo list.
+![testcube reset result](docs/images/testcube-view-result-reset.png)
+
+For more features, please refer to issues page or todo list.
  
 ## Get Started
 
@@ -143,6 +145,16 @@ To check your test coverage, and generate an HTML coverage report, please run:
 coverage run manage.py test
 coverage html
 open htmlcov/index.html
+```
+
+## Deployment with Docker
+
+It works with Postgresql and Nginx on port 4000 so if the port is allocated or want to use different database, update them in docker-compose.yml.
+
+### Run docker-compose
+```
+cd path/to/testcube
+docker-compose up
 ```
 
 ## FAQ

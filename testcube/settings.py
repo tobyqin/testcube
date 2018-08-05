@@ -16,10 +16,13 @@ import sys
 from os import environ
 from os.path import join, dirname, abspath
 
+import raven
+
 from testcube.utils import setup_logger
 
 SETTINGS_DIR = dirname(abspath(__file__))
 BASE_DIR = dirname(SETTINGS_DIR)
+VERSION = '1.8.1'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
@@ -41,6 +44,13 @@ STATIC_ROOT = environ.get('TESTCUBE_STATIC_ROOT') or join(BASE_DIR, 'dist')
 MEDIA_URL = environ.get('TESTCUBE_MEDIA_URL') or '/media/'
 MEDIA_ROOT = environ.get('TESTCUBE_MEDIA_ROOT') or join(BASE_DIR, 'media')
 LOG_ROOT = environ.get('TESTCUBE_LOG_ROOT') or BASE_DIR
+TESTCUBE_DSN = environ.get('TESTCUBE_DSN')
+
+# Sentry config
+RAVEN_CONFIG = {
+    'dsn': TESTCUBE_DSN,
+    'release': raven.fetch_git_sha(BASE_DIR),
+}
 
 # Application definition
 
@@ -57,8 +67,12 @@ INSTALLED_APPS = [
     'bootstrapform',
     'testcube.core',
     'testcube.users',
+    'testcube.runner',
     'tagging'
 ]
+
+if TESTCUBE_DSN:
+    INSTALLED_APPS.append('raven.contrib.django.raven_compat')
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -83,7 +97,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'django.template.context_processors.media'
+                'django.template.context_processors.media',
+                'testcube.context_processors.settings_context_processor'
             ],
             'debug': DEBUG
         },
@@ -151,6 +166,7 @@ REST_FRAMEWORK = {
         'rest_framework.filters.SearchFilter',
         'rest_framework.filters.OrderingFilter'
     ),
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 20
 }
 

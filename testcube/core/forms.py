@@ -1,6 +1,10 @@
+import json
+
 from django import forms
 
-from .models import ResultAnalysis, Issue, TestResult
+from testcube.settings import logger
+from .models import ResultAnalysis, Issue, TestResult, ResetResult
+from ..runner.models import Task
 
 
 class AnalysisForm(forms.Form):
@@ -19,6 +23,7 @@ class AnalysisForm(forms.Form):
                                              'placeholder': 'Why the test failed?'}))
 
     def load(self, result_id):
+        """add initial field value when load the form"""
         result = TestResult.objects.get(id=result_id)
         self.need_analysis = result.outcome != 0
         self.fields['reason'].initial = 0
@@ -30,6 +35,11 @@ class AnalysisForm(forms.Form):
             self.fields['issue_id'].initial = result.issue_id()
 
     def save(self, result_id, username):
+        """
+        to save the analysis form, we will:
+        1. create analysis object then link to result id
+        2. create issue object if issue id was added
+        """
         result = TestResult.objects.get(id=result_id)
         self.need_analysis = result.outcome != 0
         if result:
@@ -63,3 +73,86 @@ class AnalysisForm(forms.Form):
 
         else:
             self.add_error('description', 'Bad result id: ' + result_id)
+
+
+class ResetForm(forms.Form):
+    reason = forms.CharField(label='Reason',
+                             required=True,
+                             widget=forms.TextInput(
+                                 attrs={'placeholder': 'Why do you want to reset this result?'}))
+
+    def save(self, result_id, username):
+        """
+        main reset logic:
+        0. check if reset is in progress, return with error message
+        1. get reset profile via result/testcase/product/profile
+        2. add a reset task in runner/task
+        3. add a reset result in core/reset_result with [in progress] status
+        """
+        result = TestResult.objects.get(id=result_id)
+        reason = self.cleaned_data.get('reason')
+
+        if result.is_reset_in_progress():
+            self.add_error('reason', 'Reset is in progress, please wait...')
+            return
+
+        profile = result.get_reset_profile()
+
+        if not profile:
+            self.add_error('reason', 'Please configure reset profile at first.')
+            return
+
+        # add reset result object
+        reset = ResetResult(reset_by=username,
+                            reset_reason=reason,
+                            reset_status=1,  # in progress
+                            origin_result=result)
+
+        # if reset with error, abort tasks
+        cmd, error = _parse_command(profile.command, result, reset)
+        if error:
+            self.add_error('reason', 'Failed to reset result {}'.format(error))
+            return
+
+        reset.save()
+
+        # now generate cmd with real reset id
+        cmd = _parse_command(profile.command, result, reset)[0]
+
+        # add reset task object
+        data = {'result_id': result_id,
+                'reset_id': reset.id,
+                'reason': reason,
+                'by': username}
+
+        task = Task(object_name='TestResult',
+                    object_id=result_id,
+                    description='ResetResult',
+                    command=cmd,
+                    data=json.dumps(data))
+
+        task.save()
+
+
+def _parse_command(command, result, reset):
+    """
+    method to parse reset command.
+    for example: http://server/reset_job?testcase={result.testcase.name}&result_id={result.id}
+    will be parsed according under current result context.
+    """
+    try:
+        from testcube.runner.models import RunVariables
+        try:
+            run_variables = result.test_run.run_variables.data_json
+        except RunVariables.DoesNotExist:
+            run_variables = {}
+
+        assert isinstance(result, TestResult)
+        cmd = command.format(result=result, reset=reset, **run_variables)
+        return cmd, None
+    except Exception as e:
+        logger.exception('Failed to parse command: {}'.format(command))
+
+        message = 'while parsing command "{}" due to {}: {}'.format(
+            command, type(e).__name__, e.args)
+        return command, message

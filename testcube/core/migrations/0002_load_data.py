@@ -10,6 +10,7 @@ def forwards(apps, schema_editor):
         Configuration(key='menu_link', value='Link1|http://your-url.com'),
         Configuration(key='menu_link', value='Link2|http://your-url.com'),
         Configuration(key='menu_link', value='Link3|http://your-url.com'),
+        Configuration(key='auto_cleanup_run_after_days', value='90')
     ])
 
     User = apps.get_model('auth', 'User')

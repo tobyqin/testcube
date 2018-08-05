@@ -1,8 +1,9 @@
-let version = '1.6';
+let version = document.getElementById('site-version').innerText;
 
 function jsVersion(id, url) {
     return url.includes('libs/') ? '' : '?v' + version;
 }
+
 requirejs.config({
     baseUrl: '/static/',
     urlArgs: jsVersion,

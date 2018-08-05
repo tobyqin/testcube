@@ -1,5 +1,5 @@
-define(['jquery', './table-support', './chart-support', './utils', 'bootstrapTable', 'bootstrapSelect'],
-    function ($, support, chart, utils) {
+define(['jquery', './table-support', './chart-support', './utils', 'bootstrap-dialog', 'bootstrapTable', 'bootstrapSelect'],
+    function ($, support, chart, utils, BootstrapDialog) {
 
         "use strict";
         let f = support.formatter;
@@ -31,6 +31,17 @@ define(['jquery', './table-support', './chart-support', './utils', 'bootstrapTab
             {title: 'Time', field: 'time', formatter: f.timeFormatter},
             {title: 'Name', field: 'url', formatter: f.imageUrlFormatter},
             {title: 'Size', field: 'size'}
+        ];
+
+        let resultResetsColumns = [
+            {title: 'By', field: 'reset_by'},
+            {title: 'Reason', field: 'reset_reason'},
+            {title: 'Reset Time', field: 'reset_on', formatter: f.timeFormatter},
+            {title: 'Run Time', field: 'run_on', formatter: f.timeFormatter},
+            {title: 'Duration', field: 'duration', formatter: f.durationFormatter},
+            {title: 'Status', field: 'get_reset_status_display'},
+            {title: 'Outcome', field: 'get_outcome_display'},
+            {title: 'Detail', field: 'error', formatter: f.resetDetailFormatter}
         ];
 
 
@@ -72,6 +83,17 @@ define(['jquery', './table-support', './chart-support', './utils', 'bootstrapTab
                 columns: resultFilesColumns
             });
 
+            $('#result-resets').bootstrapTable({
+                url: `/api/results/${result.id}/resets/`,
+                responseHandler: resultResetsTableDataHandler,
+                search: false,
+                pagination: false,
+                sortable: false,
+                showFooter: false,
+                columns: resultResetsColumns,
+                onPostBody: setupResetResultDetailViewEvent
+            });
+
             if (result.testcase) {
                 let nav = `${result.id} - ${result.testcase.name}`;
                 $('#result-nav').empty().append(nav);
@@ -91,6 +113,23 @@ define(['jquery', './table-support', './chart-support', './utils', 'bootstrapTab
             }
         }
 
+        function setupResetResultDetailViewEvent() {
+            $('.reset-result').click(function () {
+                waitForLoading();
+                let output = $(this).attr('data-text');
+                output = output.replace('||', '\n\n').replace('||', '\n---------- OUTPUT --------\n');
+                let detail = `<pre><code data-language="log">${output}</code></pre>`;
+                BootstrapDialog.show({
+                    title: 'Reset Detail',
+                    message: detail,
+                    size: BootstrapDialog.SIZE_WIDE
+                });
+
+                utils.startLogHighlight();
+                loadingCompleted();
+            });
+        }
+
         function resultHistoryTableDataHandler(data) {
             window.app.resultHistory = data;
             return data.results;
@@ -104,6 +143,16 @@ define(['jquery', './table-support', './chart-support', './utils', 'bootstrapTab
                 $("a[href='#tab-files']").hide();
             }
             return data.files;
+        }
+
+        function resultResetsTableDataHandler(data) {
+            for (let result of data.reset_results) {
+                if (!result.error) {
+                    result.error = result.stdout;
+                }
+            }
+            window.app.resultResets = data.reset_results;
+            return data.reset_results;
         }
 
         function renderResultDetailPage(resultId) {
@@ -121,8 +170,33 @@ define(['jquery', './table-support', './chart-support', './utils', 'bootstrapTab
             });
         }
 
+        function postFormAsync(formSelector) {
+            $(formSelector).submit(function (event) {
+                $.ajax({
+                    url: $(formSelector).attr('action'),
+                    type: 'post',
+                    dataType: 'application/json',
+                    data: $(formSelector).serialize(),
+                    async: true,
+                    complete: function (xhr) {
+
+                        let messageCls = 'text-danger';
+                        if (xhr.status === 200) {
+                            messageCls = 'text-success';
+                        }
+                        $(formSelector + '-message').empty()
+                            .append(xhr.responseText)
+                            .removeClass().addClass(messageCls);
+                    }
+                });
+                event.preventDefault();
+                return false;
+            });
+        }
+
         return {
-            renderResultDetailPage: renderResultDetailPage
+            renderResultDetailPage: renderResultDetailPage,
+            postFormAsync: postFormAsync
         };
 
     });

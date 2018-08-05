@@ -51,7 +51,9 @@ define(['moment', './utils', 'bootstrapTable'], function (moment, utils) {
     };
 
     formatter.timeFormatter = function (time) {
-        return moment(time).calendar();
+        let out = moment(time).calendar();
+        if (out === 'Invalid date') return '…(⊙_⊙;)…';
+        return out;
     };
 
     formatter.durationFormatter = function (duration) {
@@ -79,6 +81,16 @@ define(['moment', './utils', 'bootstrapTable'], function (moment, utils) {
     formatter.imageUrlFormatter = function (url) {
         let filename = /[^\/]*$/.exec(url)[0];
         return `<a href="${url}" data-toggle="lightbox" data-title="${filename}" data-gallery="result-gallery">${url}</a>`;
+    };
+
+    formatter.resetDetailFormatter = function (error) {
+        let message = 'Nothing';
+        if (typeof error === 'string') {
+            message = error;
+        } else if (error) {
+            message = error.message + '||' + error.stacktrace + '||' + error.stdout;
+        }
+        return `<a class="reset-result" data-text="${message}">View</a>`;
     };
 
     support.defaultTableOptions = {

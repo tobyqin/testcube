@@ -1,8 +1,10 @@
 ## What is TestCube ?
 
-TestCube is a platform to manage and monitor automation test results, it provides a friendly web interface which is build with Python and Django. Project at https://github.com/tobyqin/testcube.
+TestCube is a platform to manage and monitor automation test results, it provides a friendly web interface which is build with Python and Django. 
 
-![TestCube](/static/images/testcube-overview.png)
+> Project: https://github.com/tobyqin/testcube
+
+![TestCube](https://raw.githubusercontent.com/tobyqin/testcube/master/testcube/static/images/testcube-overview.png)
 
 ## Should I use TestCube, how can it help me?
 
@@ -104,3 +106,63 @@ Then add finish command to run last step.
 ```
 testcube-client --finish-run -x "**/results/*.xml" -i "**/*.png"
 ```
+
+## Advanced Topics
+
+For advanced features, the best way to ping me or find out via source code.
+
+### 1. Reset a test result
+
+TestCube provide the feature to reset a failed test result, there are lots of reason when a test failed, sometimes you want to run the failed test again, **reset** means rerun a failed test.
+
+From test result detail page, you can see a reset tab provide reset feature, before it works, you have to do a few works:
+
+A. Setup a job to process reset work
+  - This job requires variables so your test engine can run the failed test case and generate xunit files, e.g. testcase name, environments, result id
+  - Upload the xunits by command: `testcube-client --reset-result 123 -x "**/*.xml"`
+  - Additionally, you could upload screenshots as well: `testcube-client -i "**/*.png"`
+
+B. Add a reset profile for target product
+  - Open /api/profiles/ to add a profile to your product, with step A command
+  - replace the required variables with context object, for example:
+    + `http://jenkins/jobs/reset-testcube?/buildWithParameters?test={result.testcase.name}&ResetId={reset.id}&ENV={ENV}`
+  - You can use `result`, `reset` and all environment variables for original run in reset command. 
+
+C. Setup a job to handle reset tasks automatically, e.g. running every 5 minutes
+  - command: `testcube-client --handle-task`
+
+D. Reset a failed result in detail page
+  - After above steps done, when you reset a failed reset, TestCube will
+    + Generate a reset task
+    + Job C will handle the task and process reset command
+    + Reset command will trigger job A
+    + Once job A done, it will update target result and reset history
+
+### 2. Configurations
+
+By default, when you deploy TestCube there will be default administrator (admin/admin). you can login to admin panel from below address:
+
+- [http://your-site-domain/admin](/admin)
+
+From there you can add/delete/update quite a lot models, for example:
+
+- Groups / Users
+- Configrations / Products / Teams / Test Cases / Test Runs
+
+I put most system configurations in `Configurations` model, in this model, you will be able to update: 
+
+- domain (used to signup a new user)
+- menu link (yes, the main top menu items)
+- auto_cleanup_run_after_days (days to keep the runs results , 0 means forever)
+
+When deploy TestCube, you can configurate a few more things via environment variable, for more detail, please check `env.example` in source folder. 
+
+### 3. Clean up old runs
+
+When TestCube run days after days, there might be a lot of data, a smart way is clean up old runs after specified days. You can do this by TestCube client.
+
+```
+testcube-client --cleanup-runs --days 90
+```
+
+With above command run results 90 ago will be cleaned up, including result files, which will save space and speed up TestCube loading a page.

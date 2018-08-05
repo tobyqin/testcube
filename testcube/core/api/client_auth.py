@@ -11,8 +11,7 @@ from django.views.decorators.csrf import csrf_exempt
 from ipware.ip import get_ip
 
 from testcube.core.models import TestClient
-
-version = '1.1'
+from testcube.settings import VERSION
 
 
 @csrf_exempt
@@ -54,6 +53,6 @@ def register(request):
                      'first_time_register': created})
 
     else:
-        return HttpResponse(content=version)
+        return HttpResponse(content=VERSION)
 
     return HttpResponseBadRequest('Failed to register testcube!')

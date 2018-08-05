@@ -1,9 +1,11 @@
 import json
+import os
 
 from django.contrib.auth.models import User
 from django.test import TestCase as TC, Client
 
 from testcube.core.models import Configuration, TestCase, Team, Product, TestResult, TestRun, TestClient
+from testcube.runner.models import RunVariables
 
 
 class ModelsTestCase(TC):
@@ -111,3 +113,11 @@ class ModelsTestCase(TC):
         r = self.client.get(api)
         expected = [('tag3', 2), ('tag4', 2), ('tag5', 2), ('tag1', 1), ('tag2', 1)]
         assert r.data == expected, r.data
+
+    def test_use_run_variables(self):
+        self.client.login(username='admin', password='admin')
+        run = TestRun.objects.create(name='test-run', owner='test', start_by='test', product=self.product)
+        env_vars = json.dumps(dict(os.environ))
+        var = RunVariables.objects.create(test_run=run, data=env_vars)
+        assert var.data == env_vars
+        assert isinstance(var.data_json, dict)
