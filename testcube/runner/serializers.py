@@ -8,6 +8,7 @@ class RunVariablesSerializer(serializers.HyperlinkedModelSerializer):
         model = RunVariables
         fields = '__all__'
 
+
 class ProfileSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Profile
