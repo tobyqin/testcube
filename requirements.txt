@@ -1,12 +1,12 @@
 # basic
-django
-djangorestframework
-django-filter
-django-bootstrap-form
-django-ipware
-djangorestframework-filters
-django-tagging
-raven
+django==2.0.8
+djangorestframework==3.8.2
+django-filter==1.1.0
+django-bootstrap-form==3.4
+django-ipware==2.1.0
+djangorestframework-filters==0.10.2
+django-tagging==0.4.6
+raven==6.9.0
 
 # for development
 django-debug-toolbar

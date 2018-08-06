@@ -217,7 +217,7 @@ class TestCaseViewSet(viewsets.ModelViewSet):
         self.filter_class = TestCaseFilter
         return list_view(self)
 
-    @action(methods=['get'], detail=False)
+    @action(methods=['get'], detail=True)
     def history(self, request, pk=None):
         """get test case history, use in test case view or result detail view."""
         instance = self.get_object()
