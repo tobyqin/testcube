@@ -1,0 +1,10 @@
+# include basic requirements
+-r ./requirements.txt
+
+# for development
+django-debug-toolbar
+
+# for unit testing
+coverage
+django-coverage-plugin
+faker
