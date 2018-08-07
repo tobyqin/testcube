@@ -59,7 +59,7 @@ Basically, there are 3 steps to run TestCube:
 2. Install TestCube client to upload test results files. (*.xml)
 3. Review and analyze results from TestCube website.
 
-TestCube is built on Python, but it does not limit clients and users are Python-required.
+TestCube is built on Python, but it does not limit clients and users are Python-based.
 
 ### Project Links
 
@@ -129,6 +129,13 @@ On target server, A best practice is setting environment variables as [example](
 ## Join Development
 
 This project is still under development, welcome to fork and send pull request.
+
+### Install Dev requirements
+
+Install additional dependencies to setup dev environment.
+```
+pip install -r requirements-dev.txt
+```
 
 ### Unit tests
 
