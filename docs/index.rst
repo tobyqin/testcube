@@ -1,26 +1,15 @@
-.. Test Cube documentation master file, created by
-   sphinx-quickstart.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
+TestCube 中文文档
+================
 
-Welcome to TestCube's documentation!
-====================================
+TestCube 是一个用于管理自动化测试结果的平台，基于Python和Django搭建。
+由于软件领域很多术语用英文描述更准备（不别扭），所以该软件并没有中文化，有能力的同学建议直接阅读和使用英文文档。
 
-Contents:
+- https://github.com/tobyqin/testcube/blob/master/README.md。
+
+**开始阅读：**
 
 .. toctree::
    :maxdepth: 2
 
-   install
-   deploy
-   docker_ec2
-   tests
+   intro-chs.md
 
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
