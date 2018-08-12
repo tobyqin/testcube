@@ -1,12 +1,12 @@
+## TestCube
+
 [![Build Status](https://img.shields.io/travis/tobyqin/testcube.svg)](https://travis-ci.org/tobyqin/testcube) 
 [![codecov](https://codecov.io/gh/tobyqin/testcube/branch/master/graph/badge.svg)](https://codecov.io/gh/tobyqin/testcube)
 [![Code Climate](https://img.shields.io/codeclimate/github/tobyqin/testcube.svg)](https://codeclimate.com/github/tobyqin/testcube)
 [![GitHub tag](https://img.shields.io/github/tag/tobyqin/testcube.svg)](https://github.com/tobyqin/testcube/releases) 
 ![Python Version](https://img.shields.io/badge/python-3.5-green.svg)
 
-## TestCube
-
-![testcube overview](docs/images/testcube-life-cycle.png)
+![testcube overview](images/testcube-life-cycle.png)
 
 TestCube is a platform to manage and monitor automation test run and results, it provides a friendly web interface which is build with Python and Django.
 
@@ -26,28 +26,28 @@ So you have to learn about its client or API later.
 
 ### 1. Manage test run in one page
 
-![testcube runs](docs/images/testcube-view-runs.png)
+![testcube runs](images/testcube-view-runs.png)
 
 
 ### 2. Analyze and view test reports
 
-![testcube report](docs/images/testcube-view-run-detail.png)
+![testcube report](images/testcube-view-run-detail.png)
 
 ### 3. Tag test case and show coverage
 
-![testcube tags](docs/images/testcube-view-testcase-detail.png)
+![testcube tags](images/testcube-view-testcase-detail.png)
 
-![testcube coveage](docs/images/testcube-view-run-coverage.png)
+![testcube coveage](images/testcube-view-run-coverage.png)
 
 ### 4. Analyze test result in a nice way
 
-![testcube result](docs/images/testcube-view-result-detail.png)
+![testcube result](images/testcube-view-result-detail.png)
 
-![testcube result](docs/images/testcube-view-result-log.png)
+![testcube result](images/testcube-view-result-log.png)
 
-![testcube result](docs/images/testcube-view-result-reason.png)
+![testcube result](images/testcube-view-result-reason.png)
 
-![testcube reset result](docs/images/testcube-view-result-reset.png)
+![testcube reset result](images/testcube-view-result-reset.png)
 
 For more features, please refer to issues page or todo list.
  
