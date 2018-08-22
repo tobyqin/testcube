@@ -96,3 +96,7 @@ def to_json(data_text):
         from testcube.settings import logger
         logger.exception('Cannot parse to json: {}'.format(data_text))
         return {}
+
+
+def object_to_dict(obj):
+    return {k: v for k, v in obj.__dict__.items() if not k.startswith('_')}

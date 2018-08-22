@@ -12,7 +12,7 @@ from tagging.models import Tag
 from testcube.settings import logger
 from .filters import *
 from .serializers import *
-from ...utils import get_auto_cleanup_run_days, cleanup_run_media
+from ...utils import get_auto_cleanup_run_days, cleanup_run_media, object_to_dict
 
 
 def info_view(self, serializer_class):
@@ -65,8 +65,8 @@ class ProductViewSet(viewsets.ModelViewSet):
 
     @action(methods=['get'], detail=True)
     def tags(self, request, pk=None):
-        product = self.get_object()
-        case_query = TestCase.objects.filter(product_id=product.id).all()
+        prod = self.get_object()
+        case_query = TestCase.objects.filter(product_id=prod.id).all()
         tags = Tag.objects.usage_for_queryset(case_query)
         tags = [t.name for t in tags]
         return Response(data=tags)
@@ -181,18 +181,57 @@ class TestRunViewSet(viewsets.ModelViewSet):
         try:
             team_data = request.data['product'].pop('team')
             product_data = request.data.pop('product')
-            source_data = request.data.pop('source')
+            source_data = request.data.pop('source', None)
             run_data = request.data
-            team, _ = Team.objects.get_or_create(**team_data)
-            product_data['team'] = team
-            product, _ = Product.objects.get_or_create(**product_data)
-            source, _ = ObjectSource.objects.get_or_create(**source_data)
-            run_data['product'] = product
-            run_data['source'] = source
-            run = TestRun.objects.create(**run_data)
+            team_obj, _ = Team.objects.get_or_create(**team_data)
+            product_data['team'] = team_obj
+            product_obj, _ = Product.objects.get_or_create(**product_data)
+
+            if source_data:
+                source_obj, _ = ObjectSource.objects.get_or_create(**source_data)
+                run_data['source'] = source_obj
+
+            run_data['product'] = product_obj
+            run_data['state'] = 0  # starting
+            run_obj = TestRun.objects.create(**run_data)
+
             return Response(data={
                 "success": True,
-                "run_id": run.id
+                "run": object_to_dict(run_obj)
+            })
+        except Exception as e:
+            return Response(data={
+                "success": False,
+                "message": str(e)
+            })
+
+    @action(detail=False, methods=['post'])
+    def stop(self, request):
+
+        try:
+            run_id = request.data.pop('run_id')
+            source_data = request.data.pop('source', None)
+            run_data = request.data
+
+            if source_data:
+                source_obj, _ = ObjectSource.objects.get_or_create(**source_data)
+                run_data['source'] = source_obj
+
+            if 'state' not in run_data:
+                run_data['state'] = 3  # completed
+
+            if 'status' not in run_data:
+                run_data['status'] = 1  # failed
+
+            if 'end_time' not in run_data:
+                run_data['end_time'] = datetime.now(timezone.utc)
+
+            run_obj = TestRun.objects.filter(pk=run_id)
+            run_obj.update(**run_data)
+
+            return Response(data={
+                "success": True,
+                "run": object_to_dict(run_obj.first())
             })
         except Exception as e:
             return Response(data={
