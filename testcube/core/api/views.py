@@ -175,6 +175,31 @@ class TestRunViewSet(viewsets.ModelViewSet):
         self.serializer_class = TestRunListSerializer
         return list_view(self)
 
+    @action(detail=False, methods=['post'])
+    def start(self, request):
+
+        try:
+            team_data = request.data['product'].pop('team')
+            product_data = request.data.pop('product')
+            source_data = request.data.pop('source')
+            run_data = request.data
+            team, _ = Team.objects.get_or_create(**team_data)
+            product_data['team'] = team
+            product, _ = Product.objects.get_or_create(**product_data)
+            source, _ = ObjectSource.objects.get_or_create(**source_data)
+            run_data['product'] = product
+            run_data['source'] = source
+            run = TestRun.objects.create(**run_data)
+            return Response(data={
+                "success": True,
+                "run_id": run.id
+            })
+        except Exception as e:
+            return Response(data={
+                "success": False,
+                "message": str(e)
+            })
+
 
 class TestCaseViewSet(viewsets.ModelViewSet):
     queryset = TestCase.objects.all()
