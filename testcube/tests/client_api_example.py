@@ -5,15 +5,18 @@ import requests
 
 server = 'http://localhost:8000/'
 root = server + 'api/'
+
+# call client api requires valid user, you can register at first
 auth = ('admin', 'admin')
 
 
 def test_register_client():
+    """use this api to register as a testcube client, it will return a name and token."""
     api = 'client-register/'
 
     data = {
-        'client_type': 'testcube_pytest_client',
-        'client_name': 'test_client',
+        'client_type': 'testcube_pytest_client',  # must in this format 'testcube_xxx_client'
+        'client_name': 'test_client',  # special chars and space are not allowed
         'client_user': 'test',
         'platform': 'windows'
     }
@@ -27,6 +30,7 @@ def test_register_client():
 
 
 def test_start_run():
+    """use this api to start a run, will return run info if success."""
     api = 'runs/start/'
 
     data = {
@@ -37,6 +41,7 @@ def test_start_run():
                 'name': 'ATeam'
             }
         },
+        # optional, if provided will be a link in run page
         'source': {
             'name': 'Jenkins',
             'link': 'http://jenkins/run'
@@ -53,6 +58,7 @@ def test_start_run():
 
 
 def test_stop_run():
+    """call this api to update run status & state once run finished."""
     api = 'runs/stop/'
 
     data = {
@@ -72,6 +78,7 @@ def test_stop_run():
 
 
 def test_add_test_result():
+    """use this api to create a test result for a run."""
     api = 'results/new/'
 
     data = {
@@ -106,6 +113,11 @@ def test_add_test_result():
 
 
 def test_add_result_file():
+    """
+    use this api to add a result file to a run.
+    to link result file to result, the file name should contains testcase name.
+    e.g. test1.png will link to result of test1 in the run.
+    """
     api = 'result_files/new/'
 
     data = {'run_id': 13}
