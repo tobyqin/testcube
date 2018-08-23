@@ -100,3 +100,7 @@ def to_json(data_text):
 
 def object_to_dict(obj):
     return {k: v for k, v in obj.__dict__.items() if not k.startswith('_')}
+
+
+def error_detail(e):
+    return '{}: {}'.format(type(e).__name__, e)
