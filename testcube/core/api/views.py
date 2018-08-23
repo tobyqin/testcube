@@ -178,7 +178,7 @@ class TestRunViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=['post', 'get'])
     def start(self, request):
-        """client api to start a run, see `example` as reference."""
+        """client api to start a run, `example` as reference."""
         example = {
             'name': 'your run name',
             'owner': 'run owner, default => current user',
@@ -199,7 +199,7 @@ class TestRunViewSet(viewsets.ModelViewSet):
 
         if request.method == 'GET':
             return Response(data={
-                'message': 'Please post to this API, see below example',
+                'message': 'Please post to this API, see below example.',
                 'example': example
             })
 
@@ -246,7 +246,7 @@ class TestRunViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=['post', 'get'])
     def stop(self, request):
-        """client api to stop a run, see `example` as reference."""
+        """client api to stop a run, `example` as reference."""
         example = {
             'run_id': 123,
             'state': 'int, default 3=>completed, (2=aborted)',
@@ -259,7 +259,7 @@ class TestRunViewSet(viewsets.ModelViewSet):
         }
         if request.method == 'GET':
             return Response(data={
-                'message': 'Please post to this API, see below example',
+                'message': 'Please post to this API, see the example',
                 'example': example
             })
         try:
@@ -382,7 +382,7 @@ class TestResultViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=['get', 'post'])
     def new(self, request):
-        """client api to create a result, see `example` as reference"""
+        """client api to create a result, `example` as reference"""
         example = {
             'run_id': 123,
             'outcome': 'int, 0=passed, 1=failed, 2=skipped, 3=error, 5=pending',
@@ -412,7 +412,7 @@ class TestResultViewSet(viewsets.ModelViewSet):
 
         if request.method == 'GET':
             return Response(data={
-                'message': 'Please post to this API, see below example',
+                'message': 'Please post to this API, see the example.',
                 'example': example
             })
         try:
@@ -498,7 +498,7 @@ class ResultFileViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=['get', 'post'])
     def new(self, request):
-        """client api to upload result files, see `example` as reference."""
+        """client api to upload result files, `example` as reference."""
         valid_file_types = ['.png', '.jpg', '.jpeg', '.bmp', '.gif', '.txt', '.log', '.csv']
         example = {
             'run_id': 123,
@@ -507,7 +507,7 @@ class ResultFileViewSet(viewsets.ModelViewSet):
 
         if request.method == 'GET':
             return Response(data={
-                'message': 'Please post to this API, see below example',
+                'message': 'Please post to this API, see the example.',
                 'example': example
             })
 
