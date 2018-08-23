@@ -10,5 +10,4 @@ class ModelsTestCase(TC):
     def test_user_profile_view(self):
         self.client.login(username='test', password='test')
         r = self.client.get('/profile')
-        print(r.content)
         assert 'profile' in str(r.content).lower()

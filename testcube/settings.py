@@ -22,7 +22,7 @@ from testcube.utils import setup_logger
 
 SETTINGS_DIR = dirname(abspath(__file__))
 BASE_DIR = dirname(SETTINGS_DIR)
-VERSION = '1.8.1'
+VERSION = '1.9.0'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
@@ -39,6 +39,11 @@ if environ.get('TESTCUBE_ALLOWED_HOSTS'):
 
 DB_ENGINE = environ.get('TESTCUBE_DB_ENGINE') or 'django.db.backends.sqlite3'
 DB_NAME = environ.get('TESTCUBE_DB_NAME') or 'db.sqlite3'
+DB_HOST = environ.get('TESTCUBE_DB_HOST') or None
+DB_PORT = environ.get('TESTCUBE_DB_PORT') or None
+DB_USER = environ.get('TESTCUBE_DB_USER') or None
+DB_PASSWORD = environ.get('TESTCUBE_DB_PASSWORD') or None
+
 STATIC_URL = environ.get('TESTCUBE_STATIC_URL') or '/static/'
 STATIC_ROOT = environ.get('TESTCUBE_STATIC_ROOT') or join(BASE_DIR, 'dist')
 MEDIA_URL = environ.get('TESTCUBE_MEDIA_URL') or '/media/'
@@ -110,11 +115,20 @@ WSGI_APPLICATION = 'testcube.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
+_DB = {
+    'ENGINE': DB_ENGINE,
+    'NAME': DB_NAME,
+    'USER': DB_USER,
+    'PASSWORD': DB_PASSWORD,
+    'HOST': DB_HOST,
+    'PORT': DB_PORT
+}
+
+# filter out empty config values
+_DB = {k: v for k, v in _DB.items() if v}
+
 DATABASES = {
-    'default': {
-        'ENGINE': DB_ENGINE,
-        'NAME': DB_NAME,
-    }
+    'default': _DB
 }
 
 # Password validation

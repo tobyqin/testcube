@@ -25,20 +25,17 @@ class ModelsTestCase(TC):
         # get the list
         r = self.client.get(api)
         result = r.json()
-        print(result)
         assert result['count'] >= 1
 
         # insert a config
         data = {'key': 1, 'value': 1}
         r = self.client.post(api, data=data).json()
-        print(r)
         assert r['key'] == '1'
 
         # update a config
         url = r['url']
         data = json.dumps({'key': 2, 'value': 3})
         r = self.client.put(url, data=data, content_type='application/json').json()
-        print(r)
         assert r['value'] == '3'
 
     def test_client_auth(self):
@@ -48,7 +45,7 @@ class ModelsTestCase(TC):
                 'platform': 'windows'}
 
         result = self.client.post('/client-register', data=info).json()
-        print(result)
+        print('register result: {}'.format(result))
 
         client = result['client']
         assert 'token' in result
@@ -65,11 +62,11 @@ class ModelsTestCase(TC):
         self.testcase.tags = 'tag1 tag2 tag3'
         testcase2.tags = 'tag3 tag4 tag5'
 
-        api = '/api/cases/1/'
+        api = '/api/cases/{}/'.format(self.testcase.id)
         r = self.client.get(api)
         assert r.data['name'] == 'testcase1'
 
-        api = '/api/cases/1/tags/'
+        api = '/api/cases/{}/tags/'.format(self.testcase.id)
         r = self.client.get(api)
         assert r.data == ['tag1', 'tag2', 'tag3']
 
@@ -79,11 +76,11 @@ class ModelsTestCase(TC):
         self.testcase.tags = 'tag1 tag2 tag3'
         testcase2.tags = 'tag3 tag4 tag5'
 
-        api = '/api/products/1/'
+        api = '/api/products/{}/'.format(self.product.id)
         r = self.client.get(api)
         assert r.data['name'] == 'test-product'
 
-        api = '/api/products/1/tags/'
+        api = '/api/products/{}/tags/'.format(self.product.id)
         r = self.client.get(api)
         assert r.data == ['tag1', 'tag2', 'tag3', 'tag4', 'tag5'], r.data
 

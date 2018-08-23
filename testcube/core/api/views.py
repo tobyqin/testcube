@@ -2,6 +2,7 @@ import re
 from datetime import datetime, timezone, timedelta
 
 from django.db.models import Q
+from ipware.ip import get_ip
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.pagination import LimitOffsetPagination
@@ -12,7 +13,7 @@ from tagging.models import Tag
 from testcube.settings import logger
 from .filters import *
 from .serializers import *
-from ...utils import get_auto_cleanup_run_days, cleanup_run_media
+from ...utils import get_auto_cleanup_run_days, cleanup_run_media, object_to_dict, error_detail
 
 
 def info_view(self, serializer_class):
@@ -65,8 +66,8 @@ class ProductViewSet(viewsets.ModelViewSet):
 
     @action(methods=['get'], detail=True)
     def tags(self, request, pk=None):
-        product = self.get_object()
-        case_query = TestCase.objects.filter(product_id=product.id).all()
+        prod = self.get_object()
+        case_query = TestCase.objects.filter(product_id=prod.id).all()
         tags = Tag.objects.usage_for_queryset(case_query)
         tags = [t.name for t in tags]
         return Response(data=tags)
@@ -175,6 +176,124 @@ class TestRunViewSet(viewsets.ModelViewSet):
         self.serializer_class = TestRunListSerializer
         return list_view(self)
 
+    @action(detail=False, methods=['post', 'get'])
+    def start(self, request):
+        """client api to start a run, see `example` as reference."""
+        example = {
+            'name': 'your run name',
+            'owner': 'run owner, default => current user',
+            'start_by': 'run starter, default => current user',
+            'source': {
+                'link': '=>optional, e.g. http://jenkins...',
+                'name': '=>optional, e.g. Jenkins'},
+            'product': {
+                'name': 'TestCube',
+                'version': '=>optional',
+                'owner': 'default => current user',
+                'team': {
+                    'name': 'ATeam',
+                    'owner': 'default => current user'
+                }
+            }
+        }
+
+        if request.method == 'GET':
+            return Response(data={
+                'message': 'Please post to this API, see below example',
+                'example': example
+            })
+
+        try:
+            team_data = request.data['product'].pop('team')
+            product_data = request.data.pop('product')
+            source_data = request.data.pop('source', None)
+            run_data = request.data
+
+            if 'owner' not in product_data:
+                product_data['owner'] = request.user.username
+
+            if 'owner' not in team_data:
+                team_data['owner'] = request.user.username
+
+            if 'owner' not in run_data:
+                run_data['owner'] = request.user.username
+
+            if 'start_by' not in run_data:
+                run_data['start_by'] = request.user.username
+
+            team_obj, _ = Team.objects.get_or_create(**team_data)
+            product_data['team'] = team_obj
+            product_obj, _ = Product.objects.get_or_create(**product_data)
+
+            if source_data:
+                source_obj = ObjectSource.objects.create(**source_data)
+                run_data['source'] = source_obj
+
+            run_data['product'] = product_obj
+            run_data['state'] = 0  # starting
+            run_obj = TestRun.objects.create(**run_data)
+
+            return Response(data={
+                'success': True,
+                'run': object_to_dict(run_obj)
+            })
+        except Exception as e:
+            return Response(data={
+                'success': False,
+                'message': error_detail(e),
+                'example': example
+            })
+
+    @action(detail=False, methods=['post', 'get'])
+    def stop(self, request):
+        """client api to stop a run, see `example` as reference."""
+        example = {
+            'run_id': 123,
+            'state': 'int, default 3=>completed, (2=aborted)',
+            'status': 'int, default 1=>failed, (0=passed, 3=abandoned)',
+            'end_time': 'utc time, default=>now',
+            'source': {
+                'name': '=>optional, e.g. Jenkins',
+                'link': '=>optional, e.g. http://jenkins...'
+            }
+        }
+        if request.method == 'GET':
+            return Response(data={
+                'message': 'Please post to this API, see below example',
+                'example': example
+            })
+        try:
+            run_id = request.data.pop('run_id')
+            source_data = request.data.pop('source', None)
+            run_data = request.data
+
+            if source_data:
+                source_obj, _ = ObjectSource.objects.get_or_create(**source_data)
+                run_data['source'] = source_obj
+
+            if 'state' not in run_data:
+                run_data['state'] = 3  # completed
+
+            if 'status' not in run_data:
+                run_data['status'] = 1  # failed
+
+            if 'end_time' not in run_data:
+                run_data['end_time'] = datetime.now(timezone.utc)
+
+            run_obj = TestRun.objects.filter(pk=run_id)
+            run_obj.update(**run_data)
+
+            return Response(data={
+                'success': True,
+                'run': object_to_dict(run_obj.first())
+            })
+        except Exception as e:
+            return Response(data={
+                'success': False,
+                'message': error_detail(e),
+                'example': example
+            })
+
 
 class TestCaseViewSet(viewsets.ModelViewSet):
     queryset = TestCase.objects.all()
@@ -261,6 +380,87 @@ class TestResultViewSet(viewsets.ModelViewSet):
         self.search_fields = ()
         return list_view(self)
 
+    @action(detail=False, methods=['get', 'post'])
+    def new(self, request):
+        """client api to create a result, see `example` as reference"""
+        example = {
+            'run_id': 123,
+            'outcome': 'int, 0=passed, 1=failed, 2=skipped, 3=error, 5=pending',
+            'stdout': 'the log output',
+            'duration': 'float, in seconds',
+            'assign_to': ' owner / optional',
+            'testcase': {
+                'name': 'short name, e.g. VerifyLoginFailed',
+                'full_name': 'long name, e.g. tests.login_tests.VerifyLoginFailed',
+                'description': 'optional',
+                'owner': 'default => current user'
+            },
+            'test_client': {
+                'name': 'client name',
+                'ip': 'optional, default to current ip',
+                'platform': 'optional, client platform',
+                'owner': 'default => current user',
+            },
+            'error': {
+                'exception_type': 'optional, e.g, AssertError',
+                'message': 'optional, the message of exception',
+                'stacktrace': 'optional, the stack trace info',
+                'stdout': 'optional',
+                'stderr': 'optional'
+            }
+        }
+
+        if request.method == 'GET':
+            return Response(data={
+                'message': 'Please post to this API, see below example',
+                'example': example
+            })
+        try:
+            run_id = request.data.pop('run_id')
+            case_data = request.data.pop('testcase')
+            client_data = request.data.pop('test_client')
+            error_data = request.data.pop('error', None)
+            result_data = request.data
+
+            if 'ip' not in client_data:
+                client_data['ip'] = get_ip(request)
+
+            if 'owner' not in client_data:
+                client_data['owner'] = request.user.username
+
+            if 'owner' not in case_data:
+                case_data['owner'] = request.user.username
+
+            if 'duration' not in result_data:
+                result_data['duration'] = 0
+
+            run_obj = TestRun.objects.get(id=run_id)
+            case_data['created_by'] = request.user.username
+            case_data['product'] = run_obj.product
+            case_obj, _ = TestCase.objects.get_or_create(**case_data)
+            client_obj, _ = TestClient.objects.get_or_create(**client_data)
+
+            if error_data:
+                error_obj = ResultError.objects.create(**error_data)
+                result_data['error'] = error_obj
+
+            result_data['test_run'] = run_obj
+            result_data['testcase'] = case_obj
+            result_data['test_client'] = client_obj
+            result_data['duration'] = timedelta(seconds=result_data['duration'])
+            result_obj = TestResult.objects.create(**result_data)
+
+            return Response(data={
+                'success': True,
+                'result': object_to_dict(result_obj)
+            })
+        except Exception as e:
+            return Response(data={
+                'success': False,
+                'message': error_detail(e),
+                'example': example
+            })
+
 
 class IssueViewSet(viewsets.ModelViewSet):
     queryset = Issue.objects.all()
@@ -295,6 +495,46 @@ class ResultFileViewSet(viewsets.ModelViewSet):
     serializer_class = ResultFileSerializer
     filter_fields = ()
     search_fields = filter_fields
+
+    @action(detail=False, methods=['get', 'post'])
+    def new(self, request):
+        """client api to upload result files, see `example` as reference."""
+        valid_file_types = ['.png', '.jpg', '.jpeg', '.bmp', '.gif', '.txt', '.log', '.csv']
+        example = {
+            'run_id': 123,
+            'file': 'your file stream'
+        }
+
+        if request.method == 'GET':
+            return Response(data={
+                'message': 'Please post to this API, see below example',
+                'example': example
+            })
+
+        try:
+            run_id = int(request.data['run_id'])
+            file = request.data['file']
+            file_ext = file.name.split('.')[-1]
+            assert '.' + file_ext in valid_file_types, 'Not allow such file type!'
+
+            file_data = {
+                'file': file,
+                'name': file.name,
+                'file_byte_size': file.size,
+                'run': TestRun.objects.get(pk=run_id)
+            }
+
+            file_obj = ResultFile.objects.create(**file_data)
+            return Response(data={
+                'success': True,
+                'run': object_to_dict(file_obj)
+            })
+        except Exception as e:
+            return Response(data={
+                'success': False,
+                'message': error_detail(e),
+                'example': example
+            })
 
 
 class ResetResultViewSet(viewsets.ModelViewSet):
