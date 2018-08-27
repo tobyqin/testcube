@@ -225,7 +225,8 @@ class TestRunViewSet(viewsets.ModelViewSet):
             product_data['team'] = team_obj
             product_obj, _ = Product.objects.get_or_create(**product_data)
 
-            if source_data:
+            # only add source when it's link available
+            if source_data and source_data['link']:
                 source_obj = ObjectSource.objects.create(**source_data)
                 run_data['source'] = source_obj
 

@@ -70,7 +70,7 @@ class TestResult(models.Model):
             'url': f.file.url,
             'time': f.file_created_time,
             'size': f.file_size()
-        } for f in files]
+        } for f in files if f.file]
 
     def is_reset_in_progress(self):
         """check reset in progress or not."""
