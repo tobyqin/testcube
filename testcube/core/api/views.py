@@ -502,6 +502,7 @@ class ResultFileViewSet(viewsets.ModelViewSet):
         valid_file_types = ['.png', '.jpg', '.jpeg', '.bmp', '.gif', '.txt', '.log', '.csv']
         example = {
             'run_id': 123,
+            'case_full_name': 'optional, if not provided your file name should contains test case name',
             'file': 'your file stream'
         }
 
@@ -513,13 +514,14 @@ class ResultFileViewSet(viewsets.ModelViewSet):
 
         try:
             run_id = int(request.data['run_id'])
+            case_name = request.data.get('case_full_name', None)
             file = request.data['file']
             file_ext = file.name.split('.')[-1]
             assert '.' + file_ext in valid_file_types, 'Not allow such file type!'
 
             file_data = {
                 'file': file,
-                'name': file.name,
+                'name': '/'.join([i for i in [case_name, file.name] if i]),
                 'file_byte_size': file.size,
                 'run': TestRun.objects.get(pk=run_id)
             }
@@ -527,7 +529,7 @@ class ResultFileViewSet(viewsets.ModelViewSet):
             file_obj = ResultFile.objects.create(**file_data)
             return Response(data={
                 'success': True,
-                'run': object_to_dict(file_obj)
+                'file': object_to_dict(file_obj)
             })
         except Exception as e:
             return Response(data={

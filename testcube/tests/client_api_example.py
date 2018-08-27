@@ -120,7 +120,7 @@ def test_add_result_file():
     """
     api = 'result_files/new/'
 
-    data = {'run_id': 13}
+    data = {'run_id': 13, 'case_full_name': 'tests.login.test1'}
     files = {'file': open('./data/test1.png', 'rb')}
     response = requests.post(url=root + api,
                              auth=auth,
@@ -129,5 +129,5 @@ def test_add_result_file():
 
     result = response.json()
     assert result['success'], response.text
-    result_file = result['result']
+    result_file = result['file']
     print(result_file)
