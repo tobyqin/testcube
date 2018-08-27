@@ -28,7 +28,7 @@ define([], function () {
     function getWeather(value) {
         let mapping = {
             '-1': 'wi-na',
-            '5':'wi-day-sunny',
+            '5': 'wi-day-sunny',
             '4': 'wi-day-cloudy',
             '3': 'wi-cloudy',
             '2': 'wi-rain-mix',
@@ -64,12 +64,22 @@ define([], function () {
         });
     }
 
+    // to escape special chars in log
+    function safeLog(input) {
+        if (input) {
+            let output = input.replace(/</g, '{');
+            output = output.replace(/>/g, '}');
+            return output
+        }
+    }
+
     return {
         'disableConsoleLog': disableConsoleLog,
         'enableConsoleLog': enableConsoleLog,
         'getColor': getColor,
         'getWeather': getWeather,
         'hmsToSeconds': hmsToSeconds,
-        'startLogHighlight': startLogHighlight
+        'startLogHighlight': startLogHighlight,
+        'safeLog': safeLog
     };
 });
