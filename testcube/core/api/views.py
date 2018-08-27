@@ -178,7 +178,7 @@ class TestRunViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=['post', 'get'])
     def start(self, request):
-        """client api to start a run, see `example` as reference."""
+        """client api to start a run, `example` as reference."""
         example = {
             'name': 'your run name',
             'owner': 'run owner, default => current user',
@@ -199,7 +199,7 @@ class TestRunViewSet(viewsets.ModelViewSet):
 
         if request.method == 'GET':
             return Response(data={
-                'message': 'Please post to this API, see below example',
+                'message': 'Please post to this API, see below example.',
                 'example': example
             })
 
@@ -246,7 +246,7 @@ class TestRunViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=['post', 'get'])
     def stop(self, request):
-        """client api to stop a run, see `example` as reference."""
+        """client api to stop a run, `example` as reference."""
         example = {
             'run_id': 123,
             'state': 'int, default 3=>completed, (2=aborted)',
@@ -259,7 +259,7 @@ class TestRunViewSet(viewsets.ModelViewSet):
         }
         if request.method == 'GET':
             return Response(data={
-                'message': 'Please post to this API, see below example',
+                'message': 'Please post to this API, see the example',
                 'example': example
             })
         try:
@@ -382,7 +382,7 @@ class TestResultViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=['get', 'post'])
     def new(self, request):
-        """client api to create a result, see `example` as reference"""
+        """client api to create a result, `example` as reference"""
         example = {
             'run_id': 123,
             'outcome': 'int, 0=passed, 1=failed, 2=skipped, 3=error, 5=pending',
@@ -412,7 +412,7 @@ class TestResultViewSet(viewsets.ModelViewSet):
 
         if request.method == 'GET':
             return Response(data={
-                'message': 'Please post to this API, see below example',
+                'message': 'Please post to this API, see the example.',
                 'example': example
             })
         try:
@@ -498,28 +498,30 @@ class ResultFileViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=['get', 'post'])
     def new(self, request):
-        """client api to upload result files, see `example` as reference."""
+        """client api to upload result files, `example` as reference."""
         valid_file_types = ['.png', '.jpg', '.jpeg', '.bmp', '.gif', '.txt', '.log', '.csv']
         example = {
             'run_id': 123,
+            'case_full_name': 'optional, if not provided your file name should contains test case name',
             'file': 'your file stream'
         }
 
         if request.method == 'GET':
             return Response(data={
-                'message': 'Please post to this API, see below example',
+                'message': 'Please post to this API, see the example.',
                 'example': example
             })
 
         try:
             run_id = int(request.data['run_id'])
+            case_name = request.data.get('case_full_name', None)
             file = request.data['file']
             file_ext = file.name.split('.')[-1]
             assert '.' + file_ext in valid_file_types, 'Not allow such file type!'
 
             file_data = {
                 'file': file,
-                'name': file.name,
+                'name': '/'.join([i for i in [case_name, file.name] if i]),
                 'file_byte_size': file.size,
                 'run': TestRun.objects.get(pk=run_id)
             }
@@ -527,7 +529,7 @@ class ResultFileViewSet(viewsets.ModelViewSet):
             file_obj = ResultFile.objects.create(**file_data)
             return Response(data={
                 'success': True,
-                'run': object_to_dict(file_obj)
+                'file': object_to_dict(file_obj)
             })
         except Exception as e:
             return Response(data={
