@@ -64,8 +64,8 @@ define(['jquery', './table-support', './chart-support', './utils', 'bootstrap-di
                 stdout = stdout + result.stdout;
             }
 
-            $('#stderr').empty().append(stderr.trim());
-            $('#stdout').empty().append(stdout.trim());
+            $('#stderr').empty().append(utils.safeLog(stderr.trim()));
+            $('#stdout').empty().append(utils.safeLog(stdout.trim()));
             utils.startLogHighlight();
 
             if (result.test_run) {
@@ -132,6 +132,9 @@ define(['jquery', './table-support', './chart-support', './utils', 'bootstrap-di
 
         function resultHistoryTableDataHandler(data) {
             window.app.resultHistory = data;
+            for (let r of data.results) {
+                r.error_message = utils.safeLog(r.error_message);
+            }
             return data.results;
         }
 

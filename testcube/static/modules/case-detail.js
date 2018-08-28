@@ -1,5 +1,5 @@
-define(['jquery', './table-support', 'bloodhound', 'typeahead', 'bootstrapTagsInput'],
-    function ($, support, Bloodhound) {
+define(['jquery', './table-support', 'bloodhound', './utils', 'typeahead', 'bootstrapTagsInput'],
+    function ($, support, Bloodhound, utils) {
 
         "use strict";
         let f = support.formatter;
@@ -31,6 +31,9 @@ define(['jquery', './table-support', 'bloodhound', 'typeahead', 'bootstrapTagsIn
 
         function resultHistoryTableDataHandler(data) {
             window.app.resultHistory = data;
+            for (let r of data.results) {
+                r.error_message = utils.safeLog(r.error_message);
+            }
             return data.results;
         }
 

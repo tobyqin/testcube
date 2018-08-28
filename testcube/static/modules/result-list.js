@@ -1,5 +1,5 @@
-define(['jquery', './table-support'],
-    function ($, support) {
+define(['jquery', './table-support', './utils'],
+    function ($, support, utils) {
 
         "use strict";
         let f = support.formatter;
@@ -7,7 +7,7 @@ define(['jquery', './table-support'],
         let resultListColumns = [
             {title: 'ID', field: 'id', formatter: f.resultIdFormatter, sortable: true},
             {title: 'TestCase', field: 'testcase_name'},
-            {title: 'Message', field: 'error_message'},
+            {title: 'Error Message', field: 'error_message'},
             {title: 'Created On', field: 'created_on', formatter: f.timeFormatter},
             {title: 'Duration', field: 'duration', formatter: f.durationFormatter},
             {title: 'Outcome', field: 'get_outcome_display', formatter: f.outcomeFormatter}
@@ -20,6 +20,9 @@ define(['jquery', './table-support'],
                 responseHandler: function (data) {
                     data.total = data.count;
                     data.rows = data.results;
+                    for (let row of data.rows) {
+                        row.error_message = utils.safeLog(row.error_message);
+                    }
                     return data;
                 },
                 queryParams: support.refineQueryParams,
