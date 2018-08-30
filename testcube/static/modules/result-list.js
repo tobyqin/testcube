@@ -21,7 +21,7 @@ define(['jquery', './table-support', './utils'],
                     data.total = data.count;
                     data.rows = data.results;
                     for (let row of data.rows) {
-                        row.error_message = utils.safeLog(row.error_message);
+                        row.error_message = utils.safeMessage(row.error_message);
                     }
                     return data;
                 },

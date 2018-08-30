@@ -3,90 +3,95 @@
 
 {% block title %}Run Detail{% endblock %}
 {% block header %}
-    <link href="{% static 'libs/bootstrap-table/bootstrap-table.min.css' %}" rel="stylesheet">
-    <link href="{% static 'libs/c3.min.css' %}" rel="stylesheet">
-    <link href="{% static 'libs/weather-icons/css/weather-icons.min.css' %}" rel="stylesheet">
+  <link href="{% static 'libs/bootstrap-table/bootstrap-table.min.css' %}" rel="stylesheet">
+  <link href="{% static 'libs/c3.min.css' %}" rel="stylesheet">
+  <link href="{% static 'libs/weather-icons/css/weather-icons.min.css' %}" rel="stylesheet">
 {% endblock %}
 
 {% block body %}
-    <div class="container">
+  <div class="container">
 
-        <ul class="breadcrumb">
-            <li><a href="/">Home</a></li>
-            <li><a href="{% url 'runs' %}">Runs</a></li>
-            <li id="run-nav" class="active"><a href="">{{ run_id }}</a></li>
+    <ul class="breadcrumb">
+      <li><a href="/">Home</a></li>
+      <li><a href="{% url 'runs' %}">Runs</a></li>
+      <li id="run-nav" class="active"><a href="">{{ run_id }}</a></li>
 
-            {% if source %}
-                <li class="pull-right">
-                    <a target="_blank"
-                       title="Go to run source"
-                       href="{{ source.link }}">via {{ source.name }}</a></li>
-            {% endif %}
-            <li class="pull-right" id="run-coverage-btn">
-                <a title="Show testcase tags for this run"
-                   href="#run-coverage">Coverage</a></li>
-        </ul>
+      {% if source %}
+        <li class="pull-right">
+          <a target="_blank"
+             title="Go to run source"
+             href="{{ source.link }}">via {{ source.name }}</a></li>
+      {% endif %}
+      <li class="pull-right" id="run-coverage-btn">
+        <a title="Show testcase tags for this run"
+           href="#run-coverage">Coverage</a></li>
+    </ul>
 
-        <div id="main-content">
-            <div class="row">
+    <div id="main-content">
+      <div class="row">
 
-                <div class="col-md-12">
-                    <div id="run-coverage" class="hidden">
-                        <h2>Coverage</h2>
-                        <hr/>
-                        <div id="coverage-chart"></div>
-                    </div>
-                    <h2>Summary</h2>
-                    <hr/>
-                    <div class="col-md-8">
-                        <div id="detail-chart"></div>
-                    </div>
-                    <div class="col-md-4">
-                        <div id="rate-chart"></div>
-                    </div>
-                    <table id="run-summary"></table>
-                    <h2>Results</h2>
-                    <hr/>
-                    <ul class="nav nav-pills ">
-                        <li class="active nav"><a href="#tab-failed" data-toggle="tab">Failed</a></li>
-                        <li class="nav"><a href="#tab-passed" data-toggle="tab">Passed</a></li>
-                    </ul>
+        <div class="col-md-12">
+          <div id="run-coverage" class="hidden">
+            <h2>Coverage</h2>
+            <hr/>
+            <div id="coverage-chart"></div>
+          </div>
+          <h2>Summary</h2>
+          <hr/>
+          <div class="col-md-8">
+            <div id="detail-chart"></div>
+          </div>
+          <div class="col-md-4">
+            <div id="rate-chart"></div>
+          </div>
+          <table id="run-summary"></table>
+          <h2>Results</h2>
+          <hr/>
+          <ul class="nav nav-pills ">
+            <li class="active nav"><a href="#tab-failed" data-toggle="tab">Failed</a></li>
+            <li class="nav"><a href="#tab-passed" data-toggle="tab">Passed</a></li>
+            <li class="nav"><a href="#tab-other" data-toggle="tab">Other</a></li>
+          </ul>
 
-                    <div class="tab-content">
-                        <div class="tab-pane fade in active" id="tab-failed">
-                            <div class="spacer20"></div>
-                            <table id="result-failed-list"></table>
-                        </div>
-                        <div class="tab-pane fade" id="tab-passed">
-                            <div class="spacer20"></div>
-                            <table id="result-passed-list"></table>
-                        </div>
-                        <h2>History</h2>
-                        <hr/>
-                        <table id="run-history"></table>
-                    </div>
-                </div>
+          <div class="tab-content">
+            <div class="tab-pane fade in active" id="tab-failed">
+              <div class="spacer20"></div>
+              <table id="result-failed-list"></table>
             </div>
+            <div class="tab-pane fade" id="tab-passed">
+              <div class="spacer20"></div>
+              <table id="result-passed-list"></table>
+            </div>
+            <div class="tab-pane fade" id="tab-other">
+              <div class="spacer20"></div>
+              <table id="result-other-list"></table>
+            </div>
+            <h2>History</h2>
+            <hr/>
+            <table id="run-history"></table>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 
 {% endblock %}
 
 {% block scripts %}
-    <script>
-        require(['/static/require-config.js'], function () {
-            waitForLoading();
-            require(['modules/run-detail', 'jquery'], function (module, $) {
-                $(function () {
-                    module.renderRunDetailPage({{ run_id }});
-                });
-
-                module.setupRunCoverageEvent({{ run_id }});
-
-                // clean up bad reset tasks
-                $.ajax('/api/reset_results/clear/');
-                $.ajax('/api/tasks/clear/');
-            });
+  <script>
+    require(['/static/require-config.js'], function () {
+      waitForLoading();
+      require(['modules/run-detail', 'jquery'], function (module, $) {
+        $(function () {
+          module.renderRunDetailPage({{ run_id }});
         });
-    </script>
+
+        module.setupRunCoverageEvent({{ run_id }});
+
+        // clean up bad reset tasks
+        $.ajax('/api/reset_results/clear/');
+        $.ajax('/api/tasks/clear/');
+      });
+    });
+  </script>
 {% endblock %}
