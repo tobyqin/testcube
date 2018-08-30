@@ -73,6 +73,15 @@ define([], function () {
         }
     }
 
+    function safeMessage(input) {
+        if (input) {
+            let output = input.replace(/&/g, '&amp;');
+            output = output.replace(/"/g, '&quot;');
+            output = output.replace(/'/g, '&apos;');
+            return safeLog(output)
+        }
+    }
+
     return {
         'disableConsoleLog': disableConsoleLog,
         'enableConsoleLog': enableConsoleLog,
@@ -80,6 +89,7 @@ define([], function () {
         'getWeather': getWeather,
         'hmsToSeconds': hmsToSeconds,
         'startLogHighlight': startLogHighlight,
-        'safeLog': safeLog
+        'safeLog': safeLog,
+        'safeMessage': safeMessage
     };
 });

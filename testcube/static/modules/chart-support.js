@@ -33,7 +33,7 @@ define(['moment', 'c3', 'd3', './utils'], function (moment, c3, d3, utils) {
             failed.push(run.result_failed);
             skipped.push(run.result_skipped);
             total.push(run.result_total);
-            passRate.push(((run.result_total - run.result_failed) / run.result_total).toFixed(2));
+            passRate.push((run.result_passed / run.result_total).toFixed(2));
         }
 
         c3.generate({

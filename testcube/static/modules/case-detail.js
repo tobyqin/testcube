@@ -32,7 +32,7 @@ define(['jquery', './table-support', 'bloodhound', './utils', 'typeahead', 'boot
         function resultHistoryTableDataHandler(data) {
             window.app.resultHistory = data;
             for (let r of data.results) {
-                r.error_message = utils.safeLog(r.error_message);
+                r.error_message = utils.safeMessage(r.error_message);
             }
             return data.results;
         }

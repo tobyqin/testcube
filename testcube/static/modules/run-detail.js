@@ -1,5 +1,5 @@
-define(['jquery', './table-support', './chart-support', 'bootstrapSelect'],
-    function ($, support, chart) {
+define(['jquery', './table-support', './chart-support', './utils', 'bootstrapSelect'],
+    function ($, support, chart, utils) {
 
         "use strict";
         let f = support.formatter;
@@ -64,7 +64,7 @@ define(['jquery', './table-support', './chart-support', 'bootstrapSelect'],
             for (let r of data.results) {
                 r.passing_rate = {
                     id: r.id,
-                    passed: r.result_total - r.result_failed,
+                    passed: r.result_passed,
                     total: r.result_total
                 };
             }
@@ -94,11 +94,15 @@ define(['jquery', './table-support', './chart-support', 'bootstrapSelect'],
 
             let passed = [];
             let failed = [];
+            let other = [];
             for (let result of window.app.summaryInfo.results) {
-                if (result.get_outcome_display === 'Failed') {
+                result.error_message = utils.safeMessage(result.error_message);
+                if (result.get_outcome_display === 'Passed') {
+                    passed.push(result);
+                } else if (result.get_outcome_display === 'Failed') {
                     failed.push(result);
                 } else {
-                    passed.push(result);
+                    other.push(result);
                 }
             }
 
@@ -123,6 +127,18 @@ define(['jquery', './table-support', './chart-support', 'bootstrapSelect'],
                 sortable: true,
                 showFooter: false,
                 columns: runPassedResultColumns,
+                onPostBody: undefined
+            });
+
+            $('#result-other-list').bootstrapTable({
+                data: other,
+                search: true,
+                pagination: true,
+                pageSize: 100,
+                pageList: [100, 200],
+                sortable: true,
+                showFooter: false,
+                columns: runFailedResultColumns,
                 onPostBody: undefined
             });
 

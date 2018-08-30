@@ -48,7 +48,7 @@ define(['jquery', './table-support', 'bootstrapTableCookie', 'bootstrapSelect'],
             for (let r of data.results) {
                 r.passing_rate = {
                     id: r.id,
-                    passed: r.result_total - r.result_failed,
+                    passed: r.result_passed,
                     total: r.result_total
                 };
             }
