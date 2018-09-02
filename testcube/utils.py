@@ -1,6 +1,7 @@
 import json
 import logging
 import sys
+from json import JSONDecodeError
 from logging.handlers import RotatingFileHandler
 from os.path import join, exists
 from shutil import rmtree
@@ -92,7 +93,7 @@ def append_json(origin_txt, field, value):
 def to_json(data_text):
     try:
         return json.loads(data_text)
-    except:
+    except (TypeError, JSONDecodeError):
         from testcube.settings import logger
         logger.exception('Cannot parse to json: {}'.format(data_text))
         return {}

@@ -1,9 +1,12 @@
 """
 Examples to use client api.
 """
+from json import dumps
+from os import environ
+
 import requests
 
-server = 'http://localhost:8000/'
+server = 'http://127.0.0.1:8000/'
 root = server + 'api/'
 
 # call client api requires valid user, you can register at first
@@ -45,7 +48,10 @@ def test_start_run():
         'source': {
             'name': 'Jenkins',
             'link': 'http://jenkins/run'
-        }}
+        },
+        # optional, run variables can be saved to reset purpose
+        'variables': dumps(dict(environ)),
+    }
 
     response = requests.post(url=root + api,
                              auth=auth,
