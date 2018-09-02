@@ -13,7 +13,7 @@ from tagging.models import Tag
 from testcube.settings import logger
 from .filters import *
 from .serializers import *
-from ...utils import get_auto_cleanup_run_days, cleanup_run_media, object_to_dict, error_detail
+from ...utils import get_auto_cleanup_run_days, cleanup_run_media, object_to_dict, error_detail, to_json
 
 
 def info_view(self, serializer_class):
@@ -194,7 +194,8 @@ class TestRunViewSet(viewsets.ModelViewSet):
                     'name': 'ATeam',
                     'owner': 'default => current user'
                 }
-            }
+            },
+            'variables': 'json.dumps(dict(environ))'
         }
 
         if request.method == 'GET':
@@ -206,14 +207,17 @@ class TestRunViewSet(viewsets.ModelViewSet):
         try:
             team_data = request.data['product'].pop('team')
             product_data = request.data.pop('product')
-            source_data = request.data.pop('source', None)
+            source_data, variables_data = None, None
+
+            if 'source' in request.data:
+                source_data = request.data['source']
+                del request.data['source']
+
+            if 'variables' in request.data:
+                variables_data = request.data['variables']
+                del request.data['variables']
+
             run_data = request.data
-
-            if 'owner' not in product_data:
-                product_data['owner'] = request.user.username
-
-            if 'owner' not in team_data:
-                team_data['owner'] = request.user.username
 
             if 'owner' not in run_data:
                 run_data['owner'] = request.user.username
@@ -222,8 +226,17 @@ class TestRunViewSet(viewsets.ModelViewSet):
                 run_data['start_by'] = request.user.username
 
             team_obj, _ = Team.objects.get_or_create(**team_data)
+
+            if not team_obj.owner:
+                team_obj.owner = team_data.get('owner', request.user.username)
+                team_obj.save()
+
             product_data['team'] = team_obj
             product_obj, _ = Product.objects.get_or_create(**product_data)
+
+            if not product_obj.owner:
+                product_obj.owner = product_data.get('owner', request.user.username)
+                product_obj.save()
 
             # only add source when it's link available
             if source_data and source_data['link']:
@@ -233,6 +246,10 @@ class TestRunViewSet(viewsets.ModelViewSet):
             run_data['product'] = product_obj
             run_data['state'] = 0  # starting
             run_obj = TestRun.objects.create(**run_data)
+
+            if variables_data and to_json(variables_data):
+                from testcube.runner.models import RunVariables
+                RunVariables.objects.create(test_run=run_obj, data=variables_data)
 
             return Response(data={
                 'success': True,
@@ -426,20 +443,22 @@ class TestResultViewSet(viewsets.ModelViewSet):
             if 'ip' not in client_data:
                 client_data['ip'] = get_ip(request)
 
-            if 'owner' not in client_data:
-                client_data['owner'] = request.user.username
-
-            if 'owner' not in case_data:
-                case_data['owner'] = request.user.username
-
-            if 'duration' not in result_data:
-                result_data['duration'] = 0
-
             run_obj = TestRun.objects.get(id=run_id)
-            case_data['created_by'] = request.user.username
             case_data['product'] = run_obj.product
             case_obj, _ = TestCase.objects.get_or_create(**case_data)
             client_obj, _ = TestClient.objects.get_or_create(**client_data)
+
+            if not case_obj.owner:
+                case_obj.owner = case_data.get('owner', request.user.username)
+                case_obj.save()
+
+            if not case_obj.created_by:
+                case_obj.created_by = case_data.get('created_by', request.user.username)
+                case_obj.save()
+
+            if not client_obj.owner:
+                client_obj.owner = client_data.get('owner', request.user.username)
+                client_obj.save()
 
             if error_data:
                 error_obj = ResultError.objects.create(**error_data)
