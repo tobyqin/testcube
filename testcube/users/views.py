@@ -2,7 +2,7 @@ from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import render, redirect
 
-from .forms import SignUpForm, UserProfileForm
+from .forms import SignUpForm, UserProfileForm, ResetPasswordForm
 from ..utils import get_domain
 
 
@@ -55,7 +55,19 @@ def signout(request):
 
 
 def reset_password(request):
-    pass
+    if not request.user.is_superuser:
+        return render(request, 'reset_password.html',
+                      {'error': "Please ask administrator to process password reset."})
+
+    if request.method == 'POST':
+        form = ResetPasswordForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return render(request, 'reset_password.html', {'form': form, 'message': 'Reset success.'})
+
+    else:
+        form = ResetPasswordForm(instance=request.user)
+    return render(request, 'reset_password.html', {'form': form})
 
 
 def user_profile(request):
