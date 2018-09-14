@@ -36,6 +36,8 @@ DEBUG = DEBUG_VALUE in ('true', 'yes', 'y', 'enabled', '1')
 
 if environ.get('TESTCUBE_ALLOWED_HOSTS'):
     ALLOWED_HOSTS = environ['TESTCUBE_ALLOWED_HOSTS'].split(',')
+else:
+    ALLOWED_HOSTS = ['*']
 
 DB_ENGINE = environ.get('TESTCUBE_DB_ENGINE') or 'django.db.backends.sqlite3'
 DB_NAME = environ.get('TESTCUBE_DB_NAME') or 'db.sqlite3'

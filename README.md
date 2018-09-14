@@ -156,10 +156,23 @@ open htmlcov/index.html
 
 ## Deployment with Docker
 
-It works with Postgresql and Nginx on port 4000 so if the port is allocated or want to use different database, update them in docker-compose.yml.
+To simply start testcube with docker, do it like this:
+
+```shell
+cd path/to/testcube
+docker build -t testcube .
+docker -d -p=4000:4000 testcube
+# now visit testcube at http://localhost:4000
+```
 
 ### Run docker-compose
-```
+
+It works with Postgresql and Nginx on port 4000, if the port is allocated or you want to use different database, 
+update the docker-compose.yml. 
+
+Note: you should update settings & related environment variables at first!
+
+```shell
 cd path/to/testcube
 docker-compose up
 ```

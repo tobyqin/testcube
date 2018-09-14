@@ -137,3 +137,36 @@ def test_add_result_file():
     assert result['success'], response.text
     result_file = result['file']
     print(result_file)
+
+
+def test_reset_test_result():
+    """use this api to update a reset result."""
+    api = 'reset_results/new/'
+
+    data = {
+        'reset_id': 1,
+        'outcome': 1,  # 0=passed, 1=failed, 2=skipped, 3=error, 5=pending'
+        'stdout': 'my test output',
+        'duration': 30.5,  # float, in seconds
+        'testcase': {
+            'full_name': 'tests.etown.verify_login._.VerifyEtownLoginInvalidStudent'
+        },
+        'test_client': {
+            'name': 'test-agent1',
+            'platform': 'windows 10.1',
+        },
+        'error': {
+            'exception_type': 'AssertError',
+            'message': 'the message of exception',
+            'stacktrace': 'the stack trace info',
+        }
+    }
+
+    response = requests.post(url=root + api,
+                             auth=auth,
+                             json=data)
+
+    result = response.json()
+    assert result['success'], response.text
+    reset_result = result['reset']
+    print(reset_result)
