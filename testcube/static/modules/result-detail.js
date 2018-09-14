@@ -60,8 +60,7 @@ define(['jquery', './table-support', './chart-support', './utils', 'bootstrap-di
                 stderr = result.error.message + '\n\n' + result.error.stacktrace;
             }
             if (result.stdout) {
-                stdout = "";
-                stdout = stdout + result.stdout;
+                stdout = result.stdout;
             }
 
             $('#stderr').empty().append(utils.safeLog(stderr.trim()));
@@ -152,6 +151,8 @@ define(['jquery', './table-support', './chart-support', './utils', 'bootstrap-di
             for (let result of data.reset_results) {
                 if (!result.error) {
                     result.error = result.stdout;
+                } else {
+                    result.error.stdout = result.stdout;
                 }
             }
             window.app.resultResets = data.reset_results;
