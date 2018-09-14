@@ -460,7 +460,7 @@ class TestResultViewSet(viewsets.ModelViewSet):
                 client_obj.owner = client_data.get('owner', request.user.username)
                 client_obj.save()
 
-            if error_data:
+            if error_data and error_data['exception_type']:
                 error_obj = ResultError.objects.create(**error_data)
                 result_data['error'] = error_obj
 
@@ -605,7 +605,7 @@ class ResetResultViewSet(viewsets.ModelViewSet):
                 value = self.request.POST.get(f)
 
                 if f == 'stdout' and not value:
-                    value = 'Nothing in output.'
+                    value = None
 
                 if value is None:
                     raise ValueError('Field "{}" is required!'.format(f))
@@ -637,9 +637,9 @@ class ResetResultViewSet(viewsets.ModelViewSet):
             current_reset.origin_result.outcome = current_reset.outcome
             current_reset.origin_result.save()
 
-            # update original run status to passed if no failed result
+            # update original run status to passed if all passed
             run = current_reset.origin_result.test_run
-            if run.result_failed() == 0:
+            if run.result_total() == run.result_passed():
                 run.status = 0  # passed
                 run.save()
 
@@ -650,3 +650,88 @@ class ResetResultViewSet(viewsets.ModelViewSet):
             current_reset.reset_status = 3  # failed
             current_reset.save()
             return Response(data={'message': str(e.args)}, status=400)
+
+    @action(detail=False, methods=['get', 'post'])
+    def new(self, request):
+        """client api to reset a result, `example` as reference."""
+        example = {
+            'reset_id': 123,
+            'outcome': 'int, 0=passed, 1=failed, 2=skipped, 3=error, 5=pending',
+            'stdout': 'the log output',
+            'duration': 'float, in seconds',
+            'testcase': {
+                'full_name': 'long name, e.g. tests.login_tests.VerifyLoginFailed'
+            },
+            'test_client': {
+                'name': 'client name',
+                'ip': 'optional, default to current ip',
+                'platform': 'optional, client platform',
+            },
+            'error': {
+                'exception_type': 'optional, e.g, AssertError',
+                'message': 'optional, the message of exception',
+                'stacktrace': 'optional, the stack trace info'
+            }
+        }
+
+        if request.method == 'GET':
+            return Response(data={
+                'message': 'Please post to this API, see the example.',
+                'example': example
+            })
+        try:
+            reset_id = request.data.pop('reset_id')
+            case_data = request.data.pop('testcase')
+            client_data = request.data.pop('test_client')
+            error_data = request.data.pop('error', None)
+
+            if 'ip' not in client_data:
+                client_data['ip'] = get_ip(request)
+
+            reset_obj = ResetResult.objects.get(id=reset_id)
+
+            if reset_obj.origin_result.testcase.full_name != case_data['full_name']:
+                return Response(data={
+                    'success': False,
+                    'message': 'Testcase does not match current reset result!',
+                    'example': example
+                })
+
+            client_obj, _ = TestClient.objects.get_or_create(**client_data)
+
+            if not client_obj.owner:
+                client_obj.owner = client_data.get('owner', request.user.username)
+                client_obj.save()
+
+            if error_data and error_data['exception_type']:
+                error_obj = ResultError.objects.create(**error_data)
+                reset_obj.error = error_obj
+
+            reset_obj.outcome = request.data['outcome']
+            reset_obj.stdout = request.data.get('stdout', None)
+            reset_obj.duration = timedelta(seconds=request.data['duration'])
+            reset_obj.run_on = datetime.now(timezone.utc)
+            reset_obj.test_client = client_obj
+            reset_obj.reset_status = 2  # done
+            reset_obj.save()
+
+            # update original result outcome to current reset outcome
+            reset_obj.origin_result.outcome = reset_obj.outcome
+            reset_obj.origin_result.save()
+
+            # update original run status to passed if all passed
+            run = reset_obj.origin_result.test_run
+            if run.result_passed() == run.result_total():
+                run.status = 0  # passed
+                run.save()
+
+            return Response(data={
+                'success': True,
+                'reset': object_to_dict(reset_obj)
+            })
+        except Exception as e:
+            return Response(data={
+                'success': False,
+                'message': error_detail(e),
+                'example': example
+            })
