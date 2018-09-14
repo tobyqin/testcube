@@ -1,11 +1,10 @@
-FROM python:3
+FROM joshuarli/alpine-python3-pip:latest
 ENV PYTHONUNBUFFERED 1
 RUN mkdir /code
 WORKDIR /code
-ADD requirements.txt entrypoint.sh /code/
-RUN pip install -r requirements.txt
-RUN chmod +x entrypoint.sh
 ADD . /code/
-RUN chown -R $USER:$USER .
-RUN pip install testcube-client -U
-RUN testcube-client --register http://0.0.0.0:4000
+RUN pip3 install -r requirements.txt
+RUN python3 manage.py collectstatic --noinput
+RUN python3 manage.py makemigrations
+RUN python3 manage.py migrate
+CMD python3 manage.py runserver 0.0.0.0:4000
