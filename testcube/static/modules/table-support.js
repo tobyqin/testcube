@@ -90,6 +90,7 @@ define(['moment', './utils', 'bootstrapTable'], function (moment, utils) {
         } else if (error) {
             message = error.message + '||' + error.stacktrace + '||' + error.stdout;
         }
+        message = utils.safeMessage(message);
         return `<a class="reset-result" data-text="${message}">View</a>`;
     };
 
