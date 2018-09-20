@@ -23,20 +23,21 @@ def register(request):
         pattern = r'testcube_([\d\w]+)_client'
         match = re.search(pattern, client_type)
 
-        if match:
-            client_type = match.group(1)
-            client_name = data.get('client_name')
-            client_user = data.get('client_user')
-            client_ip = get_ip(request)
-            username = '_<{}>_'.format(client_name)
-            email = '{}@{}.client'.format(client_name, client_type).lower()
+        try:
+            if match:
+                client_type = match.group(1)
+                client_name = data.get('client_name')
+                client_user = data.get('client_user')
+                client_ip = get_ip(request)
+                username = '_<{}>_'.format(client_name)
+                email = '{}@{}.client'.format(client_name, client_type).lower()
 
-            user, created = User.objects.update_or_create(
-                username=username,
-                defaults={'email': email,
-                          'first_name': client_user,
-                          'last_name': client_ip})
-            if user:
+                user, created = User.objects.update_or_create(
+                    username=username,
+                    defaults={'email': email,
+                              'first_name': client_user,
+                              'last_name': client_ip})
+
                 token = uuid.uuid4()
                 user.set_password(token)
                 user.save()
@@ -51,8 +52,12 @@ def register(request):
                     {'client': user.username,
                      'token': token,
                      'first_time_register': created})
+            else:
+                raise ValueError('client_type should match pattern: "testcube_xxx_client".')
+
+        except Exception as e:
+            error = '{}: {}'.format(type(e).__name__, ','.join(e.args))
+            return HttpResponseBadRequest('Failed to register testcube, {}'.format(error))
 
     else:
         return HttpResponse(content=VERSION)
-
-    return HttpResponseBadRequest('Failed to register testcube!')
