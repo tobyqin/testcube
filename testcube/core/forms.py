@@ -49,7 +49,10 @@ class AnalysisForm(forms.Form):
 
             issue = None
             if issue_id:
-                issue = Issue.objects.get_or_create(name=issue_id, summary=description)[0]
+                issue, _ = Issue.objects.update_or_create(name=issue_id)
+                if description:
+                    issue.summary = description
+                    issue.save()
 
             data = {'by': username,
                     'reason': reason,

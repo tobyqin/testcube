@@ -37,7 +37,7 @@ exc_types = ['AssertError', 'ValueError', 'SystemError']
 
 def get_one_client():
     name = fake.random.choice(client_names)
-    return TestClient.objects.get_or_create(name=name, defaults={
+    return TestClient.objects.update_or_create(name=name, defaults={
         'ip': '168.1.1.{}'.format(fake.random.randint(2, 255)),
         'platform': fake.word,
         'owner': fake.name
@@ -46,14 +46,14 @@ def get_one_client():
 
 def get_one_team():
     team = fake.random.choice(team_list).capitalize()
-    return Team.objects.get_or_create(name=team,
-                                      defaults={'owner': fake.name()})[0]
+    return Team.objects.update_or_create(name=team,
+                                         defaults={'owner': fake.name()})[0]
 
 
 def get_one_product(team):
     product = fake.random.choice(product_list).capitalize()
-    return Product.objects.get_or_create(name=product,
-                                         defaults={'owner': fake.name(), 'team': team})[0]
+    return Product.objects.update_or_create(name=product,
+                                            defaults={'owner': fake.name(), 'team': team})[0]
 
 
 def get_run_name(product_name):
@@ -73,9 +73,9 @@ def get_tc_name(product_name):
 
 def get_or_create_tc(product):
     name = get_tc_name(product.name)
-    return TestCase.objects.get_or_create(name=name,
-                                          defaults={'product': product,
-                                                    'owner': product.owner})[0]
+    return TestCase.objects.update_or_create(name=name,
+                                             defaults={'product': product,
+                                                       'owner': product.owner})[0]
 
 
 def start_run(product):

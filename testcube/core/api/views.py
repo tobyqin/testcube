@@ -225,17 +225,21 @@ class TestRunViewSet(viewsets.ModelViewSet):
             if 'start_by' not in run_data:
                 run_data['start_by'] = request.user.username
 
-            team_obj, _ = Team.objects.get_or_create(**team_data)
+            team_obj, _ = Team.objects.update_or_create(name=team_data['name'], defaults=team_data)
 
             if not team_obj.owner:
-                team_obj.owner = team_data.get('owner', request.user.username)
+                team_obj.owner = request.user.username
                 team_obj.save()
 
             product_data['team'] = team_obj
-            product_obj, _ = Product.objects.get_or_create(**product_data)
+            product_version = product_data.get('version', 'latest')
+            product_obj, _ = Product.objects.update_or_create(name=product_data['name'],
+                                                              team=team_obj,
+                                                              version=product_version,
+                                                              defaults=product_data)
 
             if not product_obj.owner:
-                product_obj.owner = product_data.get('owner', request.user.username)
+                product_obj.owner = request.user.username
                 product_obj.save()
 
             # only add source when it's link available
@@ -286,7 +290,7 @@ class TestRunViewSet(viewsets.ModelViewSet):
             run_data = request.data
 
             if source_data:
-                source_obj, _ = ObjectSource.objects.get_or_create(**source_data)
+                source_obj, _ = ObjectSource.objects.create(**source_data)
                 run_data['source'] = source_obj
 
             if 'state' not in run_data:
@@ -445,19 +449,19 @@ class TestResultViewSet(viewsets.ModelViewSet):
 
             run_obj = TestRun.objects.get(id=run_id)
             case_data['product'] = run_obj.product
-            case_obj, _ = TestCase.objects.get_or_create(**case_data)
-            client_obj, _ = TestClient.objects.get_or_create(**client_data)
+            case_obj, _ = TestCase.objects.update_or_create(full_name=case_data['full_name'], defaults=case_data)
+            client_obj, _ = TestClient.objects.update_or_create(name=client_data['name'], defaults=client_data)
 
             if not case_obj.owner:
-                case_obj.owner = case_data.get('owner', request.user.username)
+                case_obj.owner = request.user.username
                 case_obj.save()
 
             if not case_obj.created_by:
-                case_obj.created_by = case_data.get('created_by', request.user.username)
+                case_obj.created_by = request.user.username
                 case_obj.save()
 
             if not client_obj.owner:
-                client_obj.owner = client_data.get('owner', request.user.username)
+                client_obj.owner = request.user.username
                 client_obj.save()
 
             if error_data and error_data['exception_type']:
@@ -697,10 +701,10 @@ class ResetResultViewSet(viewsets.ModelViewSet):
                     'example': example
                 })
 
-            client_obj, _ = TestClient.objects.get_or_create(**client_data)
+            client_obj, _ = TestClient.objects.update_or_create(name=client_data['name'], defaults=client_data)
 
             if not client_obj.owner:
-                client_obj.owner = client_data.get('owner', request.user.username)
+                client_obj.owner = request.user.username
                 client_obj.save()
 
             if error_data and error_data['exception_type']:
